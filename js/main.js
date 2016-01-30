@@ -1,14 +1,13 @@
-
 /*
  * Global madness.
  */
 var output = document.getElementById("output");
 
-var log = function(out) {
+var log = function (out) {
     console.log(out)
 };
 
-var put = function(out) {
+var put = function (out) {
     log(out);
     var pre = document.createElement("p");
     pre.style.wordWrap = "break-word";
@@ -20,27 +19,26 @@ var put = function(out) {
 /**
  * App Main.
  */
-define(["app/scalatron-socket"],
+define([
+        "app/3d/world",
+        "app/3d/master-bot-node",
+        "app/3d/mini-bot-node",
+        "lib/three"
+    ],
 
-    function(ScalatronSocket) {
+    function (World, MasterBotNode, MiniBotNode, THREE) {
+
+        var world = new World();
+
+        var bot = new MasterBotNode();
+        var mini = new MiniBotNode();
+        world.add(bot);
+
+        mini.mesh.position.x = 8;
+        world.add(mini);
 
 
 
-        var onConnected = function(evt) {
-            put("Connected!");
-            test.sendMessage("Blaaaaa");
-        };
-
-        var onMessage = function(evt) {
-            put("Got message:");
-            put(evt.data);
-        };
-
-
-
-        var test = new ScalatronSocket(onConnected, onMessage);
+        world.render();
     }
-
-
-
 );
