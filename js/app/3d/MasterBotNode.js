@@ -16,7 +16,7 @@ define(["lib/three"],
 
         MasterBotNode.prototype.__createMesh = function() {
             var geometry = new THREE.SphereGeometry(5, 32, 32);
-            var material = new THREE.MeshLambertMaterial({color: 0xff0000, wireframe: true, wireframeLineWidth: 0.1});
+            var material = new THREE.MeshLambertMaterial({color: 0xff0000, wireframe: true});
             return new THREE.Mesh(geometry, material);
         };
 

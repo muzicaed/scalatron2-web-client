@@ -20,24 +20,23 @@ var put = function (out) {
  * App Main.
  */
 define([
-        "app/3d/world",
-        "app/3d/master-bot-node",
-        "app/3d/mini-bot-node",
+        "app/3d/World",
+        "app/3d/MasterBotNode",
+        "app/3d/MiniBotNode",
+        "app/3d/Board",        
         "lib/three"
     ],
 
-    function (World, MasterBotNode, MiniBotNode, THREE) {
+    function (World, MasterBotNode, MiniBotNode, Board, THREE) {
 
         var world = new World();
-
         var bot = new MasterBotNode();
         var mini = new MiniBotNode();
+        var board = new Board();
         world.add(bot);
 
         mini.mesh.position.x = 8;
         world.add(mini);
-
-
 
         world.render();
     }

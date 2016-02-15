@@ -1,4 +1,4 @@
-define(function () {
+define("ScalatronSocket", function () {
 
     var wsUri = "ws://10.0.0.154:8888/greeter";
 
