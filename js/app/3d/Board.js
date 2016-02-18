@@ -22,8 +22,6 @@ define(["lib/three"],
                 for (var y = boardData.height; y >= 0; y--) {
                     var pos = x + (y * boardData.height);
                     var tile = (boardData.grid[pos] == 1) ? __createWall() : __createFloor();
-
-                    log(pos);
                     tile.position.x = (x * TileSize);
                     tile.position.y = (-(y * TileSize)) + (boardData.height * TileSize);
                     node.add(tile);
@@ -41,12 +39,12 @@ define(["lib/three"],
                 height: 10,
                 grid: [
                     1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                    1, 0, 0, 0, 0, 1, 0, 0, 1, 1,
-                    1, 0, 0, 0, 0, 1, 0, 0, 1, 1,
+                    1, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+                    1, 0, 0, 0, 0, 1, 0, 0, 0, 1,
                     1, 0, 0, 0, 0, 1, 1, 0, 0, 1,
-                    1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-                    1, 1, 1, 1, 0, 0, 1, 0, 0, 1,
-                    1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+                    0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+                    0, 1, 1, 1, 0, 0, 1, 0, 0, 0,
+                    1, 1, 0, 0, 0, 0, 1, 0, 0, 1,
                     1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                     1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                     1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -61,7 +59,7 @@ define(["lib/three"],
          * @private
          */
         function __createWall() {
-            var geometry = new THREE.BoxGeometry(10, 10, 20);
+            var geometry = new THREE.BoxGeometry(10, 10, 7);
             var material = new THREE.MeshLambertMaterial({color: 0x444444});
             return new THREE.Mesh(geometry, material);
         }
@@ -72,7 +70,7 @@ define(["lib/three"],
          * @private
          */
         function __createFloor() {
-            var geometry = new THREE.BoxGeometry(10, 10, 1);
+            var geometry = new THREE.BoxGeometry(9.7, 9.7, 1);
             var material = new THREE.MeshLambertMaterial({color: 0x888888});
             return new THREE.Mesh(geometry, material);
         }
