@@ -56,7 +56,7 @@ define([
                     // detect "f"
                     e = e || window.event;
                     if (e.keyCode == 102) {
-                        this.camera.position.z = 130; // TODO: Calc zoom based on scale screen vs. board size.
+                        this.camera.position.z = 120; // TODO: Calc zoom based on scale screen vs. board size.
                         THREEx.FullScreen.request(renderer.domElement);
                     }
                 }.bind(this);
@@ -79,7 +79,6 @@ define([
 
             camera.position.set(x, y - (y / 10), x + y); // TODO: Calc zoom based on scale screen vs. board size.
             camera.lookAt(new THREE.Vector3(x, y, 0));
-            camera.updateProjectionMatrix();
             return camera;
         };
 
