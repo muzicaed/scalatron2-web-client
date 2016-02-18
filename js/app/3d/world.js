@@ -13,14 +13,19 @@ define([
          */
         function World() {
             this.scene = new THREE.Scene();
-            this.camera = this.__createCamera();
-            this.camera = this.__createCamera();
-            this._initLights();
-
             renderer.setSize(viewPort.width, viewPort.height);
             document.body.appendChild(renderer.domElement);
             this.__addFullscreenShortcut()
         }
+        /**
+         * Init the world
+         * @param boardData - Object containing board/tile data.
+         */
+        World.prototype.init = function (boardData) {
+            this.camera = this.__createCamera(boardData);
+            this.camera = this.__createCamera(boardData);
+            this._initLights(boardData);
+        };
 
         /**
          *  Start the render loop.
@@ -41,6 +46,10 @@ define([
 
         /// INTERNAL /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        /**
+         * Adds event handler for "f" key = Set browser fullscreen.
+         * @private
+         */
         World.prototype.__addFullscreenShortcut = function() {
             if (THREEx.FullScreen.available()) {
                 document.onkeypress = function (e) {
@@ -56,12 +65,17 @@ define([
         /**
          * Create camera.
          */
-        World.prototype.__createCamera = function () {
+        World.prototype.__createCamera = function (boardData) {
             var camera = new THREE.PerspectiveCamera(75,
                 viewPort.width / viewPort.height,
                 0.1,
                 500);
-            camera.position.set(50, 50, 90);
+
+            // TODO: Use static data instead of * 10
+            var x = (boardData.width * 10) / 2;
+            var y = (boardData.height * 10) / 2;
+
+            camera.position.set(x, y, x + y); // TODO: Calc zoom based on scale screen vs. board size.
             return camera;
         };
 

@@ -8,18 +8,28 @@ define(["lib/three"],
          * @constructor
          */
         function Board() {
-            var boardData = __generateTestBoardData();
             this.node = new THREE.Object3D();
-            __generateBoardNode(this.node, boardData);
-
         }
+
+        /**
+         * Init the board
+         * @param boardData - Object containing board/tile data.
+         */
+        Board.prototype.init = function (boardData) {
+            __generateBoardNode(this.node, boardData);
+        };
 
         /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+        /**
+         * Generates a 3d board based on boardData.
+         * @param node - Object3D
+         * @param boardData - Object containing board/tile data.
+         * @private
+         */
         function __generateBoardNode(node, boardData) {
             for (var x = 0, len = boardData.width; x < len; x++) {
-                for (var y = boardData.height; y >= 0; y--) {
+                for (var y = boardData.height - 1; y >= 0; y--) {
                     var pos = x + (y * boardData.height);
                     var tile = (boardData.grid[pos] == 1) ? __createWall() : __createFloor();
                     tile.position.x = (x * TileSize);
@@ -27,30 +37,6 @@ define(["lib/three"],
                     node.add(tile);
                 }
             }
-        }
-
-        /**
-         *  TODO: Remove
-         *  Generates static test data for a board.
-         */
-        function __generateTestBoardData() {
-            return {
-                width: 10,
-                height: 10,
-                grid: [
-                    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                    1, 0, 0, 0, 0, 1, 0, 0, 0, 1,
-                    1, 0, 0, 0, 0, 1, 0, 0, 0, 1,
-                    1, 0, 0, 0, 0, 1, 1, 0, 0, 1,
-                    0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-                    0, 1, 1, 1, 0, 0, 1, 0, 0, 0,
-                    1, 1, 0, 0, 0, 0, 1, 0, 0, 1,
-                    1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                    1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                    1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                    1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-                ]
-            };
         }
 
         /**
