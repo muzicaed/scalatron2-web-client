@@ -36,7 +36,6 @@ define([
          *  Add node to the scene.
          */
         World.prototype.add = function (obj) {
-            log(obj);
             this.scene.add(obj.node);
         };
 
