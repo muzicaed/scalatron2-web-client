@@ -20,7 +20,7 @@ define(["lib/three"],
          * @private
          */
         function __createMesh() {
-            var geometry = new THREE.SphereGeometry(5, 32, 32);
+            var geometry = new THREE.SphereGeometry(3, 32, 32);
             var material = new THREE.MeshLambertMaterial({color: 0xff0000, wireframe: true});
             return new THREE.Mesh(geometry, material);
         };

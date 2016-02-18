@@ -34,11 +34,11 @@ define([
         var board = new Board();
 
         world.add(bot);
-
+        world.add(mini);
         world.add(board);
 
-        mini.position.x = 8;
-        world.add(mini);
+        bot.node.position.x = 50;
+        mini.node.position.x = 30;
 
         world.render();
     }

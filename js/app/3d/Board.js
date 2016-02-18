@@ -61,7 +61,7 @@ define(["lib/three"],
          * @private
          */
         function __createWall() {
-            var geometry = new THREE.BoxGeometry(10, 10, 10);
+            var geometry = new THREE.BoxGeometry(10, 10, 20);
             var material = new THREE.MeshLambertMaterial({color: 0x444444});
             return new THREE.Mesh(geometry, material);
         }
