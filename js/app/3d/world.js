@@ -4,7 +4,7 @@ define([
     ],
 
     function (THREE, THREEx) {
-        var viewPort = {height: 500, width: 500};
+        var viewPort = {width: 1024, height: 768};
         var renderer = new THREE.WebGLRenderer({antialias: true});
 
         /**
@@ -17,12 +17,12 @@ define([
             document.body.appendChild(renderer.domElement);
             this.__addFullscreenShortcut()
         }
+
         /**
          * Init the world
          * @param boardData - Object containing board/tile data.
          */
         World.prototype.init = function (boardData) {
-            this.camera = this.__createCamera(boardData);
             this.camera = this.__createCamera(boardData);
             this._initLights(boardData);
         };
@@ -50,15 +50,16 @@ define([
          * Adds event handler for "f" key = Set browser fullscreen.
          * @private
          */
-        World.prototype.__addFullscreenShortcut = function() {
+        World.prototype.__addFullscreenShortcut = function () {
             if (THREEx.FullScreen.available()) {
                 document.onkeypress = function (e) {
                     // detect "f"
                     e = e || window.event;
                     if (e.keyCode == 102) {
+                        this.camera.position.z = 130; // TODO: Calc zoom based on scale screen vs. board size.
                         THREEx.FullScreen.request(renderer.domElement);
                     }
-                };
+                }.bind(this);
             }
         }
 
@@ -75,20 +76,27 @@ define([
             var x = (boardData.width * 10) / 2;
             var y = (boardData.height * 10) / 2;
 
-            camera.position.set(x, y, x + y); // TODO: Calc zoom based on scale screen vs. board size.
+
+            camera.position.set(x, y - (y / 10), x + y); // TODO: Calc zoom based on scale screen vs. board size.
+            camera.lookAt(new THREE.Vector3(x, y, 0));
+            camera.updateProjectionMatrix();
             return camera;
         };
 
         /**
          * Init lights.
          */
-        World.prototype._initLights = function () {
+        World.prototype._initLights = function (boardData) {
             var light = new THREE.PointLight(0xffffff, 0.6, 50, 0.5);
             light.position.set(50, 40, 50);
             this.scene.add(light);
 
             var spotLight = new THREE.SpotLight(0xffffff);
-            spotLight.position.set(150, 0, 150);
+            // TODO: Use static data instead of * 10
+            var x = (boardData.width * 10);
+            var y = (boardData.height * 10);
+
+            spotLight.position.set(x, y, x + y); // TODO: Calc zoom based on scale screen vs. board size.
             spotLight.shadowCameraNear = 10;
             spotLight.shadowCameraFar = 4000;
             spotLight.shadowCameraFov = 30;
