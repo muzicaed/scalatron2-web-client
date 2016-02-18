@@ -1,9 +1,11 @@
-define(["lib/three"],
-    function (THREE) {
+define([
+        "lib/three",
+        "lib/threex-fullscreen"
+    ],
 
+    function (THREE, THREEx) {
         var viewPort = {height: 500, width: 500};
         var renderer = new THREE.WebGLRenderer({antialias: true});
-
 
         /**
          *  Create a 3d world
@@ -11,12 +13,13 @@ define(["lib/three"],
          */
         function World() {
             this.scene = new THREE.Scene();
-            this.camera = this.__createCamera()
+            this.camera = this.__createCamera();
+            this.camera = this.__createCamera();
             this._initLights();
-            this.__initWorldObjects();
 
             renderer.setSize(viewPort.width, viewPort.height);
             document.body.appendChild(renderer.domElement);
+            this.__addFullscreenShortcut()
         }
 
         /**
@@ -32,11 +35,24 @@ define(["lib/three"],
         /**
          *  Add node to the scene.
          */
-        World.prototype.add = function (node) {
-            this.scene.add(node.mesh);
+        World.prototype.add = function (obj) {
+            log(obj);
+            this.scene.add(obj.node);
         };
 
         /// INTERNAL /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        World.prototype.__addFullscreenShortcut = function() {
+            if (THREEx.FullScreen.available()) {
+                document.onkeypress = function (e) {
+                    // detect "f"
+                    e = e || window.event;
+                    if (e.keyCode == 102) {
+                        THREEx.FullScreen.request(renderer.domElement);
+                    }
+                };
+            }
+        }
 
         /**
          * Create camera.
@@ -46,7 +62,7 @@ define(["lib/three"],
                 viewPort.width / viewPort.height,
                 0.1,
                 500);
-            camera.position.z = 90;
+            camera.position.set(50, 50, 90);
             return camera;
         };
 
@@ -54,32 +70,21 @@ define(["lib/three"],
          * Init lights.
          */
         World.prototype._initLights = function () {
-            var light = new THREE.PointLight(0xffffff, 0.4, 50, 0.5);
-            light.position.set(0, -10, -25);
+            var light = new THREE.PointLight(0xffffff, 0.6, 50, 0.5);
+            light.position.set(50, 40, 50);
             this.scene.add(light);
 
-            var spotLight = new THREE.SpotLight( 0xffffff );
-            spotLight.position.set( 100, -50, 100 );
+            var spotLight = new THREE.SpotLight(0xffffff);
+            spotLight.position.set(150, 0, 150);
             spotLight.shadowCameraNear = 10;
             spotLight.shadowCameraFar = 4000;
             spotLight.shadowCameraFov = 30;
 
-            this.scene.add( spotLight );
+            this.scene.add(spotLight);
 
-            var ambient = new THREE.AmbientLight(0x303030);
+            var ambient = new THREE.AmbientLight(0x404040);
             this.scene.add(ambient);
         };
-
-        /**
-         * Init world objects.
-         */
-        World.prototype.__initWorldObjects = function () {
-            var geometry = new THREE.BoxGeometry(100, 100, 1);
-            var material = new THREE.MeshBasicMaterial({color: 0x303060});
-            var floor = new THREE.Mesh(geometry, material);
-            this.scene.add(floor);
-        };
-
 
         // Return "class"
         return World

@@ -23,19 +23,21 @@ define([
         "app/3d/World",
         "app/3d/MasterBotNode",
         "app/3d/MiniBotNode",
-        "app/3d/Board",        
-        "lib/three"
+        "app/3d/Board"
     ],
 
-    function (World, MasterBotNode, MiniBotNode, Board, THREE) {
+    function (World, MasterBotNode, MiniBotNode, Board) {
 
         var world = new World();
         var bot = new MasterBotNode();
         var mini = new MiniBotNode();
         var board = new Board();
+
         world.add(bot);
 
-        mini.mesh.position.x = 8;
+        world.add(board);
+
+        mini.position.x = 8;
         world.add(mini);
 
         world.render();
