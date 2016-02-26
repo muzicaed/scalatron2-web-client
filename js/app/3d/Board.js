@@ -45,7 +45,10 @@ define(["lib/three"],
          * @private
          */
         function __createWall() {
-            var geometry = new THREE.BoxGeometry(10, 10, 7);
+            var geometry = new THREE.BoxGeometry(
+                __randomWallSize(10, 9.6),
+                __randomWallSize(10, 9.7),
+                __randomWallSize(7, 6.9));
             var material = new THREE.MeshLambertMaterial({color: 0x444444});
             return new THREE.Mesh(geometry, material);
         }
@@ -59,6 +62,17 @@ define(["lib/three"],
             var geometry = new THREE.BoxGeometry(9.7, 9.7, 1);
             var material = new THREE.MeshLambertMaterial({color: 0x888888});
             return new THREE.Mesh(geometry, material);
+        }
+
+        /**
+         * Generates wall size with slight variation.
+         * @param max - number, max wall height
+         * @param min - number, min wall height
+         * @returns {number}
+         * @private
+         */
+        function __randomWallSize(max, min) {
+            return Math.random()*(max-min+1)+min;
         }
 
         // Return "class"
