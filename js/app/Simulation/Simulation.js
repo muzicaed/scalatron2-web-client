@@ -1,3 +1,7 @@
+/**
+ * The simulations is the main "game engine".
+ * It's responsible for managing each Scalatron server tick.
+ */
 define([
         "lib/three",
         "app/Simulation/Board",
@@ -12,8 +16,6 @@ define([
 
         /**
          * Create a simulation.
-         * The simulations is the main "game engine".
-         * It is responsible for managing each tick.
          * @constructor
          */
         function Simulation() {
@@ -40,10 +42,11 @@ define([
          */
         Simulation.prototype.__startTickLoop = function () {
 
-            var testBot = board.addMasterBot({x: 7, y: 9});
+            var testBot = board.addMasterBot({x: 10, y: 9});
 
             var timer = new Timer(function () {
-                log("Test.");
+                testBot.targetPosition.x += 10;
+                testBot.place();
             }, TIME_PER_TICK);
             timer.start();
         };
