@@ -1,14 +1,12 @@
 define([
         "lib/three",
-        "app/3d/World",
-        "app/3d/Board",
+        "app/Simulation/Board",
         "app/Simulation/Timer"
     ],
 
-    function (THREE, World, Board, Timer) {
+    function (THREE, Board, Timer) {
 
         var TIME_PER_TICK = 1000; // Time on screen for each tick (ms) - Simulation speed
-        var world = new World();
         var board = new Board();
 
 
@@ -21,20 +19,18 @@ define([
         function Simulation() {
             var boardData = __generateTestBoardData();
             board.init(boardData);
-            world.init(boardData);
-            world.add(board);
         }
 
         /**
          * Starts the simulation.
          */
         Simulation.prototype.runSimulation = function () {
-            world.render();
             this.__startTickLoop();
+            board.runSimulation();
+
         };
 
         /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
-
 
         /**
          * Starts the main "tick loop".
@@ -44,7 +40,7 @@ define([
          */
         Simulation.prototype.__startTickLoop = function () {
 
-            var testBot = world.addMasterBot(new THREE.Vector2(5, 5));
+            var testBot = board.addMasterBot({x: 7, y: 9});
 
             var timer = new Timer(function () {
                 log("Test.");

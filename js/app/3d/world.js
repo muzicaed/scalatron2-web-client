@@ -1,11 +1,9 @@
 define([
         "lib/three",
-        "lib/threex-fullscreen",
-        "app/3d/MasterBotNode",
-        "app/3d/MiniBotNode"
+        "lib/threex-fullscreen"
     ],
 
-    function (THREE, THREEx, MasterBotNode, MiniBotNode) {
+    function (THREE, THREEx) {
 
         // TODO: Refactor in to shared static data object.
         var TileSize = 10;
@@ -43,21 +41,7 @@ define([
         };
 
         /**
-         * Creates and adds a new master bot.
-         * @param initialPos - THREE.Vector2, tile grid position
-         * @returns {MasterBotNode}
-         */
-        World.prototype.addMasterBot = function (initialPos) {
-            var botNode = new MasterBotNode();
-            botNode.position = new THREE.Vector3((initialPos.x * TileSize), -(initialPos.y * TileSize), 0);
-            this.add(botNode);
-            return botNode;
-        };
-
-        /**
-         *  Adds a static node to the scene.
-         *  For bots and other dynamic items, use
-         *  designated add functions.
+         *  Adds a node to the scene.
          */
         World.prototype.add = function (obj) {
             this.scene.add(obj.node);

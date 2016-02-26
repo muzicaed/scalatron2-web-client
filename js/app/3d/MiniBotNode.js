@@ -7,10 +7,10 @@ define([
 
         /**
          *  Create a Mini bot
+         *  TODO: Refactoring and reuse from MasterBotNode
          * @constructor
          */
         function MiniBotNode() {
-            this.position = new THREE.Vector3(0, 0, 0);
             this.targetPosition = new THREE.Vector3(0, 0, 0);
             this.node = new THREE.Object3D();
             this.node.add(MeshFactory.createMiniBotMesh());
