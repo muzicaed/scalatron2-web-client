@@ -1,10 +1,11 @@
 define([
+        "lib/three",
         "app/3d/World",
         "app/3d/Board",
         "app/Simulation/Timer"
     ],
 
-    function (World, Board, Timer) {
+    function (THREE, World, Board, Timer) {
 
         var TIME_PER_TICK = 1000; // Time on screen for each tick (ms) - Simulation speed
         var world = new World();
@@ -42,6 +43,9 @@ define([
          * @private
          */
         Simulation.prototype.__startTickLoop = function () {
+
+            var testBot = world.addMasterBot(new THREE.Vector2(5, 5));
+
             var timer = new Timer(function () {
                 log("Test.");
             }, TIME_PER_TICK);

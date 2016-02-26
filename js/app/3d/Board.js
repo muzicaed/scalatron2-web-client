@@ -1,6 +1,7 @@
 define(["lib/three"],
     function (THREE) {
 
+        // TODO: Refactor in to shared static data object.
         var TileSize = 10;
 
         /**
@@ -8,6 +9,7 @@ define(["lib/three"],
          * @constructor
          */
         function Board() {
+            this.boardData = null;
             this.node = new THREE.Object3D();
         }
 
@@ -16,7 +18,21 @@ define(["lib/three"],
          * @param boardData - Object containing board/tile data.
          */
         Board.prototype.init = function (boardData) {
-            __generateBoardNode(this.node, boardData);
+            this.boardData = boardData;
+            this.__generateBoardNode();
+        };
+
+        /**
+         *
+         * @param pos - THREE.Vector2, tile position on board
+         * @returns {THREE.Vector3} - Position in 3d space
+         */
+        Board.prototype.tilePosToWorldPos = function (pos) {
+            return new THREE.Vector3(
+                (pos.x * TileSize),
+                (-(pos.y * TileSize)) + (this.boardData.height * TileSize),
+                0
+            );
         };
 
         /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,20 +43,32 @@ define(["lib/three"],
          * @param boardData - Object containing board/tile data.
          * @private
          */
-        function __generateBoardNode(node, boardData) {
-            for (var x = 0, len = boardData.width; x < len; x++) {
-                for (var y = boardData.height - 1; y >= 0; y--) {
-                    var pos = x + (y * boardData.height);
-                    var tile = (boardData.grid[pos] == 1) ? __createWall() : __createFloor();
-                    tile.position.x = (x * TileSize);
-                    tile.position.y = (-(y * TileSize)) + (boardData.height * TileSize);
-                    node.add(tile);
+        Board.prototype.__generateBoardNode = function () {
+            for (var x = 0, len = this.boardData.width; x < len; x++) {
+                for (var y = this.boardData.height - 1; y >= 0; y--) {
+                    var index = x + (y * this.boardData.height);
+                    var tile = (this.boardData.grid[index] == 1) ? __createWall() : __createFloor();
+                    this.__addTile(tile, new THREE.Vector2(x, y));
                 }
             }
-        }
+        };
+
+        /**
+         * Adds a tile to the board node.
+         * @param tile - THREE.Mesh
+         * @param vec - THREE.Vector2
+         * @private
+         */
+        Board.prototype.__addTile = function (tile, vec) {
+            var vec3d = this.tilePosToWorldPos(vec);
+            tile.position.x = vec3d.x;
+            tile.position.y = vec3d.y;
+            this.node.add(tile);
+        };
 
         /**
          * Creates a wall cube
+         * TODO: Waste: Reuse mesh & materials for each tile, move to resource "package"
          * @returns {THREE.Mesh}
          * @private
          */
@@ -55,6 +83,7 @@ define(["lib/three"],
 
         /**
          * Creates a floor tile
+         * TODO: Waste: Reuse mesh & materials for each tile, move to resource "package"
          * @returns {THREE.Mesh}
          * @private
          */
@@ -72,7 +101,7 @@ define(["lib/three"],
          * @private
          */
         function __randomWallSize(max, min) {
-            return Math.random()*(max-min+1)+min;
+            return Math.random() * (max - min + 1) + min;
         }
 
         // Return "class"
