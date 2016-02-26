@@ -1,12 +1,15 @@
 define([
         "app/3d/World",
-        "app/3d/Board"
+        "app/3d/Board",
+        "app/Simulation/Timer"
     ],
 
-    function (World, Board) {
+    function (World, Board, Timer) {
 
+        var TIME_PER_TICK = 1000; // Time on screen for each tick (ms) - Simulation speed
         var world = new World();
         var board = new Board();
+
 
         /**
          * Create a simulation.
@@ -24,11 +27,26 @@ define([
         /**
          * Starts the simulation.
          */
-        Simulation.prototype.runSimulation = function() {
+        Simulation.prototype.runSimulation = function () {
             world.render();
+            this.__startTickLoop();
         };
 
         /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        /**
+         * Starts the main "tick loop".
+         * Tick loop matches each "Scalatron tick" not to be confused
+         * with the main render loop that draws on screen.
+         * @private
+         */
+        Simulation.prototype.__startTickLoop = function () {
+            var timer = new Timer(function () {
+                log("Test.");
+            }, TIME_PER_TICK);
+            timer.start();
+        };
 
         /**
          *  TODO: Remove
@@ -48,9 +66,9 @@ define([
                     1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+                    1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+                    1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+                    1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
