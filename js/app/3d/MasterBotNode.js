@@ -7,9 +7,11 @@ define([
 
         /**
          *  Create a Master bot
+         * @param id - String, object's id
          * @constructor
          */
-        function MasterBotNode() {
+        function MasterBotNode(id) {
+            this.id = id;
             this.targetPosition = new THREE.Vector3(0, 0, 0);
             this.node = new THREE.Object3D();
             this.node.add(MeshFactory.createBotMesh());

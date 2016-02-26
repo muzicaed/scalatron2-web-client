@@ -28,8 +28,6 @@ define([
          */
         Simulation.prototype.runSimulation = function () {
             this.__startTickLoop();
-            board.runSimulation();
-
         };
 
         /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,12 +39,11 @@ define([
          * @private
          */
         Simulation.prototype.__startTickLoop = function () {
-
-            var testBot = board.addMasterBot({x: 10, y: 9});
-
+            var tickCount = 0;
             var timer = new Timer(function () {
-                testBot.targetPosition.x += 10;
-                testBot.place();
+                // TODO: Send in state data from sever here...
+                board.tick(tickCount);
+                tickCount++;
             }, TIME_PER_TICK);
             timer.start();
         };

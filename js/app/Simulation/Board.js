@@ -5,14 +5,16 @@ define([
         "lib/three",
         "app/3d/World",
         "app/3d/MasterBotNode",
-        "app/3d/MiniBotNode"
+        "app/3d/MiniBotNode",
+        "app/Simulation/Visitors/Mover"
     ],
 
-    function (THREE, World, MasterBotNode, MiniBotNode) {
+    function (THREE, World, MasterBotNode, MiniBotNode, Mover) {
 
         // TODO: Refactor in to shared static data object.
         var TileSize = 10;
         var world = new World();
+        var simulationObjects = {};
 
         /**
          *  Create the 3d board
@@ -32,10 +34,20 @@ define([
             this.__generateBoardNode();
             world.init(boardData);
             world.add(this);
+            world.render();
+
+            // TODO: Remove test code
+            this.addMasterBot("id", {x: 3, y: 1});
         };
 
-        Board.prototype.runSimulation = function() {
-            world.render();
+        /**
+         * Handle a Scalatron server tick.
+         * @param tickCount
+         */
+        Board.prototype.tick = function (tickCount) {
+            // TODO: Test code.
+            var testBot = simulationObjects["id"];
+            Mover.apply(testBot, {x: 3, y: 1 + tickCount}, this);
         };
 
         /**
@@ -43,14 +55,27 @@ define([
          * @param initialPos
          * @returns {MasterBotNode}
          */
-        Board.prototype.addMasterBot = function (initialPos) {
-            var botNode = new MasterBotNode();
-            botNode.targetPosition = this.__tilePosToWorldPos(initialPos);
+        Board.prototype.addMasterBot = function (id, initialPos) {
+            var botNode = new MasterBotNode(id);
+            botNode.targetPosition = this.tilePosToWorldPos(initialPos);
             botNode.place();
-            log(initialPos);
-            log(botNode);
             world.add(botNode);
+            simulationObjects[id] = botNode;
+
             return botNode;
+        };
+
+        /**
+         * Coverts tile 2d position to world 3d position.
+         * @param pos - THREE.Vector2, tile position on board
+         * @returns {THREE.Vector3} - Position in 3d space
+         */
+        Board.prototype.tilePosToWorldPos = function (pos) {
+            return new THREE.Vector3(
+                (pos.x * TileSize),
+                (-(pos.y * TileSize)) + (this.boardData.height * TileSize),
+                0
+            );
         };
 
         /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,26 +97,13 @@ define([
         };
 
         /**
-         *
-         * @param pos - THREE.Vector2, tile position on board
-         * @returns {THREE.Vector3} - Position in 3d space
-         */
-        Board.prototype.__tilePosToWorldPos = function (pos) {
-            return new THREE.Vector3(
-                (pos.x * TileSize),
-                (-(pos.y * TileSize)) + (this.boardData.height * TileSize),
-                0
-            );
-        };
-
-        /**
          * Adds a tile to the board node.
          * @param tile - THREE.Mesh
          * @param vec - THREE.Vector2
          * @private
          */
         Board.prototype.__addTile = function (tile, vec) {
-            var vec3d = this.__tilePosToWorldPos(vec);
+            var vec3d = this.tilePosToWorldPos(vec);
             tile.position.x = vec3d.x;
             tile.position.y = vec3d.y;
             this.node.add(tile);

@@ -1,7 +1,7 @@
 define(["lib/three"],
     function (THREE) {
 
-        var masterBotGeometry = new THREE.SphereGeometry(3, 32, 32);
+        var masterBotGeometry = new THREE.SphereGeometry(6, 32, 32);
         var masterBotMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
 
         var miniBotGeometry = new THREE.IcosahedronGeometry(1.5);
