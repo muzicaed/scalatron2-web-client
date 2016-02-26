@@ -14,7 +14,7 @@ define([
         // TODO: Refactor in to shared static data object.
         var TileSize = 10;
         var world = new World();
-        var simulationObjects = {};
+
 
         /**
          *  Create the 3d board
@@ -33,21 +33,22 @@ define([
             this.boardData = boardData;
             this.__generateBoardNode();
             world.init(boardData);
-            world.add(this);
+            world.addStatic(this);
             world.render();
 
             // TODO: Remove test code
-            this.addMasterBot("id", {x: 3, y: 1});
+            this.addMasterBot("1", {x: 3, y: 1});
         };
 
         /**
          * Handle a Scalatron server tick.
          * @param tickCount
+         * @param timePerTick - Time for this tick in ms.
          */
-        Board.prototype.tick = function (tickCount) {
+        Board.prototype.tick = function (tickCount, timePerTick) {
             // TODO: Test code.
-            var testBot = simulationObjects["id"];
-            Mover.apply(testBot, {x: 3, y: 1 + tickCount}, this);
+            var testBot = world.findObj("1");
+            Mover.apply(testBot, {x: 3, y: 1 + tickCount}, timePerTick, this);
         };
 
         /**
@@ -60,7 +61,6 @@ define([
             botNode.targetPosition = this.tilePosToWorldPos(initialPos);
             botNode.place();
             world.add(botNode);
-            simulationObjects[id] = botNode;
 
             return botNode;
         };

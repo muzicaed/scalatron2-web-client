@@ -42,7 +42,7 @@ define([
             var tickCount = 0;
             var timer = new Timer(function () {
                 // TODO: Send in state data from sever here...
-                board.tick(tickCount);
+                board.tick(tickCount, TIME_PER_TICK);
                 tickCount++;
             }, TIME_PER_TICK);
             timer.start();

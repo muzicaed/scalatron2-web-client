@@ -5,10 +5,9 @@ define([
 
     function (THREE, THREEx) {
 
-        // TODO: Refactor in to shared static data object.
-        var TileSize = 10;
         var viewPort = {width: 1024, height: 768};
         var renderer = new THREE.WebGLRenderer({antialias: true});
+        var simulationObjects = {};
 
         /**
          *  Create a 3d world
@@ -31,19 +30,47 @@ define([
         };
 
         /**
-         *  Start the render loop.
+         * Start the render loop.
          */
         World.prototype.render = function () {
+
+            // TODO: Test Code
+            for (var index in simulationObjects) {
+                var obj = simulationObjects[index];
+                obj.node.position.x += obj.moveForce.x;
+                obj.node.position.y += obj.moveForce.y;
+            }
+
             setTimeout(function () {
-                requestAnimationFrame(World.prototype.render.bind(this));
+                requestAnimationFrame(this.render.bind(this));
                 renderer.render(this.scene, this.camera);
             }.bind(this), 1000 / 30);
         };
 
         /**
-         *  Adds a node to the scene.
+         * Retrieves 3d object on id
+         * @param id - String
+         */
+        World.prototype.findObj = function (id) {
+            // TODO: Handle errors and no id found etc.
+            return simulationObjects[id];
+        };
+
+        /**
+         * Adds a node to the scene.
          */
         World.prototype.add = function (obj) {
+            simulationObjects[obj.id] = obj;
+            log(simulationObjects);
+            this.scene.add(obj.node);
+        };
+
+        /**
+         * Adds a static node to the scene.
+         * Typical static nodes are background objects etc.
+         * These objects will not be process by the draw loop.
+         */
+        World.prototype.addStatic = function (obj) {
             this.scene.add(obj.node);
         };
 
