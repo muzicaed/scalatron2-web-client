@@ -1,14 +1,20 @@
+/**
+ * Represents the 3d World.
+ * TODO: Check this properties. Can be moved out and be protected.
+ */
 define([
         "lib/three",
         "lib/threex-fullscreen",
+        "app/3d/Manipulator",
+        "app/3d/MasterBotNode",
+        "app/3d/PositionConverter",
         "app/Common/Static"
     ],
 
-    function (THREE, THREEx, Static) {
+    function (THREE, THREEx, Manipulator, MasterBotNode, PositionConverter, Static) {
 
         var viewPort = {width: 1024, height: 768};
         var renderer = new THREE.WebGLRenderer({antialias: true});
-        var simulationObjects = {};
 
         /**
          *  Create a 3d world
@@ -18,7 +24,7 @@ define([
             this.scene = new THREE.Scene();
             renderer.setSize(viewPort.width, viewPort.height);
             document.body.appendChild(renderer.domElement);
-            this.__addFullscreenShortcut()
+            this.__addFullScreenShortcut()
         }
 
         /**
@@ -34,34 +40,22 @@ define([
          * Start the render loop.
          */
         World.prototype.render = function () {
-
-            // TODO: Test Code
-            for (var index in simulationObjects) {
-                var obj = simulationObjects[index];
-                obj.node.position.x += obj.movable.velocity.x;
-                obj.node.position.y += obj.movable.velocity.y;
-            }
-
+            Manipulator.updateFrame();
             requestAnimationFrame(this.render.bind(this));
             renderer.render(this.scene, this.camera);
         };
 
         /**
-         * Retrieves 3d object on id
-         * @param id - String
+         * Creates and adds a new master bot.
+         * @param initialPos - THREE.Vector2
+         * @returns {MasterBotNode}
          */
-        World.prototype.findObj = function (id) {
-            // TODO: Handle errors and no id found etc.
-            return simulationObjects[id];
-        };
+        World.prototype.addMasterBot = function (id, initialPos) {
+            var botNode = new MasterBotNode(id, initialPos);
+            this.scene.add(botNode.node);
+            Manipulator.add(botNode);
 
-        /**
-         * Adds a node to the scene.
-         */
-        World.prototype.add = function (obj) {
-            simulationObjects[obj.id] = obj;
-            log(simulationObjects);
-            this.scene.add(obj.node);
+            return botNode;
         };
 
         /**
@@ -79,7 +73,7 @@ define([
          * Adds event handler for "f" key = Set browser fullscreen.
          * @private
          */
-        World.prototype.__addFullscreenShortcut = function () {
+        World.prototype.__addFullScreenShortcut = function () {
             if (THREEx.FullScreen.available()) {
                 document.onkeypress = function (e) {
                     // detect "f"

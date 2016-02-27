@@ -9,8 +9,9 @@ define([
 
     function (THREE, Board) {
 
-        var TIME_PER_TICK = 1000; // Time on screen for each tick (ms) - Simulation speed
+        var TIME_PER_TICK = 3000; // Time on screen for each tick (ms) - Simulation speed
         var board = new Board();
+        var tickCount = 0;
 
         /**
          * Create a simulation.
@@ -22,28 +23,30 @@ define([
         }
 
         /**
-         * Starts the simulation.
+         * Starts the main "tick loop".
+         * Tick loop matches each "Scalatron tick", not to be confused
+         * with the main render loop that draws on screen.
          */
         Simulation.prototype.runSimulation = function () {
-            this.__startTickLoop();
+            __tick();
+            board.runSimulation();
+            
+            setInterval(function () {
+                __tick();
+            }.bind(this), TIME_PER_TICK);
         };
 
         /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
 
         /**
-         * Starts the main "tick loop".
-         * Tick loop matches each "Scalatron tick" not to be confused
-         * with the main render loop that draws on screen.
-         * @private
+         *  Perform a tick.
          */
-        Simulation.prototype.__startTickLoop = function () {
-            var tickCount = 0;
-            setInterval(function () {
-                // TODO: Send in state data from sever here...
-                board.tick(tickCount, TIME_PER_TICK);
-                tickCount++;
-            }.bind(this), TIME_PER_TICK);
-        };
+        function __tick() {
+            // TODO: Send in state data from sever here...
+            var targetTime = new Date().getTime() + TIME_PER_TICK;
+            board.tick(tickCount, targetTime);
+            tickCount++;
+        }
 
         /**
          *  TODO: Remove

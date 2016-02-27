@@ -3,17 +3,18 @@
  */
 define([
         "lib/three",
-        "app/3d/World",
-        "app/3d/MasterBotNode",
-        "app/3d/MiniBotNode",
-        "app/Simulation/Visitors/Mover",
-        "app/Common/Static"
+        "app/3d/PositionConverter",
+        "app/3d/Manipulator",
+        "app/3d/World"
     ],
 
-    function (THREE, World, MasterBotNode, MiniBotNode, Mover, Static) {
+    function (THREE, PositionConverter, Manipulator, World) {
 
         var world = new World();
 
+        // TODO: Test code
+        var bot1;
+        var bot2;
 
         /**
          *  Create the 3d board
@@ -30,52 +31,38 @@ define([
          */
         Board.prototype.init = function (boardData) {
             this.boardData = boardData;
+            PositionConverter.init(boardData.height);
             this.__generateBoardNode();
             world.init(boardData);
             world.addStatic(this);
-            world.render();
 
             // TODO: Remove test code
-            this.addMasterBot("1", {x: 3, y: 1});
+            bot1 = world.addMasterBot("1", {x: 3, y: 1});
+            bot2 = world.addMasterBot("2", {x: 14, y: 8});
+        };
+
+        /**
+         * Starts the simulation.
+         */
+        Board.prototype.runSimulation = function () {
+            world.render();
         };
 
         /**
          * Handle a Scalatron server tick.
          * @param tickCount
-         * @param timePerTick - Time for this tick in ms.
+         * @param targetTime - Target time for tick completion (in ms).
+         * @param targetTime - Target time for tick completion (in ms).
          */
-        Board.prototype.tick = function (tickCount, timePerTick) {
+        Board.prototype.tick = function (tickCount, targetTime) {
             // TODO: Test code.
-            var testBot = world.findObj("1");
-            Mover.apply(testBot, {x: 3, y: 1 + tickCount}, timePerTick, this);
+            log("Board tick " + new Date().getSeconds());
+            bot1.move.setTargetPosition({x: 3, y: 1 + tickCount});
+            bot2.move.setTargetPosition({x: 14 - tickCount, y: 8});
+            Manipulator.tickStartTime = new Date().getTime();
+            Manipulator.nextTargetTime = targetTime;
         };
 
-        /**
-         * Creates and adds a new master bot.
-         * @param initialPos
-         * @returns {MasterBotNode}
-         */
-        Board.prototype.addMasterBot = function (id, initialPos) {
-            var botNode = new MasterBotNode(id);
-            botNode.movable.setTargetPosition(this.tilePosToWorldPos(initialPos));
-            botNode.place();
-            world.add(botNode);
-
-            return botNode;
-        };
-
-        /**
-         * Coverts tile 2d position to world 3d position.
-         * @param pos - THREE.Vector2, tile position on board
-         * @returns {THREE.Vector3} - Position in 3d space
-         */
-        Board.prototype.tilePosToWorldPos = function (pos) {
-            return new THREE.Vector3(
-                (pos.x * Static.TileSize),
-                (-(pos.y * Static.TileSize)) + (this.boardData.height * Static.TileSize),
-                0
-            );
-        };
 
         /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -102,7 +89,7 @@ define([
          * @private
          */
         Board.prototype.__addTile = function (tile, vec) {
-            var vec3d = this.tilePosToWorldPos(vec);
+            var vec3d = PositionConverter.convert(vec);
             tile.position.x = vec3d.x;
             tile.position.y = vec3d.y;
             this.node.add(tile);
