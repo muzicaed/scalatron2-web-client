@@ -16,20 +16,19 @@ define([
       shading: THREE.FlatShading
     });
 
-    /**
-     * Main object
-     * @type {{}}
-     */
-    var MeshFactory = {
-      initMesh: function () {
-        // TODO: Do real init with different colors etc.
-      },
-      createBotMesh: function () {
-        return new THREE.Mesh(masterBotGeometry, masterBotMaterial);
-      },
-      createMiniBotMesh: function () {
-        return new THREE.Mesh(miniBotGeometry, miniBotMaterial);
-      }
+    // Object
+    var MeshFactory = {};
+
+    MeshFactory.initMesh = function () {
+      // TODO: Do real init with different colors etc.
+    };
+
+    MeshFactory.createBotMesh = function () {
+      return new THREE.Mesh(masterBotGeometry, masterBotMaterial);
+    };
+
+    MeshFactory.createMiniBotMesh = function () {
+      return new THREE.Mesh(miniBotGeometry, miniBotMaterial);
     };
 
     // Return object
