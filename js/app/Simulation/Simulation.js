@@ -9,7 +9,7 @@ define([
 
   function (THREE, Board) {
 
-    var TIME_PER_TICK = 1000; // Time on screen for each tick (ms) - Simulation speed
+    var TIME_PER_TICK = 500; // Time on screen for each tick (ms) - Simulation speed
     var board = new Board();
     var tickCount = 0;
 

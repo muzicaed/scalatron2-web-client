@@ -60,7 +60,7 @@ define([
       log("Board tick " + tickCount);
       bot1.move.setTargetPosition({x: 3, y: 1 + tickCount});
       bot1.state = State.MOVING;
-      bot2.move.setTargetPosition({x: 14 - tickCount, y: 8});
+      bot2.move.setTargetPosition({x: 14 - tickCount, y: 8 + tickCount});
       bot2.state = State.MOVING;
       Manipulator.tickStartTime = new Date().getTime();
       Manipulator.nextTargetTime = targetTime;
@@ -106,8 +106,11 @@ define([
       var geometry = new THREE.BoxGeometry(
         __randomWallSize(10, 9.6),
         __randomWallSize(10, 9.7),
-        __randomWallSize(7, 6.9));
-      var material = new THREE.MeshLambertMaterial({color: 0x444444});
+        __randomWallSize(7.5, 6.9));
+      var material = new THREE.MeshPhongMaterial({
+        color: 0x444444,
+        shininess: 30
+      });
       return new THREE.Mesh(geometry, material);
     }
 
@@ -119,7 +122,11 @@ define([
      */
     function __createFloor() {
       var geometry = new THREE.BoxGeometry(9.7, 9.7, 1);
-      var material = new THREE.MeshLambertMaterial({color: 0x888888});
+      var material = new THREE.MeshPhongMaterial({
+        color: 0x888888,
+        shininess: 10,
+        shading: THREE.FlatShading
+      });
       return new THREE.Mesh(geometry, material);
     }
 

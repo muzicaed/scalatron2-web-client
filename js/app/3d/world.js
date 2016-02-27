@@ -121,13 +121,18 @@ define([
      * Init lights.
      */
     function _initLights(boardData) {
-      var light = new THREE.PointLight(0xffffff, 0.6, 50, 0.5);
-      light.position.set(50, 40, 50);
-      scene.add(light);
-
-      var spotLight = new THREE.SpotLight(0xffffff);
       var x = (boardData.width * Static.TileSize);
       var y = (boardData.height * Static.TileSize);
+
+      var blueLight = new THREE.PointLight(0x993322, 1, 200, 0.8);
+      blueLight.position.set(50, 50, 30);
+      scene.add(blueLight);
+
+      var redLight = new THREE.PointLight(0x3333aa, 1, 200, 0.8);
+      redLight.position.set(x - 50, y - 50, 30);
+      scene.add(redLight);
+
+      var spotLight = new THREE.SpotLight(0xffffff);
       spotLight.position.set(x, y, x + y); // TODO: Calc zoom based on scale screen vs. board size.
       scene.add(spotLight);
 
