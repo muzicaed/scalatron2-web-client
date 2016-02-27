@@ -10,14 +10,14 @@ define([
   function (THREE, MasterBotNode, State) {
 
     // Object
-    var SpawnBehaviour = {};
+    var SpawningBehaviour = {};
 
     /**
      * Create move behaviour
      * @param obj - MasterBotNode
      * @param timeFraction - Time fraction of current tick (in ms)
      */
-    SpawnBehaviour.apply = function (obj, timeFraction) {
+    SpawningBehaviour.apply = function (obj, timeFraction) {
       if (obj !== undefined && obj instanceof MasterBotNode && obj.state == State.SPAWNING) {
         if(timeFraction < 0.5) {
           var scale = 1 - (timeFraction / 2);
@@ -33,6 +33,6 @@ define([
     };
 
     // Return Object
-    return SpawnBehaviour;
+    return SpawningBehaviour;
   }
 );
