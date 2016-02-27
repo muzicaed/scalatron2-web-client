@@ -1,6 +1,5 @@
 /**
  * Represents the 3d World.
- * TODO: Check this properties. Can be moved out and be protected.
  */
 define([
     "lib/three",
@@ -75,9 +74,10 @@ define([
      * Adds a static node to the scene.
      * Typical static nodes are background objects etc.
      * These objects will not be process by the draw loop.
+     * @param node - 3d object
      */
-    World.prototype.addStatic = function (obj) {
-      scene.add(obj.node);
+    World.prototype.addStatic = function (node) {
+      scene.add(node);
     };
 
     /// INTERNAL /////////////////////////////////////////////////////////////////////////////////////////////////////

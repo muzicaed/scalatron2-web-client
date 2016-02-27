@@ -11,6 +11,8 @@ define([
   function (THREE, PositionConverter, Manipulator, World) {
 
     var world = new World();
+    var boardData = null;
+    var node = new THREE.Object3D();
 
     // TODO: Test code
     var bot1;
@@ -21,20 +23,19 @@ define([
      * @constructor
      */
     function Board() {
-      this.boardData = null;
-      this.node = new THREE.Object3D();
+
     }
 
     /**
      * Init the board
-     * @param boardData - Object containing board/tile data.
+     * @param board - Object containing board/tile data.
      */
-    Board.prototype.init = function (boardData) {
-      this.boardData = boardData;
+    Board.prototype.init = function (board) {
+      boardData = board;
       PositionConverter.init(boardData.height);
-      this.__generateBoardNode();
+      __generateBoardNode();
       world.init(boardData);
-      world.addStatic(this);
+      world.addStatic(node);
 
       // TODO: Remove test code
       bot1 = world.addMasterBot("1", {x: 3, y: 1});
@@ -69,15 +70,15 @@ define([
      * Generates a 3d board based on boardData.
      * @private
      */
-    Board.prototype.__generateBoardNode = function () {
-      for (var x = 0, len = this.boardData.width; x < len; x++) {
-        for (var y = this.boardData.height - 1; y >= 0; y--) {
-          var index = x + (y * this.boardData.height);
-          var tile = (this.boardData.grid[index] == 1) ? __createWall() : __createFloor();
-          this.__addTile(tile, new THREE.Vector2(x, y));
+    function __generateBoardNode() {
+      for (var x = 0, len = boardData.width; x < len; x++) {
+        for (var y = boardData.height - 1; y >= 0; y--) {
+          var index = x + (y * boardData.height);
+          var tile = (boardData.grid[index] == 1) ? __createWall() : __createFloor();
+          __addTile(tile, new THREE.Vector2(x, y));
         }
       }
-    };
+    }
 
     /**
      * Adds a tile to the board node.
@@ -85,12 +86,12 @@ define([
      * @param vec - THREE.Vector2
      * @private
      */
-    Board.prototype.__addTile = function (tile, vec) {
+    function __addTile(tile, vec) {
       var vec3d = PositionConverter.convert(vec);
       tile.position.x = vec3d.x;
       tile.position.y = vec3d.y;
-      this.node.add(tile);
-    };
+      node.add(tile);
+    }
 
     /**
      * Creates a wall cube
