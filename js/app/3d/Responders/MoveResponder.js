@@ -1,5 +1,5 @@
 /**
- * Prototype for movable 3d objects.
+ * Responder for movable 3d objects.
  * Reacts to the Mover visitor.
  * Should always be stored in a property named "move"
  * on target object.
