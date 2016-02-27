@@ -6,7 +6,7 @@ define([
         "lib/three",
         "lib/threex-fullscreen",
         "app/3d/Manipulator",
-        "app/3d/MasterBotNode",
+        "app/3d/Nodes/MasterBotNode",
         "app/3d/PositionConverter",
         "app/Common/Static"
     ],
