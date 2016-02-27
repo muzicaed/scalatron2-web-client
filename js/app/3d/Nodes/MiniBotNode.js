@@ -1,9 +1,11 @@
 define([
         "lib/three",
-        "app/3d/Resources/MeshFactory"
+        "app/3d/Nodes/State",
+        "app/3d/Resources/MeshFactory",
+        "app/3d/Behaviours/MoveBehaviour"
     ],
 
-    function (THREE, MeshFactory) {
+    function (THREE, State, MeshFactory, MoveBehaviour) {
 
         /**
          *  Create a Mini bot
@@ -11,10 +13,13 @@ define([
          * @constructor
          */
         function MiniBotNode() {
-            this.targetPosition = new THREE.Vector3(0, 0, 0);
+            this.id = id;
+            this.state = State.IDLING;
             this.node = new THREE.Object3D();
             this.node.add(MeshFactory.createMiniBotMesh());
-            this.node.position.y = 10;
+
+            this.move = new MoveBehaviour(initialPos);
+            this.move.placeOrigin(this.node);
         }
 
         // Return "class"
