@@ -15,35 +15,30 @@ define(
     /**
      * Set up move instruction for 3d objects.
      * @param simObj - simulation object to be moved
-     * @param startTime - Start time for current tick (in ms).
-     * @param targetTime - Target end time for current tick completion (in ms).
+     * @param timeFraction - Time fraction of current tick (in ms)
      */
-    MoveVisitor.apply = function (simObj, startTime, targetTime) {
+    MoveVisitor.apply = function (simObj, timeFraction) {
       if (simObj.move !== undefined && simObj.state == State.MOVING) {
         simObj.node.position.x = __calculateVelocity(
-          simObj.move.originPosition.x, simObj.move.targetPosition.x, startTime, targetTime);
+          simObj.move.originPosition.x, simObj.move.targetPosition.x, timeFraction);
         simObj.node.position.y = __calculateVelocity(
-          simObj.move.originPosition.y, simObj.move.targetPosition.y, startTime, targetTime);
+          simObj.move.originPosition.y, simObj.move.targetPosition.y, timeFraction);
       }
     };
 
-    /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
+    /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Calculate simulation velocity (per frame draw) for 3d object.
      * @param origin - Number
      * @param destination - Number
-     * @param startTime - Start time for current tick (in ms).
-     * @param targetTime - Target end time for current tick completion (in ms).
+     * @param timeFraction - Time fraction of current tick (in ms)
      * @returns {number}
      * @private
      */
-    function __calculateVelocity(origin, destination, startTime, targetTime) {
-      var now = new Date().getTime();
-      var tickLength = (targetTime - startTime);
-      var fraction = (now - startTime) / tickLength;
+    function __calculateVelocity(origin, destination, timeFraction) {
       var distance = destination - origin;
-      return origin + (distance * fraction);
+      return origin + (distance * timeFraction);
     }
 
     // Return object

@@ -29,10 +29,11 @@ define([
      * Call this on every frame request.
      */
     Manipulator.updateFrame = function () {
+      var timeFraction = __calculateTimeFraction();
       for (var index in simulationObjects) {
         if (simulationObjects.hasOwnProperty(index)) {
           var obj = simulationObjects[index];
-          MoveVisitor.apply(obj, Manipulator.tickStartTime, Manipulator.nextTargetTime);
+          MoveVisitor.apply(obj, timeFraction);
           SpinBehaviour.apply(obj);
         }
       }
@@ -45,6 +46,19 @@ define([
     Manipulator.add = function (obj) {
       simulationObjects[obj.id] = obj;
     };
+
+    /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Calculate time fraction of frame.
+     * @returns Number
+     * @private
+     */
+    function __calculateTimeFraction() {
+      var now = new Date().getTime();
+      var tickLength = (Manipulator.nextTickTargetTime - Manipulator.tickStartTime);
+      return (now - Manipulator.tickStartTime) / tickLength;
+    }
 
     // Return object
     return Manipulator;

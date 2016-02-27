@@ -63,7 +63,7 @@ define([
       bot2.move.setTargetPosition({x: 14 - tickCount, y: 8 + tickCount});
       bot2.state = State.MOVING;
       Manipulator.tickStartTime = new Date().getTime();
-      Manipulator.nextTargetTime = targetTime;
+      Manipulator.nextTickTargetTime = targetTime;
     };
 
 
