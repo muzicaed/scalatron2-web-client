@@ -30,7 +30,7 @@ define([
         Simulation.prototype.runSimulation = function () {
             __tick();
             board.runSimulation();
-            
+
             setInterval(function () {
                 __tick();
             }.bind(this), TIME_PER_TICK);

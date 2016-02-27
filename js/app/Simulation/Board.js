@@ -56,7 +56,7 @@ define([
          */
         Board.prototype.tick = function (tickCount, targetTime) {
             // TODO: Test code.
-            log("Board tick " + new Date().getSeconds());
+            log("Board tick " + tickCount);
             bot1.move.setTargetPosition({x: 3, y: 1 + tickCount});
             bot2.move.setTargetPosition({x: 14 - tickCount, y: 8});
             Manipulator.tickStartTime = new Date().getTime();
