@@ -12,7 +12,6 @@ define([
         var TIME_PER_TICK = 1000; // Time on screen for each tick (ms) - Simulation speed
         var board = new Board();
 
-
         /**
          * Create a simulation.
          * @constructor

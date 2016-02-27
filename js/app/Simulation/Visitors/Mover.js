@@ -38,7 +38,7 @@ define([
          */
         function __calculateVelocity(current, next, timePerTick) {
             var distance = next - current;
-            return distance / ((timePerTick / 1000) * Static.fps);
+            return distance / ((timePerTick / 1000) * 60);
         }
 
         // Return object

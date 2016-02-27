@@ -6,13 +6,12 @@ define([
         "app/3d/World",
         "app/3d/MasterBotNode",
         "app/3d/MiniBotNode",
-        "app/Simulation/Visitors/Mover"
+        "app/Simulation/Visitors/Mover",
+        "app/Common/Static"
     ],
 
-    function (THREE, World, MasterBotNode, MiniBotNode, Mover) {
+    function (THREE, World, MasterBotNode, MiniBotNode, Mover, Static) {
 
-        // TODO: Refactor in to shared static data object.
-        var TileSize = 10;
         var world = new World();
 
 
@@ -72,8 +71,8 @@ define([
          */
         Board.prototype.tilePosToWorldPos = function (pos) {
             return new THREE.Vector3(
-                (pos.x * TileSize),
-                (-(pos.y * TileSize)) + (this.boardData.height * TileSize),
+                (pos.x * Static.TileSize),
+                (-(pos.y * Static.TileSize)) + (this.boardData.height * Static.TileSize),
                 0
             );
         };

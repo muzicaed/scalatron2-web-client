@@ -101,10 +101,8 @@ define([
                 0.1,
                 500);
 
-            // TODO: Use static data instead of * 10
-            var x = (boardData.width * 10) / 2;
-            var y = (boardData.height * 10) / 2;
-
+            var x = (boardData.width * Static.TileSize) / 2;
+            var y = (boardData.height * Static.TileSize) / 2;
 
             camera.position.set(x, y - (y / 10), x + y); // TODO: Calc zoom based on scale screen vs. board size.
             camera.lookAt(new THREE.Vector3(x, y, 0));
@@ -120,15 +118,9 @@ define([
             this.scene.add(light);
 
             var spotLight = new THREE.SpotLight(0xffffff);
-            // TODO: Use static data instead of * 10
-            var x = (boardData.width * 10);
-            var y = (boardData.height * 10);
-
+            var x = (boardData.width * Static.TileSize);
+            var y = (boardData.height * Static.TileSize);
             spotLight.position.set(x, y, x + y); // TODO: Calc zoom based on scale screen vs. board size.
-            spotLight.shadowCameraNear = 10;
-            spotLight.shadowCameraFar = 4000;
-            spotLight.shadowCameraFov = 30;
-
             this.scene.add(spotLight);
 
             var ambient = new THREE.AmbientLight(0x404040);
