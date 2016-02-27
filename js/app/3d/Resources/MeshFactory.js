@@ -7,9 +7,17 @@ define([
 
   function (THREE) {
 
-    var masterBotGeometry = new THREE.SphereGeometry(8, 64, 64);
+    var masterBotGeometry = new THREE.SphereGeometry(7, 64, 64);
     var masterBotMaterial  = new THREE.MeshPhongMaterial({
       color: 0x222288,
+      specular: 0x888888,
+      shininess: 500 ,
+      shading: THREE.FlatShading,
+    });
+
+    var masterBotStripesGeometry = new THREE.DodecahedronGeometry(7.9);
+    var masterBotStripesMaterial  = new THREE.MeshPhongMaterial({
+      color: 0xaaaaaa,
       specular: 0x888888,
       shininess: 500 ,
       shading: THREE.FlatShading,
@@ -32,8 +40,12 @@ define([
       // TODO: Do real init with different colors etc.
     };
 
-    MeshFactory.createBotMesh = function () {
+    MeshFactory.createBotBodyMesh = function () {
       return new THREE.Mesh(masterBotGeometry, masterBotMaterial.clone());
+    };
+
+    MeshFactory.createBotHeadMesh = function () {
+      return new THREE.Mesh(masterBotStripesGeometry, masterBotStripesMaterial.clone());
     };
 
     MeshFactory.createMiniBotMesh = function () {

@@ -116,13 +116,14 @@ define([
       camera.lookAt(new THREE.Vector3(x, y, 0));
 
       // TODO: Test code, camera zoom in.
-      /*
+
+      //camera.position.set(x, y - 100, 40);
       setInterval(function() {
         camera.position.z -= 0.3;
         camera.position.y -= 0.1;
         camera.lookAt(new THREE.Vector3(x, y, 0));
       }, 25);
-      */
+
     }
 
     /**
