@@ -5,10 +5,11 @@ define([
     "lib/three",
     "app/3d/PositionConverter",
     "app/3d/Manipulator",
-    "app/3d/World"
+    "app/3d/World",
+    "app/3d/Nodes/State"
   ],
 
-  function (THREE, PositionConverter, Manipulator, World) {
+  function (THREE, PositionConverter, Manipulator, World, State) {
 
     var world = new World();
     var boardData = null;
@@ -58,7 +59,9 @@ define([
       // TODO: Test code.
       log("Board tick " + tickCount);
       bot1.move.setTargetPosition({x: 3, y: 1 + tickCount});
+      bot1.state = State.MOVING;
       bot2.move.setTargetPosition({x: 14 - tickCount, y: 8});
+      bot2.state = State.MOVING;
       Manipulator.tickStartTime = new Date().getTime();
       Manipulator.nextTargetTime = targetTime;
     };

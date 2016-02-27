@@ -2,9 +2,12 @@
  * Visitor object.
  * Moves 3d objects in world.
  */
-define([],
+define(
+  [
+    "app/3d/Nodes/State"
+  ],
 
-  function () {
+  function (State) {
 
     // Object
     var MoveVisitor = {};
@@ -16,10 +19,12 @@ define([],
      * @param targetTime - Target end time for current tick completion (in ms).
      */
     MoveVisitor.apply = function (simObj, startTime, targetTime) {
-      simObj.node.position.x = __calculateVelocity(
-        simObj.move.originPosition.x, simObj.move.targetPosition.x, startTime, targetTime);
-      simObj.node.position.y = __calculateVelocity(
-        simObj.move.originPosition.y, simObj.move.targetPosition.y, startTime, targetTime);
+      if (simObj.move !== undefined && simObj.state == State.MOVING) {
+        simObj.node.position.x = __calculateVelocity(
+          simObj.move.originPosition.x, simObj.move.targetPosition.x, startTime, targetTime);
+        simObj.node.position.y = __calculateVelocity(
+          simObj.move.originPosition.y, simObj.move.targetPosition.y, startTime, targetTime);
+      }
     };
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
