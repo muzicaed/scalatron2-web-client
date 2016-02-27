@@ -99,7 +99,7 @@ define([
     /**
      * Creates a wall cube
      * TODO: Waste: Reuse mesh & materials for each tile, move to resource "package"
-     * @returns {THREE.Mesh}
+     * @returns THREE.Mesh
      * @private
      */
     function __createWall() {
@@ -114,7 +114,7 @@ define([
     /**
      * Creates a floor tile
      * TODO: Waste: Reuse mesh & materials for each tile, move to resource "package"
-     * @returns {THREE.Mesh}
+     * @returns THREE.Mesh
      * @private
      */
     function __createFloor() {
@@ -125,9 +125,9 @@ define([
 
     /**
      * Generates wall size with slight variation.
-     * @param max - number, max wall height
-     * @param min - number, min wall height
-     * @returns {number}
+     * @param max - Number, max wall height
+     * @param min - Number, min wall height
+     * @returns Number
      * @private
      */
     function __randomWallSize(max, min) {

@@ -6,7 +6,7 @@ define([],
   function () {
 
     // Object
-    var SpinBehaviour = {}
+    var SpinBehaviour = {};
 
     /**
      * Create move behaviour
@@ -14,7 +14,7 @@ define([],
      */
     SpinBehaviour.apply = function (node) {
       // TODO: Implement
-    }
+    };
 
     // Return Object
     return SpinBehaviour;

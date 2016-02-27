@@ -14,7 +14,7 @@ define([
     var PositionConverter = {};
 
     /**
-     * Init, should be triggred after board setup.
+     * Init, should run after board setup.
      * @param height - board height
      */
     PositionConverter.init = function (height) {
@@ -24,7 +24,7 @@ define([
     /**
      * Coverts tile 2d position to world 3d position.
      * @param pos - THREE.Vector2, tile position on board
-     * @returns {THREE.Vector3} - Position in 3d space
+     * @returns THREE.Vector3 - Position in 3d space
      */
     PositionConverter.convert = function (pos) {
       return new THREE.Vector3(

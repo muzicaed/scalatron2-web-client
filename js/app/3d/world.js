@@ -48,6 +48,7 @@ define([
 
     /**
      * Creates and adds a new master bot.
+     * @param id - String
      * @param initialPos - THREE.Vector2, position on 2d grid
      * @returns {MasterBotNode}
      */
@@ -60,6 +61,7 @@ define([
 
     /**
      * Creates and adds a new mini bot.
+     * @param id - String
      * @param initialPos - THREE.Vector2, position on 2d grid
      * @returns {MiniBotNode}
      */
