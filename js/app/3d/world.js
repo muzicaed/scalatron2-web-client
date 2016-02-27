@@ -7,11 +7,12 @@ define([
         "lib/threex-fullscreen",
         "app/3d/Manipulator",
         "app/3d/Nodes/MasterBotNode",
+        "app/3d/Nodes/MiniBotNode",
         "app/3d/PositionConverter",
         "app/Common/Static"
     ],
 
-    function (THREE, THREEx, Manipulator, MasterBotNode, PositionConverter, Static) {
+    function (THREE, THREEx, Manipulator, MasterBotNode, MiniBotNode, PositionConverter, Static) {
 
         var viewPort = {width: 1024, height: 768};
         var renderer = new THREE.WebGLRenderer({antialias: true});
@@ -47,14 +48,25 @@ define([
 
         /**
          * Creates and adds a new master bot.
-         * @param initialPos - THREE.Vector2
+         * @param initialPos - THREE.Vector2, position on 2d grid
          * @returns {MasterBotNode}
          */
         World.prototype.addMasterBot = function (id, initialPos) {
-            var botNode = new MasterBotNode(id, initialPos);
+            var botNode = new MasterBotNode("MASTER-" + id, initialPos);
             this.scene.add(botNode.node);
             Manipulator.add(botNode);
+            return botNode;
+        };
 
+        /**
+         * Creates and adds a new mini bot.
+         * @param initialPos - THREE.Vector2, position on 2d grid
+         * @returns {MiniBotNode}
+         */
+        World.prototype.addMiniBot = function (id, initialPos) {
+            var botNode = new MiniBotNode("MINI-" + id, initialPos);
+            this.scene.add(botNode.node);
+            Manipulator.add(botNode);
             return botNode;
         };
 

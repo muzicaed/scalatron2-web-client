@@ -38,7 +38,7 @@ define([
 
             // TODO: Remove test code
             bot1 = world.addMasterBot("1", {x: 3, y: 1});
-            bot2 = world.addMasterBot("2", {x: 14, y: 8});
+            bot2 = world.addMiniBot("2", {x: 14, y: 8});
         };
 
         /**

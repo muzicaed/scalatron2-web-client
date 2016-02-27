@@ -4,7 +4,7 @@ define(["lib/three"],
         var masterBotGeometry = new THREE.SphereGeometry(6, 32, 32);
         var masterBotMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
 
-        var miniBotGeometry = new THREE.IcosahedronGeometry(1.5);
+        var miniBotGeometry = new THREE.IcosahedronGeometry(3);
         var miniBotMaterial = new THREE.MeshPhongMaterial({
             color: 0x00ff00,
             shading: THREE.FlatShading

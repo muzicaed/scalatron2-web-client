@@ -8,11 +8,12 @@ define([
     function (THREE, State, MeshFactory, MoveBehaviour) {
 
         /**
-         *  Create a Mini bot
-         *  TODO: Refactoring and reuse from MasterBotNode
+         * Create a Mini bot
+         * @param id - String, object's id
+         * @param initialPos - THREE.Vector2, position on 2d grid
          * @constructor
          */
-        function MiniBotNode() {
+        function MiniBotNode(id, initialPos) {
             this.id = id;
             this.state = State.IDLING;
             this.node = new THREE.Object3D();
