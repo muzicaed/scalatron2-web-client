@@ -12,8 +12,7 @@ define([
   ],
 
   function (THREE, THREEx, Manipulator, MasterBotNode, MiniBotNode, PositionConverter, Static) {
-
-    var viewPort = {width: 1024, height: 768};
+    var viewPort = {width: window.innerWidth, height: window.innerHeight};
     var renderer = new THREE.WebGLRenderer({antialias: true});
     var scene = new THREE.Scene();
     var camera = null;

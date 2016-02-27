@@ -15,7 +15,7 @@ define([
       shading: THREE.FlatShading
     });
 
-    var miniBotGeometry = new THREE.IcosahedronGeometry(3);
+    var miniBotGeometry = new THREE.IcosahedronGeometry(4);
     var miniBotMaterial = new THREE.MeshPhongMaterial({
       color: 0x00ff00,
       specular: 0x999999,
