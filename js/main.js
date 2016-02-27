@@ -1,17 +1,15 @@
 /*
  * Global madness.
  */
-var output = document.getElementById("output");
-
 var log = function (out) {
-    console.log(out)
+  console.log(out)
 };
 
 requirejs.onError = function (err) {
-    log(err.requireType);
-    log(err.requireModules);
-    log(err.stack);
-    throw err;
+  log(err.requireType);
+  log(err.requireModules);
+  log(err.stack);
+  throw err;
 };
 
 
@@ -19,11 +17,11 @@ requirejs.onError = function (err) {
  * App Main.
  */
 define([
-        "app/Simulation/Simulation"
-    ],
+    "app/Simulation/Simulation"
+  ],
 
-    function (Simulation) {
-        var sim = new Simulation();
-        sim.runSimulation();
-    }
+  function (Simulation) {
+    var sim = new Simulation();
+    sim.runSimulation();
+  }
 );

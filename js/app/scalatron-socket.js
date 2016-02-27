@@ -1,4 +1,6 @@
-define("ScalatronSocket", function () {
+define([],
+
+  function () {
 
     var wsUri = "ws://10.0.0.154:8888/greeter";
 
@@ -7,22 +9,22 @@ define("ScalatronSocket", function () {
      * @constructor
      */
     function ScalatronSocket(onConnectedCallback, onMessageCallback) {
-        this.onConnectedCallback = onConnectedCallback;
-        this.onMessageCallback = onMessageCallback;
+      this.onConnectedCallback = onConnectedCallback;
+      this.onMessageCallback = onMessageCallback;
 
-        this.socket = new WebSocket(wsUri);
-        this.socket.onopen = this.__onOpen.bind(this);
-        this.socket.onclose = this.__onClose.bind(this);
-        this.socket.onerror = this.__onError.bind(this);
-        this.socket.onmessage = this.__onMessage.bind(this);
+      this.socket = new WebSocket(wsUri);
+      this.socket.onopen = this.__onOpen.bind(this);
+      this.socket.onclose = this.__onClose.bind(this);
+      this.socket.onerror = this.__onError.bind(this);
+      this.socket.onmessage = this.__onMessage.bind(this);
     }
 
     /**
      * Send message using socket.
      */
     ScalatronSocket.prototype.sendMessage = function (message) {
-        put("Sending: " + message);
-        this.socket.send(message);
+      log("Sending: " + message);
+      this.socket.send(message);
     };
 
     /// INTERNAL /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,34 +33,34 @@ define("ScalatronSocket", function () {
      * On web socket open.
      */
     ScalatronSocket.prototype.__onOpen = function (evt) {
-        put("CONNECTED!");
-        this.onConnectedCallback();
+      log("CONNECTED!");
+      this.onConnectedCallback();
     };
 
     /**
      * On web socket close.
      */
     ScalatronSocket.prototype.__onClose = function (evt) {
-        put("onClose!");
+      log("onClose!");
     };
 
     /**
      * On web socket error.
      */
     ScalatronSocket.prototype.__onError = function (evt) {
-        put("onError!");
+      log("onError!");
     };
 
     /**
      * On web socket error.
      */
     ScalatronSocket.prototype.__onMessage = function (evt) {
-        put("Received message:");
-        put(evt);
-        this.onMessageCallback(evt);
+      log("Received message:");
+      log(evt);
+      this.onMessageCallback(evt);
     };
 
 
     // Return "class"
     return ScalatronSocket;
-});
+  });

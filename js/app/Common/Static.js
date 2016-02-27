@@ -1,9 +1,13 @@
+/**
+ * Static shared constants.
+ */
 define([],
 
-    function () {
+  function () {
 
-        // Return object
-        return {
-            TileSize: 10
-        };
-    });
+    // Return object
+    return {
+      TileSize: 10
+    };
+
+  });
