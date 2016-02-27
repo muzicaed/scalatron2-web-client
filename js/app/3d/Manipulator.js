@@ -3,10 +3,11 @@
  */
 define([
     "lib/three",
-    "app/3d/Visitors/MoveVisitor"
+    "app/3d/Visitors/MoveVisitor",
+    "app/3d/Behaviours/SpinBehaviour"
   ],
 
-  function (THREE, MoveVisitor) {
+  function (THREE, MoveVisitor, SpinBehaviour) {
 
     var simulationObjects = {};
 
@@ -32,6 +33,7 @@ define([
         if (simulationObjects.hasOwnProperty(index)) {
           var obj = simulationObjects[index];
           MoveVisitor.apply(obj, Manipulator.tickStartTime, Manipulator.nextTargetTime);
+          SpinBehaviour.apply(obj);
         }
       }
     };

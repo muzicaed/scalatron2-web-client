@@ -1,19 +1,24 @@
 /**
  * Behaviour for constantly spinning 3d objects.
  */
-define([],
+define([
+    "app/3d/Nodes/MiniBotNode"
+  ],
 
-  function () {
+  function (MiniBotNode) {
 
     // Object
     var SpinBehaviour = {};
 
     /**
      * Create move behaviour
-     * @param node - 3d object
+     * @param obj - Simulation object
      */
-    SpinBehaviour.apply = function (node) {
-      // TODO: Implement
+    SpinBehaviour.apply = function (obj) {
+      if (obj !== undefined && obj instanceof MiniBotNode) {
+        obj.node.rotation.x += 0.05;
+        obj.node.rotation.y -= 0.05;
+      }
     };
 
     // Return Object
