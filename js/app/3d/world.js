@@ -114,6 +114,15 @@ define([
 
       camera.position.set(x, y - (y / 10), x + y); // TODO: Calc zoom based on scale screen vs. board size.
       camera.lookAt(new THREE.Vector3(x, y, 0));
+
+      // TODO: Test code, camera zoom in.
+      /*
+      setInterval(function() {
+        camera.position.z -= 0.3;
+        camera.position.y -= 0.1;
+        camera.lookAt(new THREE.Vector3(x, y, 0));
+      }, 25);
+      */
     }
 
     /**

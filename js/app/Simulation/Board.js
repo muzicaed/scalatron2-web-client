@@ -40,7 +40,9 @@ define([
 
       // TODO: Remove test code
       bot1 = world.addMasterBot("1", {x: 3, y: 1});
-      bot2 = world.addMiniBot("2", {x: 14, y: 8});
+      bot2 = world.addMiniBot("2", {x: 3, y: 2});
+      bot3 = world.addMiniBot("3", {x: 8, y: 2});
+      bot4 = world.addMiniBot("4", {x: 10, y: 10});
     };
 
     /**
@@ -56,12 +58,7 @@ define([
      * @param targetTime - Target time for tick completion (in ms).
      */
     Board.prototype.tick = function (tickCount, targetTime) {
-      // TODO: Test code.
-      log("Board tick " + tickCount);
-      //bot1.move.setTargetPosition({x: 3, y: 1 + tickCount});
-      bot1.state = State.SPAWNING;
-      bot2.move.setTargetPosition({x: 14 - tickCount, y: 8 + tickCount});
-      bot2.state = State.MOVING;
+      __labTick(tickCount);
       Manipulator.tickStartTime = new Date().getTime();
       Manipulator.nextTickTargetTime = targetTime;
     };
@@ -111,7 +108,9 @@ define([
         color: 0x444444,
         shininess: 30
       });
-      return new THREE.Mesh(geometry, material);
+      var wall = new THREE.Mesh(geometry, material);
+      wall.position.z = 0;
+      return wall;
     }
 
     /**
@@ -127,7 +126,9 @@ define([
         shininess: 10,
         shading: THREE.FlatShading
       });
-      return new THREE.Mesh(geometry, material);
+      var floor = new THREE.Mesh(geometry, material);
+      floor.position.z = -4;
+      return floor;
     }
 
     /**
@@ -139,6 +140,18 @@ define([
      */
     function __randomWallSize(max, min) {
       return Math.random() * (max - min + 1) + min;
+    }
+
+    // TODO: Test code.
+    function __labTick(tickCount) {
+      log("Board tick " + tickCount);
+      //bot1.move.setTargetPosition({x: 3, y: 1 + tickCount});
+      bot1.state = State.SPAWNING;
+      //bot2.move.setTargetPosition({x: 14 - tickCount, y: 8 + tickCount});
+      bot2.state = State.SPAWNED;
+      bot3.move.setTargetPosition({x: 8, y: 2 + tickCount});
+      bot3.state = State.MOVING;
+
     }
 
     // Return "class"

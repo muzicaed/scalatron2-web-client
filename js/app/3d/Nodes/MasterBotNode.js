@@ -21,6 +21,7 @@ define([
       this.state = State.IDLING;
       this.node = new THREE.Object3D();
       this.node.add(MeshFactory.createBotMesh());
+      this.node.scale.z = 0.5;
 
       this.move = new MoveResponder(initialPos);
       this.move.placeOrigin(this.node);

@@ -12,7 +12,7 @@ define([
       color: 0x222288,
       specular: 0x888888,
       shininess: 500 ,
-      shading: THREE.FlatShading
+      shading: THREE.FlatShading,
     });
 
     var miniBotGeometry = new THREE.IcosahedronGeometry(4);
@@ -33,11 +33,11 @@ define([
     };
 
     MeshFactory.createBotMesh = function () {
-      return new THREE.Mesh(masterBotGeometry, masterBotMaterial);
+      return new THREE.Mesh(masterBotGeometry, masterBotMaterial.clone());
     };
 
     MeshFactory.createMiniBotMesh = function () {
-      return new THREE.Mesh(miniBotGeometry, miniBotMaterial);
+      return new THREE.Mesh(miniBotGeometry, miniBotMaterial.clone());
     };
 
     // Return object

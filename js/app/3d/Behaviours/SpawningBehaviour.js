@@ -19,16 +19,17 @@ define([
      */
     SpawningBehaviour.apply = function (obj, timeFraction) {
       if (obj !== undefined && obj instanceof MasterBotNode && obj.state == State.SPAWNING) {
-        if(timeFraction < 0.5) {
-          var scale = 1 - (timeFraction / 2);
-          obj.node.position.z = obj.move.originPosition.z + scale * 5;
+        if (timeFraction < 0.35) {
+          var scale = 1 - (timeFraction / 4) + 0.01;
           obj.node.scale.x = scale;
           obj.node.scale.y = scale;
-        } else {
-          obj.node.scale.x = 0.5 + (timeFraction / 2);
-          obj.node.scale.y = 0.5 + (timeFraction / 2)
+        } else if (timeFraction < 0.5) {
+          obj.node.scale.x = (timeFraction * 2) + 0.25;
+          obj.node.scale.y = (timeFraction * 2) + 0.25;
+        } else if (timeFraction < 0.75) {
+          obj.node.scale.x = 1;
+          obj.node.scale.y = 1;
         }
-
       }
     };
 

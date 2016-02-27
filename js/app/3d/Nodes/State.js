@@ -10,8 +10,9 @@ define([],
       "IDLING": 0,
       "MOVING": 1,
       "SPAWNING": 2,
-      "DYING": 3,
-      "EXPLODING": 4,
-      "WALL_BUMPING": 5
+      "SPAWNED": 3,
+      "DYING": 4,
+      "EXPLODING": 5,
+      "WALL_BUMPING": 6
     });
   });

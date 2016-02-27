@@ -5,10 +5,11 @@ define([
     "lib/three",
     "app/3d/Visitors/MoveVisitor",
     "app/3d/Behaviours/SpinBehaviour",
-    "app/3d/Behaviours/SpawningBehaviour"
+    "app/3d/Behaviours/SpawningBehaviour",
+    "app/3d/Behaviours/SpawnedBehaviour"
   ],
 
-  function (THREE, MoveVisitor, SpinBehaviour, SpawningBehaviour) {
+  function (THREE, MoveVisitor, SpinBehaviour, SpawningBehaviour, SpawnedBehaviour) {
 
     var simulationObjects = {};
 
@@ -37,6 +38,7 @@ define([
           MoveVisitor.apply(obj, timeFraction);
           SpinBehaviour.apply(obj);
           SpawningBehaviour.apply(obj, timeFraction);
+          SpawnedBehaviour.apply(obj, timeFraction);
         }
       }
     };
