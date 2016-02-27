@@ -29,10 +29,12 @@ define([
      */
     Manipulator.updateFrame = function () {
       for (var index in simulationObjects) {
-        var obj = simulationObjects[index];
-        MoveVisitor.apply(obj, Manipulator.tickStartTime, Manipulator.nextTargetTime);
+        if (simulationObjects.hasOwnProperty(index)) {
+          var obj = simulationObjects[index];
+          MoveVisitor.apply(obj, Manipulator.tickStartTime, Manipulator.nextTargetTime);
+        }
       }
-    }
+    };
 
     /**
      * Adds a 3d object
