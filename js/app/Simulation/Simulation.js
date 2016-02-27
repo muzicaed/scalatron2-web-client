@@ -4,11 +4,10 @@
  */
 define([
         "lib/three",
-        "app/Simulation/Board",
-        "app/Simulation/Timer"
+        "app/Simulation/Board"
     ],
 
-    function (THREE, Board, Timer) {
+    function (THREE, Board) {
 
         var TIME_PER_TICK = 1000; // Time on screen for each tick (ms) - Simulation speed
         var board = new Board();
@@ -40,12 +39,11 @@ define([
          */
         Simulation.prototype.__startTickLoop = function () {
             var tickCount = 0;
-            var timer = new Timer(function () {
+            setInterval(function () {
                 // TODO: Send in state data from sever here...
                 board.tick(tickCount, TIME_PER_TICK);
                 tickCount++;
-            }, TIME_PER_TICK);
-            timer.start();
+            }.bind(this), TIME_PER_TICK);
         };
 
         /**

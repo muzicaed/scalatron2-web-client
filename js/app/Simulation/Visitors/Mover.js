@@ -2,9 +2,12 @@
  * Visitor object.
  * Moves simulation objects on the board.
  */
-define([],
+define([
+        "app/Common/Static"
 
-    function () {
+    ],
+
+    function (Static) {
 
         // Object
         var Mover = {};
@@ -16,27 +19,27 @@ define([],
          * @param timePerTick - Time for this tick in ms.
          * @param board - Board, the current board.
          */
-        Mover.apply = function(simObj, newPos, timePerTick, board) {
-            //simObj.place();
+        Mover.apply = function (simObj, newPos, timePerTick, board) {
+            simObj.place();
             var newTargetPos = board.tilePosToWorldPos(newPos);
-            simObj.moveForce.x = __calculateForce(simObj.targetPosition.x, newTargetPos.x, timePerTick);
-            simObj.moveForce.y = __calculateForce(simObj.targetPosition.y, newTargetPos.y, timePerTick);
+            simObj.velocity.x = __calculateVelocity(simObj.targetPosition.x, newTargetPos.x, timePerTick);
+            simObj.velocity.y = __calculateVelocity(simObj.targetPosition.y, newTargetPos.y, timePerTick);
             simObj.targetPosition = newTargetPos;
         };
 
         /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
 
         /**
-         * Calculate simulation move force for 3d world.
+         * Calculate simulation velocity (per frame draw) for 3d object.
          * @param current
          * @param next
          * @param timePerTick
          * @returns {number}
          * @private
          */
-        function __calculateForce(current, next, timePerTick) {
-            var diff = next - current;
-            return diff / timePerTick;
+        function __calculateVelocity(current, next, timePerTick) {
+            var distance = next - current;
+            return distance / ((timePerTick / 1000) * Static.fps);
         }
 
         // Return object

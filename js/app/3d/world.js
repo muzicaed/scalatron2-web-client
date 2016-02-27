@@ -1,9 +1,10 @@
 define([
         "lib/three",
-        "lib/threex-fullscreen"
+        "lib/threex-fullscreen",
+        "app/Common/Static"
     ],
 
-    function (THREE, THREEx) {
+    function (THREE, THREEx, Static) {
 
         var viewPort = {width: 1024, height: 768};
         var renderer = new THREE.WebGLRenderer({antialias: true});
@@ -37,14 +38,12 @@ define([
             // TODO: Test Code
             for (var index in simulationObjects) {
                 var obj = simulationObjects[index];
-                obj.node.position.x += obj.moveForce.x;
-                obj.node.position.y += obj.moveForce.y;
+                obj.node.position.x += obj.velocity.x;
+                obj.node.position.y += obj.velocity.y;
             }
 
-            setTimeout(function () {
-                requestAnimationFrame(this.render.bind(this));
-                renderer.render(this.scene, this.camera);
-            }.bind(this), 1000 / 30);
+            requestAnimationFrame(this.render.bind(this));
+            renderer.render(this.scene, this.camera);
         };
 
         /**
