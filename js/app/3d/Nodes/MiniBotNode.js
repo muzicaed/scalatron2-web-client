@@ -14,14 +14,15 @@ define([
      * Create a Mini bot
      * @param id - String, object's id
      * @param initialPos - THREE.Vector2, position on 2d grid
+     * @param colorId - Number
      * @constructor
      */
-    function MiniBotNode(id, initialPos) {
+    function MiniBotNode(id, initialPos, colorId) {
       this.id = id;
       this.state = State.IDLING;
       this.node = new THREE.Object3D();
-      this.node.add(MeshFactory.createMiniBotMesh());
-
+      this.node.add(MeshFactory.createMiniBotMesh(colorId));
+      this.node.add(MeshFactory.createMiniBotStripeMesh(colorId));
       this.move = new MoveResponder(initialPos);
       this.move.placeOrigin(this.node);
     }

@@ -49,10 +49,11 @@ define([
      * Creates and adds a new master bot.
      * @param id - String
      * @param initialPos - THREE.Vector2, position on 2d grid
+     * @param colorId - Number
      * @returns {MasterBotNode}
      */
-    World.prototype.addMasterBot = function (id, initialPos) {
-      var botNode = new MasterBotNode("MASTER-" + id, initialPos);
+    World.prototype.addMasterBot = function (id, initialPos, colorId) {
+      var botNode = new MasterBotNode("MASTER-" + id, initialPos, colorId);
       scene.add(botNode.node);
       Manipulator.add(botNode);
       return botNode;
@@ -62,10 +63,11 @@ define([
      * Creates and adds a new mini bot.
      * @param id - String
      * @param initialPos - THREE.Vector2, position on 2d grid
+     * @param colorId - Number
      * @returns {MiniBotNode}
      */
-    World.prototype.addMiniBot = function (id, initialPos) {
-      var botNode = new MiniBotNode("MINI-" + id, initialPos);
+    World.prototype.addMiniBot = function (id, initialPos, colorId) {
+      var botNode = new MiniBotNode("MINI-" + id, initialPos, colorId);
       scene.add(botNode.node);
       Manipulator.add(botNode);
       return botNode;
@@ -81,7 +83,7 @@ define([
       scene.add(node);
     };
 
-    /// INTERNAL /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Adds event handler for "f" key = Set browser fullscreen.
@@ -113,17 +115,18 @@ define([
       var y = (boardData.height * Static.TileSize) / 2;
 
       camera.position.set(x, y - (y / 10), x + y); // TODO: Calc zoom based on scale screen vs. board size.
+      //camera.position.set(x, y - 100, 80);
       camera.lookAt(new THREE.Vector3(x, y, 0));
 
       // TODO: Test code, camera zoom in.
 
-      //camera.position.set(x, y - 100, 40);
+      /*
       setInterval(function() {
         camera.position.z -= 0.3;
         camera.position.y -= 0.1;
         camera.lookAt(new THREE.Vector3(x, y, 0));
       }, 25);
-
+      */
     }
 
     /**

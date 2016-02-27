@@ -39,10 +39,27 @@ define([
       world.addStatic(node);
 
       // TODO: Remove test code
-      bot1 = world.addMasterBot("1", {x: 3, y: 1});
-      bot2 = world.addMiniBot("2", {x: 3, y: 2});
-      bot3 = world.addMiniBot("3", {x: 8, y: 2});
-      bot4 = world.addMiniBot("4", {x: 10, y: 10});
+      bot1 = world.addMasterBot("1", {x: 3, y: 1}, 5);
+      bot2 = world.addMiniBot("2", {x: 3, y: 2}, 3);
+      bot3 = world.addMiniBot("3", {x: 8, y: 2}, 23);
+      //bot4 = world.addMiniBot("4", {x: 10, y: 10}, 2);
+
+      bot5 = world.addMasterBot("5", {x: 14, y: 13}, 25);
+
+
+      for (var x = 0; x < 7; x++) {
+        for (var y = 0; y < 7; y++) {
+          var colorId = x + (y * 7) + 1;
+          world.addMasterBot("master-" + x + "-" + y, {x: 8 + x, y: y}, colorId);
+        }
+      }
+
+      for (var x = 0; x < 7; x++) {
+        for (var y = 0; y < 7; y++) {
+          var colorId = x + (y * 7) + 1;
+          world.addMiniBot("mini-" + x + "-" + y, {x: 8 + x, y: 8 + y}, colorId);
+        }
+      }
     };
 
     /**
@@ -145,13 +162,15 @@ define([
     // TODO: Test code.
     function __labTick(tickCount) {
       log("Board tick " + tickCount);
-      bot1.move.setTargetPosition({x: 3 + tickCount, y: 1 + tickCount});
-      bot1.state = State.MOVING;
+
+      bot1.state = State.SPAWNING;
       //bot2.move.setTargetPosition({x: 14 - tickCount, y: 8 + tickCount});
       bot2.state = State.SPAWNED;
       bot3.move.setTargetPosition({x: 8, y: 2 + tickCount});
       bot3.state = State.MOVING;
 
+      bot5.move.setTargetPosition({x: 14 - tickCount, y: 14 - tickCount});
+      bot5.state = State.MOVING;
     }
 
     // Return "class"
