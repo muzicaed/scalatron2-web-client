@@ -18,5 +18,5 @@ define([
         }
 
         // Return "class"
-        return MiniBotNode
+        return MiniBotNode;
     });

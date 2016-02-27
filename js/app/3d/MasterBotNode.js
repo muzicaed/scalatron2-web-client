@@ -1,9 +1,10 @@
 define([
         "lib/three",
-        "app/3d/Resources/MeshFactory"
+        "app/3d/Resources/MeshFactory",
+        "app/3d/Behaviours/MovableBehaviour"
     ],
 
-    function (THREE, MeshFactory) {
+    function (THREE, MeshFactory, MovableBehaviour) {
 
         /**
          *  Create a Master bot
@@ -12,22 +13,22 @@ define([
          */
         function MasterBotNode(id) {
             this.id = id;
-            this.targetPosition = new THREE.Vector3(0, 0, 0);
-            this.velocity = new THREE.Vector2(0, 0);
             this.node = new THREE.Object3D();
             this.node.add(MeshFactory.createBotMesh());
             this.node.position.y = 10;
+            this.movable = new MovableBehaviour();
         }
 
         /**
          * Instantly move the bot to target position.
          */
         MasterBotNode.prototype.place = function() {
-            this.node.position.x = this.targetPosition.x;
-            this.node.position.y = this.targetPosition.y;
-            this.node.position.z = this.targetPosition.z;
+            this.movable.setTargetPosition(this.movable.targetPosition);
+            this.node.position.x = this.movable.targetPosition.x;
+            this.node.position.y = this.movable.targetPosition.y;
+            this.node.position.z = this.movable.targetPosition.z;
         };
 
         // Return "class"
-        return MasterBotNode
+        return MasterBotNode;
     });

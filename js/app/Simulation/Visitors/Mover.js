@@ -4,7 +4,6 @@
  */
 define([
         "app/Common/Static"
-
     ],
 
     function (Static) {
@@ -21,10 +20,10 @@ define([
          */
         Mover.apply = function (simObj, newPos, timePerTick, board) {
             simObj.place();
-            var newTargetPos = board.tilePosToWorldPos(newPos);
-            simObj.velocity.x = __calculateVelocity(simObj.targetPosition.x, newTargetPos.x, timePerTick);
-            simObj.velocity.y = __calculateVelocity(simObj.targetPosition.y, newTargetPos.y, timePerTick);
-            simObj.targetPosition = newTargetPos;
+            var newTarget = board.tilePosToWorldPos(newPos);
+            simObj.movable.velocity.x = __calculateVelocity(simObj.movable.targetPosition.x, newTarget.x, timePerTick);
+            simObj.movable.velocity.y = __calculateVelocity(simObj.movable.targetPosition.y, newTarget.y, timePerTick);
+            simObj.movable.setTargetPosition(newTarget);
         };
 
         /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,5 +42,5 @@ define([
         }
 
         // Return object
-        return Mover
+        return Mover;
     });

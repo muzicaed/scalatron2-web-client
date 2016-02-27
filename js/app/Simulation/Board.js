@@ -58,7 +58,7 @@ define([
          */
         Board.prototype.addMasterBot = function (id, initialPos) {
             var botNode = new MasterBotNode(id);
-            botNode.targetPosition = this.tilePosToWorldPos(initialPos);
+            botNode.movable.setTargetPosition(this.tilePosToWorldPos(initialPos));
             botNode.place();
             world.add(botNode);
 
@@ -148,5 +148,5 @@ define([
         }
 
         // Return "class"
-        return Board
+        return Board;
     });

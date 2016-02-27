@@ -60,5 +60,5 @@ define("ScalatronSocket", function () {
 
 
     // Return "class"
-    return ScalatronSocket
+    return ScalatronSocket;
 });

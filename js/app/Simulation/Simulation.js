@@ -76,5 +76,5 @@ define([
         }
 
         // Return "class"
-        return Simulation
+        return Simulation;
     });

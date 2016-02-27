@@ -15,6 +15,13 @@ var put = function (out) {
     output.appendChild(pre);
 };
 
+requirejs.onError = function (err) {
+    log(err.requireType);
+    log(err.requireModules);
+    log(err.stack);
+    throw err;
+};
+
 
 /**
  * App Main.

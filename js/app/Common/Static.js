@@ -8,5 +8,5 @@ define([],
         };
 
         // Return object
-        return Static
+        return Static;
     });

@@ -38,8 +38,8 @@ define([
             // TODO: Test Code
             for (var index in simulationObjects) {
                 var obj = simulationObjects[index];
-                obj.node.position.x += obj.velocity.x;
-                obj.node.position.y += obj.velocity.y;
+                obj.node.position.x += obj.movable.velocity.x;
+                obj.node.position.y += obj.movable.velocity.y;
             }
 
             requestAnimationFrame(this.render.bind(this));
@@ -136,5 +136,5 @@ define([
         };
 
         // Return "class"
-        return World
+        return World;
     });
