@@ -2,10 +2,10 @@ define([
         "lib/three",
         "app/3d/Nodes/State",
         "app/3d/Resources/MeshFactory",
-        "app/3d/Behaviours/MoveBehaviour"
+        "app/3d/Responders/MoveResponder"
     ],
 
-    function (THREE, State, MeshFactory, MoveBehaviour) {
+    function (THREE, State, MeshFactory, MoveResponder) {
 
         /**
          * Create a Master bot
@@ -19,7 +19,7 @@ define([
             this.node = new THREE.Object3D();
             this.node.add(MeshFactory.createBotMesh());
 
-            this.move = new MoveBehaviour(initialPos);
+            this.move = new MoveResponder(initialPos);
             this.move.placeOrigin(this.node);
         }
 
