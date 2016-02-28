@@ -4,12 +4,12 @@
  */
 define([
     "lib/three",
-    "app/Simulation/Board"
+    "app/Simulation/Board",
+    "app/Common/Static"
   ],
 
-  function (THREE, Board) {
+  function (THREE, Board, Static) {
 
-    var TIME_PER_TICK = 500; // Time on screen for each tick (ms) - Simulation speed
     var board = new Board();
     var tickCount = 0;
 
@@ -33,7 +33,7 @@ define([
 
       setInterval(function () {
         __tick();
-      }.bind(this), TIME_PER_TICK);
+      }.bind(this), Static.TimePerTick);
     };
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@ define([
      */
     function __tick() {
       // TODO: Send in state data from sever here...
-      var targetTime = new Date().getTime() + TIME_PER_TICK;
+      var targetTime = new Date().getTime() + Static.TimePerTick;
       board.tick(tickCount, targetTime);
       tickCount++;
     }
