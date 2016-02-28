@@ -22,12 +22,12 @@ define([
 
     var colorCombinations = __generateColorCombinations();
 
-    var masterBotGeometry = new THREE.SphereGeometry(7.5, 64, 64);
+    var masterBotGeometry = new THREE.SphereGeometry(7.5, 32, 32);
     var masterBotStripesGeometry = new THREE.DodecahedronGeometry(8.5);
     var miniBotGeometry = new THREE.IcosahedronGeometry(5);
     var miniBotStripesGeometry = new THREE.OctahedronGeometry(6.3);
-    var beastGeometry = new THREE.TorusGeometry(3, 1.6, 12, 5);
-    var flowerGeometry = new THREE.SphereGeometry(3, 16, 16);
+    var beastGeometry = new THREE.TorusGeometry(3, 1.6, 2, 5);
+    var flowerGeometry = new THREE.SphereGeometry(3, 4, 4);
     var wallGeometry = new THREE.BoxGeometry(10, 10, 10);
 
     var masterBotMaterials = __generateMasterBotMaterials();

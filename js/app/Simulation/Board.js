@@ -24,7 +24,8 @@ define([
      *  Create the 3d board
      * @constructor
      */
-    function Board() {}
+    function Board() {
+    }
 
     /**
      * Init the board
@@ -48,7 +49,7 @@ define([
 
       // TESTING COLORS
       for (var x = 0; x < 7; x++) {
-        for (var y = 0; y < 7; y++) {
+        for (var y = 0; y < 1; y++) {
           var colorId = x + (y * 7) + 1;
           world.addMasterBot("master-" + x + "-" + y, {x: 8 + x, y: y}, colorId);
         }
@@ -58,6 +59,46 @@ define([
         for (var y = 0; y < 7; y++) {
           var colorId = x + (y * 7) + 1;
           world.addMiniBot("mini-" + x + "-" + y, {x: 8 + x, y: 8 + y}, colorId);
+        }
+      }
+
+      for (var x = 0; x < 7; x++) {
+        for (var y = 0; y < 7; y++) {
+          world.addMiniBot("mini2-" + x + "-" + y, {x: 8 + x, y: 20 + y}, 12);
+        }
+      }
+      for (var x = 0; x < 7; x++) {
+        for (var y = 0; y < 7; y++) {
+          world.addBadBeast("beas-" + x + "-" + y, {x: 20 + x, y: 20 + y});
+        }
+      }
+      for (var x = 0; x < 7; x++) {
+        for (var y = 0; y < 7; y++) {
+          world.addMiniBot("mini4-" + x + "-" + y, {x: 0 + x, y: 20 + y}, 9);
+        }
+      }
+      for (var x = 0; x < 7; x++) {
+        for (var y = 0; y < 7; y++) {
+          world.addMiniBot("mini5-" + x + "-" + y, {x: 0 + x, y: 8 + y}, 30);
+        }
+      }
+
+      for (var x = 0; x < 7; x++) {
+        for (var y = 0; y < 7; y++) {
+          world.addBadFlower("flowb-" + x + "-" + y, {x: 20 + x, y: 0 + y});
+        }
+      }
+
+      for (var x = 0; x < 7; x++) {
+        for (var y = 0; y < 7; y++) {
+          world.addGoodFlower("flow-" + x + "-" + y, {x: 0 + x, y: 0 + y});
+        }
+      }
+
+      testMov = [];
+      for (var x = 0; x < 7; x++) {
+        for (var y = 0; y < 7; y++) {
+          testMov.push(world.addMiniBot("mini6-" + x + "-" + y, {x: 20 + x, y: 8 + y}, 20));
         }
       }
 
@@ -94,7 +135,7 @@ define([
       for (var x = 0, len = boardData.width; x < len; x++) {
         for (var y = boardData.height - 1; y >= 0; y--) {
           var index = x + (y * boardData.height);
-          if(boardData.grid[index] == 1) {
+          if (boardData.grid[index] == 1) {
             __addTile(__createWall(), new THREE.Vector2(x, y));
           }
         }
@@ -153,6 +194,11 @@ define([
       bot2.state = State.MOVING;
       bot2.move.setTargetPosition({x: 13, y: bot2.move.gridPos.y + 1});
 
+
+      for (var index in testMov) {
+        testMov[index].state = State.MOVING;
+        testMov[index].move.setTargetPosition({x: testMov[index].move.gridPos.x, y: testMov[index].move.gridPos.y + 1});
+      }
     }
 
     // Return "class"
