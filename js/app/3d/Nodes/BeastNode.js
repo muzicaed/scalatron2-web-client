@@ -12,7 +12,7 @@ define([
   function (THREE, State, MeshFactory, MoveResponder) {
 
     /**
-     * Create a Mini bot
+     * Create a Beast
      * @param id - String, object's id
      * @param initialPos - THREE.Vector2, position on 2d grid
      * @param type - BeastNode.Type
