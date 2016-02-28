@@ -28,7 +28,6 @@ define([
      * with the main render loop that draws on screen.
      */
     Simulation.prototype.runSimulation = function () {
-      __tick();
       board.runSimulation();
 
       setInterval(function () {
