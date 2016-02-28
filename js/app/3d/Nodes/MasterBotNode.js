@@ -23,7 +23,8 @@ define([
       this.node = new THREE.Object3D();
       this.node.add(MeshFactory.createBotBodyMesh(colorId));
       this.node.add(MeshFactory.createBotStripeMesh(colorId));
-      this.node.scale.z = 0.55;
+      this.node.scale.z = 0.75;
+      this.node.position.z = 1.2;
 
       this.move = new MoveResponder(initialPos);
       this.move.placeOrigin(this.node);

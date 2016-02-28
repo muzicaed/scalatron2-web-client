@@ -8,11 +8,12 @@ define([
     "app/3d/Nodes/MasterBotNode",
     "app/3d/Nodes/MiniBotNode",
     "app/3d/Nodes/BeastNode",
+    "app/3d/Nodes/FlowerNode",
     "app/3d/PositionConverter",
     "app/Common/Static"
   ],
 
-  function (THREE, THREEx, Manipulator, MasterBotNode, MiniBotNode, BeastNode, PositionConverter, Static) {
+  function (THREE, THREEx, Manipulator, MasterBotNode, MiniBotNode, BeastNode, FlowerNode, PositionConverter, Static) {
     var viewPort = {width: window.innerWidth, height: window.innerHeight};
     var renderer = new THREE.WebGLRenderer({antialias: true});
     var scene = new THREE.Scene();
@@ -97,6 +98,30 @@ define([
     };
 
     /**
+     * Creates and adds a good flower.
+     * @param id - String
+     * @param initialPos - THREE.Vector2, position on 2d grid
+     * @returns {FlowerNode}
+     */
+    World.prototype.addGoodFlower = function (id, initialPos) {
+      var flowerNode = new FlowerNode("G-BEAST-" + id, initialPos, FlowerNode.Type.GOOD);
+      __addObj(flowerNode);
+      return flowerNode;
+    };
+
+    /**
+     * Creates and adds a bad beast.
+     * @param id - String
+     * @param initialPos - THREE.Vector2, position on 2d grid
+     * @returns {FlowerNode}
+     */
+    World.prototype.addBadFlower = function (id, initialPos) {
+      var flowerNode = new FlowerNode("B-BEAST-" + id, initialPos, FlowerNode.Type.BAD);
+      __addObj(flowerNode);
+      return flowerNode;
+    };
+
+    /**
      * Adds a static node to the scene.
      * Typical static nodes are background objects etc.
      * These objects will not be process by the draw loop.
@@ -148,8 +173,8 @@ define([
       var y = (boardData.height * Static.TileSize) / 2;
 
       camera.position.set(x, y - (y / 10), x + y); // TODO: Calc zoom based on scale screen vs. board size.
-      //camera.position.set(x - 40, y - 10, 46);
-      camera.lookAt(new THREE.Vector3(x, y, 0));
+      camera.position.set(x + 40, y - 60, 20);
+      camera.lookAt(new THREE.Vector3(x + 40, y - 20, 0));
 
       // TODO: Test code, camera zoom in.
 

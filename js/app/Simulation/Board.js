@@ -41,8 +41,10 @@ define([
       // TODO: Remove test code
       bot1 = world.addMasterBot("1", {x: 11, y: 0}, 5);
       bot2 = world.addMiniBot("2", {x: 13, y: 0}, 13);
-
       beast1 = world.addGoodBeast("x", {x: 9, y: 0});
+
+      world.addGoodFlower("1", {x: 13, y: 12});
+      world.addBadFlower("1", {x: 14, y: 12});
 
 
 
@@ -164,7 +166,7 @@ define([
 
     // TODO: Test code.
     function __labTick(tickCount) {
-      log("Board tick " + tickCount + " - " + tickCount % 4);
+      //log("Board tick " + tickCount + " - " + tickCount % 4);
 
       if (tickCount % 2 == 0) {
         bot1.state = State.MOVING;
