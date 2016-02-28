@@ -173,18 +173,18 @@ define([
       var y = (boardData.height * Static.TileSize) / 2;
 
       camera.position.set(x, y - (y / 10), x + y); // TODO: Calc zoom based on scale screen vs. board size.
-      camera.position.set(x + 40, y - 60, 20);
-      camera.lookAt(new THREE.Vector3(x + 40, y - 20, 0));
+      //camera.position.set(x + 40, y - 60, 20);
+      camera.lookAt(new THREE.Vector3(x, y, 0));
 
       // TODO: Test code, camera zoom in.
 
-      /*
-      setInterval(function() {
-        camera.position.z -= 0.3;
-        camera.position.y -= 0.1;
-        camera.lookAt(new THREE.Vector3(x, y, 0));
-      }, 25);
-      */
+
+       setInterval(function() {
+       camera.position.z -= 0.3;
+       camera.position.y -= 0.1;
+       camera.lookAt(new THREE.Vector3(x, y, 0));
+       }, 25);
+
     }
 
     /**
@@ -194,19 +194,25 @@ define([
       var x = (boardData.width * Static.TileSize);
       var y = (boardData.height * Static.TileSize);
 
-      var blueLight = new THREE.PointLight(0x993322, 1, 200, 0.8);
+      var blueLight = new THREE.PointLight(0x993322, 1, 600, 0.8);
       blueLight.position.set(50, 50, 30);
       scene.add(blueLight);
 
-      var redLight = new THREE.PointLight(0x3333aa, 1, 200, 0.8);
+      var redLight = new THREE.PointLight(0x3333aa, 1, 600, 0.8);
       redLight.position.set(x - 50, y - 50, 30);
       scene.add(redLight);
 
-      var spotLight = new THREE.SpotLight(0xffffff);
-      spotLight.position.set(x, y, x + y); // TODO: Calc zoom based on scale screen vs. board size.
+      var spotLight = new THREE.SpotLight(0xaaaaaa, 1.2, x + y + 500);
+      spotLight.position.set(x / 2, (y / 2) - 30, x + y + 300); // TODO: Calc zoom based on scale screen vs. board size.
+      spotLight.target.position.set(x / 2, (y / 2), 0);
       scene.add(spotLight);
+      scene.add(spotLight.target);
 
-      var ambient = new THREE.AmbientLight(0x404040);
+      var spotLightHelper = new THREE.SpotLightHelper(spotLight);
+      scene.add(spotLightHelper);
+
+
+      var ambient = new THREE.AmbientLight(0xaaaaaa);
       scene.add(ambient);
     }
 

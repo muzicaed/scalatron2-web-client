@@ -6,10 +6,11 @@ define([
     "app/3d/PositionConverter",
     "app/3d/Manipulator",
     "app/3d/World",
-    "app/3d/Nodes/State"
+    "app/3d/Nodes/State",
+    "app/3d/Textures",
   ],
 
-  function (THREE, PositionConverter, Manipulator, World, State) {
+  function (THREE, PositionConverter, Manipulator, World, State, Textures) {
 
     var world = new World();
     var boardData = null;
@@ -125,11 +126,14 @@ define([
       var geometry = new THREE.BoxGeometry(
         __randomWallSize(10, 9.6),
         __randomWallSize(10, 9.7),
-        __randomWallSize(7.5, 6.9));
+        __randomWallSize(12, 10.9));
+
       var material = new THREE.MeshPhongMaterial({
-        color: 0x444444,
-        shininess: 30
+        color: 0xaaaaaa,
+        shininess: 60,
+        map: Textures.Wall
       });
+
       var wall = new THREE.Mesh(geometry, material);
       wall.position.z = 0;
       return wall;
