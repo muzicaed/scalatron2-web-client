@@ -2,10 +2,11 @@
  * Factory for reusable meshes and materials.
  */
 define([
-    "lib/three"
+    "lib/three",
+    "app/Common/Static"
   ],
 
-  function (THREE) {
+  function (THREE, Static) {
 
     var NoOfColors = 7;
 
@@ -26,7 +27,8 @@ define([
     var miniBotGeometry = new THREE.IcosahedronGeometry(5);
     var miniBotStripesGeometry = new THREE.OctahedronGeometry(6.3);
     var beastGeometry = new THREE.TorusGeometry(3, 1.6, 12, 5);
-    var flowerGeometry = new THREE.SphereGeometry(3, 32, 32);
+    var flowerGeometry = new THREE.SphereGeometry(3, 16, 16);
+    var wallGeometry = new THREE.BoxGeometry(10, 10, 10);
 
     var masterBotMaterials = __generateMasterBotMaterials();
     var masterBotStripeMaterials = __generateMasterBotStripeMaterials();
@@ -44,6 +46,10 @@ define([
     });
     var badFlowerMaterial = new THREE.MeshLambertMaterial({
       color: 0xffff00
+    });
+    var wallMaterial = new THREE.MeshPhongMaterial({
+      color: 0x444444,
+      shininess: 60
     });
 
     // Object
@@ -126,6 +132,33 @@ define([
      */
     MeshFactory.createBadFlowerMesh = function () {
       return new THREE.Mesh(flowerGeometry, badFlowerMaterial);
+    };
+
+    /**
+     * Creates a wall mesh
+     * @returns THREE.Mesh
+     */
+    MeshFactory.createWallMesh = function () {
+      return new THREE.Mesh(wallGeometry, wallMaterial);
+    };
+
+    /**
+     * Creates a floor mesh
+     * @params width - Size in 2d tiles
+     * @params height - Size in 2d tiles
+     * @returns THREE.Mesh
+     */
+    MeshFactory.createFloorMesh = function (width, height) {
+      var geometry = new THREE.BoxGeometry(width * Static.TileSize, height * Static.TileSize, 1);
+      var material = new THREE.MeshPhongMaterial({
+        color: 0x888888,
+        shininess: 10,
+        shading: THREE.FlatShading
+      });
+      var mesh = new THREE.Mesh(geometry, material);
+      mesh.position.x = ((width * Static.TileSize) / 2) - (Static.TileSize / 2);
+      mesh.position.y = ((height * Static.TileSize) / 2) + (Static.TileSize / 2);
+      return mesh;
     };
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////

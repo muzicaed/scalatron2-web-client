@@ -6,10 +6,11 @@ define([
     "app/3d/PositionConverter",
     "app/3d/Manipulator",
     "app/3d/World",
-    "app/3d/Nodes/State"
+    "app/3d/Nodes/State",
+    "app/3d/Resources/MeshFactory"
   ],
 
-  function (THREE, PositionConverter, Manipulator, World, State) {
+  function (THREE, PositionConverter, Manipulator, World, State, MeshFactory) {
 
     var world = new World();
     var boardData = null;
@@ -23,9 +24,7 @@ define([
      *  Create the 3d board
      * @constructor
      */
-    function Board() {
-
-    }
+    function Board() {}
 
     /**
      * Init the board
@@ -91,11 +90,13 @@ define([
      * @private
      */
     function __generateBoardNode() {
+      __createFloor();
       for (var x = 0, len = boardData.width; x < len; x++) {
         for (var y = boardData.height - 1; y >= 0; y--) {
           var index = x + (y * boardData.height);
-          var tile = (boardData.grid[index] == 1) ? __createWall() : __createFloor();
-          __addTile(tile, new THREE.Vector2(x, y));
+          if(boardData.grid[index] == 1) {
+            __addTile(__createWall(), new THREE.Vector2(x, y));
+          }
         }
       }
     }
@@ -115,53 +116,24 @@ define([
 
     /**
      * Creates a wall cube
-     * TODO: Waste: Reuse mesh & materials for each tile, move to resource "package"
      * @returns THREE.Mesh
      * @private
      */
     function __createWall() {
-      var geometry = new THREE.BoxGeometry(
-        __randomWallSize(10, 9.6),
-        __randomWallSize(10, 9.7),
-        __randomWallSize(12, 10.9));
-
-      var material = new THREE.MeshPhongMaterial({
-        color: 0x444444,
-        shininess: 60
-      });
-
-      var wall = new THREE.Mesh(geometry, material);
+      var wall = MeshFactory.createWallMesh();
       wall.position.z = 0;
       return wall;
     }
 
     /**
      * Creates a floor tile
-     * TODO: Waste: Reuse mesh & materials for each tile, move to resource "package"
      * @returns THREE.Mesh
      * @private
      */
     function __createFloor() {
-      var geometry = new THREE.BoxGeometry(9.7, 9.7, 1);
-      var material = new THREE.MeshPhongMaterial({
-        color: 0x888888,
-        shininess: 10,
-        shading: THREE.FlatShading
-      });
-      var floor = new THREE.Mesh(geometry, material);
+      var floor = MeshFactory.createFloorMesh(boardData.width, boardData.height);
       floor.position.z = -4;
-      return floor;
-    }
-
-    /**
-     * Generates wall size with slight variation.
-     * @param max - Number, max wall height
-     * @param min - Number, min wall height
-     * @returns Number
-     * @private
-     */
-    function __randomWallSize(max, min) {
-      return Math.random() * (max - min + 1) + min;
+      node.add(floor);
     }
 
     // TODO: Test code.
