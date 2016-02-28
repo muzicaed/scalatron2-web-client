@@ -6,10 +6,11 @@ define([
     "app/3d/Visitors/MoveVisitor",
     "app/3d/Behaviours/SpinBehaviour",
     "app/3d/Behaviours/SpawningBehaviour",
-    "app/3d/Behaviours/SpawnedBehaviour"
+    "app/3d/Behaviours/SpawnedBehaviour",
+    "app/3d/Behaviours/BeastBehaviour"
   ],
 
-  function (THREE, MoveVisitor, SpinBehaviour, SpawningBehaviour, SpawnedBehaviour) {
+  function (THREE, MoveVisitor, SpinBehaviour, SpawningBehaviour, SpawnedBehaviour, BeastBehaviour) {
 
     var simulationObjects = {};
 
@@ -44,6 +45,7 @@ define([
           SpinBehaviour.apply(obj);
           SpawningBehaviour.apply(obj, timeFraction);
           SpawnedBehaviour.apply(obj, timeFraction);
+          BeastBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
         }
       }
     };

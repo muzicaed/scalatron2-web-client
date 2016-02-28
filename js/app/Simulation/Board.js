@@ -42,6 +42,9 @@ define([
       bot1 = world.addMasterBot("1", {x: 11, y: 0}, 5);
       bot2 = world.addMiniBot("2", {x: 13, y: 0}, 13);
 
+      beast1 = world.addGoodBeast("x", {x: 9, y: 0});
+
+
 
       /*
        // TESTING COLORS
@@ -166,6 +169,11 @@ define([
       if (tickCount % 2 == 0) {
         bot1.state = State.MOVING;
         bot1.move.setTargetPosition({x: 11, y: bot1.move.gridPos.y + 1});
+      }
+
+      if (tickCount % 4 == 0) {
+        beast1.state = State.MOVING;
+        beast1.move.setTargetPosition({x: 9, y: beast1.move.gridPos.y + 1});
       }
 
       bot2.state = State.MOVING;

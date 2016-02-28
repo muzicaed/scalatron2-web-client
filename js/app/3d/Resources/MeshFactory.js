@@ -21,15 +21,24 @@ define([
 
     var colorCombinations = __generateColorCombinations();
 
-    var masterBotGeometry = new THREE.SphereGeometry(6.5, 64, 64);
+    var masterBotGeometry = new THREE.SphereGeometry(6.5, 256, 256);
     var masterBotStripesGeometry = new THREE.DodecahedronGeometry(7.4);
     var miniBotGeometry = new THREE.IcosahedronGeometry(4);
     var miniBotStripesGeometry = new THREE.OctahedronGeometry(5);
+    var beastGeometry = new THREE.TorusGeometry(3, 1.6, 12, 5);
+    var flowerGeometry = new THREE.TorusGeometry(1.5, 2, 4, 5);
 
     var masterBotMaterials = __generateMasterBotMaterials();
     var masterBotStripeMaterials = __generateMasterBotStripeMaterials();
     var miniBotMaterials = __generateMiniBotMaterials();
     var miniBotStripeMaterials = __generateMiniBotStripeMaterials();
+
+    var goodBeastMaterial = new THREE.MeshLambertMaterial({
+      color: 0x0000ff
+    });
+    var badBeastMaterial = new THREE.MeshLambertMaterial({
+      color: 0xff0000
+    });
 
     // Object
     var MeshFactory = {};
@@ -79,6 +88,22 @@ define([
     MeshFactory.createMiniBotStripeMesh = function (colorId) {
       var material = miniBotStripeMaterials[colorCombinations[colorId].sec];
       return new THREE.Mesh(miniBotStripesGeometry, material);
+    };
+
+    /**
+     * Creates a good beast mesh
+     * @returns THREE.Mesh
+     */
+    MeshFactory.createGoodBeastMesh = function () {
+      return new THREE.Mesh(beastGeometry, goodBeastMaterial);
+    };
+
+    /**
+     * Creates a bad beast mesh
+     * @returns THREE.Mesh
+     */
+    MeshFactory.createBadBeastMesh = function () {
+      return new THREE.Mesh(beastGeometry, badBeastMaterial);
     };
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////

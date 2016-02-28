@@ -7,11 +7,12 @@ define([
     "app/3d/Manipulator",
     "app/3d/Nodes/MasterBotNode",
     "app/3d/Nodes/MiniBotNode",
+    "app/3d/Nodes/BeastNode",
     "app/3d/PositionConverter",
     "app/Common/Static"
   ],
 
-  function (THREE, THREEx, Manipulator, MasterBotNode, MiniBotNode, PositionConverter, Static) {
+  function (THREE, THREEx, Manipulator, MasterBotNode, MiniBotNode, BeastNode, PositionConverter, Static) {
     var viewPort = {width: window.innerWidth, height: window.innerHeight};
     var renderer = new THREE.WebGLRenderer({antialias: true});
     var scene = new THREE.Scene();
@@ -54,8 +55,7 @@ define([
      */
     World.prototype.addMasterBot = function (id, initialPos, colorId) {
       var botNode = new MasterBotNode("MASTER-" + id, initialPos, colorId);
-      scene.add(botNode.node);
-      Manipulator.add(botNode);
+      __addObj(botNode);
       return botNode;
     };
 
@@ -68,9 +68,32 @@ define([
      */
     World.prototype.addMiniBot = function (id, initialPos, colorId) {
       var botNode = new MiniBotNode("MINI-" + id, initialPos, colorId);
-      scene.add(botNode.node);
-      Manipulator.add(botNode);
+      __addObj(botNode);
       return botNode;
+    };
+
+    /**
+     * Creates and adds a good beast.
+     * @param id - String
+     * @param initialPos - THREE.Vector2, position on 2d grid
+     * @returns {BeastNode}
+     */
+    World.prototype.addGoodBeast = function (id, initialPos) {
+      var beastNode = new BeastNode("G-BEAST-" + id, initialPos, BeastNode.Type.GOOD);
+      __addObj(beastNode);
+      return beastNode;
+    };
+
+    /**
+     * Creates and adds a bad beast.
+     * @param id - String
+     * @param initialPos - THREE.Vector2, position on 2d grid
+     * @returns {BeastNode}
+     */
+    World.prototype.addBadBeast = function (id, initialPos) {
+      var beastNode = new BeastNode("B-BEAST-" + id, initialPos, BeastNode.Type.BAD);
+      __addObj(beastNode);
+      return beastNode;
     };
 
     /**
@@ -84,6 +107,16 @@ define([
     };
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Adds an simulation object.
+     * @param obj - Simulation object
+     * @private
+     */
+    function __addObj(obj) {
+      scene.add(obj.node);
+      Manipulator.add(obj);
+    }
 
     /**
      * Adds event handler for "f" key = Set browser fullscreen.
@@ -115,7 +148,7 @@ define([
       var y = (boardData.height * Static.TileSize) / 2;
 
       camera.position.set(x, y - (y / 10), x + y); // TODO: Calc zoom based on scale screen vs. board size.
-      //camera.position.set(x, y - 100, 80);
+      //camera.position.set(x - 40, y - 10, 46);
       camera.lookAt(new THREE.Vector3(x, y, 0));
 
       // TODO: Test code, camera zoom in.

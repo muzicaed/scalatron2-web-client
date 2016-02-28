@@ -23,6 +23,7 @@ define([
       this.node = new THREE.Object3D();
       this.node.add(MeshFactory.createMiniBotMesh(colorId));
       this.node.add(MeshFactory.createMiniBotStripeMesh(colorId));
+      this.node.position.z = 1.5;
       this.move = new MoveResponder(initialPos);
       this.move.placeOrigin(this.node);
     }
