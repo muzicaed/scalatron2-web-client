@@ -29,6 +29,18 @@ define([
       this.move.placeOrigin(this.node);
     }
 
+    /**
+     * Calculate master bot's real time fraction.
+     * Master bots only move every other tick.
+     * @param tickCount - Current tick count
+     * @param timeFraction - Time fraction of current tick (in ms)
+     * @returns {number}
+     */
+    MasterBotNode.prototype.calcTimeFraction = function (tickCount, timeFraction) {
+      var mod = ((tickCount % 2) == 0) ? 0 : 0.5;
+      return (timeFraction / 2) + mod;
+    };
+
     // Return "class"
     return MasterBotNode;
   });
