@@ -6,11 +6,10 @@ define([
     "app/3d/PositionConverter",
     "app/3d/Manipulator",
     "app/3d/World",
-    "app/3d/Nodes/State",
-    "app/3d/Textures",
+    "app/3d/Nodes/State"
   ],
 
-  function (THREE, PositionConverter, Manipulator, World, State, Textures) {
+  function (THREE, PositionConverter, Manipulator, World, State) {
 
     var world = new World();
     var boardData = null;
@@ -48,23 +47,21 @@ define([
       world.addBadFlower("1", {x: 14, y: 12});
 
 
+      // TESTING COLORS
+      for (var x = 0; x < 7; x++) {
+        for (var y = 0; y < 7; y++) {
+          var colorId = x + (y * 7) + 1;
+          world.addMasterBot("master-" + x + "-" + y, {x: 8 + x, y: y}, colorId);
+        }
+      }
 
-      /*
-       // TESTING COLORS
-       for (var x = 0; x < 7; x++) {
-       for (var y = 0; y < 7; y++) {
-       var colorId = x + (y * 7) + 1;
-       world.addMasterBot("master-" + x + "-" + y, {x: 8 + x, y: y}, colorId);
-       }
-       }
+      for (var x = 0; x < 7; x++) {
+        for (var y = 0; y < 7; y++) {
+          var colorId = x + (y * 7) + 1;
+          world.addMiniBot("mini-" + x + "-" + y, {x: 8 + x, y: 8 + y}, colorId);
+        }
+      }
 
-       for (var x = 0; x < 7; x++) {
-       for (var y = 0; y < 7; y++) {
-       var colorId = x + (y * 7) + 1;
-       world.addMiniBot("mini-" + x + "-" + y, {x: 8 + x, y: 8 + y}, colorId);
-       }
-       }
-       */
     };
 
     /**
@@ -129,9 +126,8 @@ define([
         __randomWallSize(12, 10.9));
 
       var material = new THREE.MeshPhongMaterial({
-        color: 0xaaaaaa,
-        shininess: 60,
-        map: Textures.Wall
+        color: 0x444444,
+        shininess: 60
       });
 
       var wall = new THREE.Mesh(geometry, material);

@@ -20,7 +20,12 @@ define([
     /**
      * Current tick number
      */
-    Manipulator.tickCount = 0
+    Manipulator.frameCount = 0;
+
+    /**
+     * Current tick number
+     */
+    Manipulator.tickCount = 0;
 
     /**
      * Tick started (in ms.)
@@ -37,15 +42,18 @@ define([
      * Call this on every frame request.
      */
     Manipulator.updateFrame = function () {
-      var timeFraction = __calculateTimeFraction();
-      for (var index in simulationObjects) {
-        if (simulationObjects.hasOwnProperty(index)) {
-          var obj = simulationObjects[index];
-          MoveVisitor.apply(obj, Manipulator.tickCount, timeFraction);
-          SpinBehaviour.apply(obj);
-          SpawningBehaviour.apply(obj, timeFraction);
-          SpawnedBehaviour.apply(obj, timeFraction);
-          BeastBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
+      Manipulator.frameCount++;
+      if (Manipulator.frameCount % 2 == 0) {
+        var timeFraction = __calculateTimeFraction();
+        for (var index in simulationObjects) {
+          if (simulationObjects.hasOwnProperty(index)) {
+            var obj = simulationObjects[index];
+            MoveVisitor.apply(obj, Manipulator.tickCount, timeFraction);
+            SpinBehaviour.apply(obj);
+            SpawningBehaviour.apply(obj, timeFraction);
+            SpawnedBehaviour.apply(obj, timeFraction);
+            BeastBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
+          }
         }
       }
     };

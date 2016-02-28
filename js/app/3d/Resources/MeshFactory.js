@@ -21,7 +21,7 @@ define([
 
     var colorCombinations = __generateColorCombinations();
 
-    var masterBotGeometry = new THREE.SphereGeometry(7.5, 256, 256);
+    var masterBotGeometry = new THREE.SphereGeometry(7.5, 64, 64);
     var masterBotStripesGeometry = new THREE.DodecahedronGeometry(8.5);
     var miniBotGeometry = new THREE.IcosahedronGeometry(5);
     var miniBotStripesGeometry = new THREE.OctahedronGeometry(6.3);

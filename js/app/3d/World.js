@@ -178,13 +178,13 @@ define([
 
       // TODO: Test code, camera zoom in.
 
-
+/*
        setInterval(function() {
        camera.position.z -= 0.3;
        camera.position.y -= 0.1;
        camera.lookAt(new THREE.Vector3(x, y, 0));
        }, 25);
-
+*/
     }
 
     /**
