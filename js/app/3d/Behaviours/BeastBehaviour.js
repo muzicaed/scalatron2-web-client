@@ -19,7 +19,7 @@ define([
     BeastBehaviour.apply = function (obj, tickCount, timeFraction) {
       if (obj !== undefined && obj instanceof BeastNode) {
         timeFraction = obj.calcTimeFraction(tickCount, timeFraction);
-        obj.node.rotation.z += 0.025;
+        obj.node.rotation.z -= 0.015;
         if(timeFraction < 0.5) {
           var scale = 1 - timeFraction;
           obj.node.scale.x = scale;
