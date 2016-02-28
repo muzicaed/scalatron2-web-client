@@ -17,6 +17,11 @@ define([
     var Manipulator = {};
 
     /**
+     * Current tick number
+     */
+    Manipulator.tickCount = 0
+
+    /**
      * Tick started (in ms.)
      */
     Manipulator.tickStartTime = 0;
@@ -35,7 +40,7 @@ define([
       for (var index in simulationObjects) {
         if (simulationObjects.hasOwnProperty(index)) {
           var obj = simulationObjects[index];
-          MoveVisitor.apply(obj, timeFraction);
+          MoveVisitor.apply(obj, Manipulator.tickCount, timeFraction);
           SpinBehaviour.apply(obj);
           SpawningBehaviour.apply(obj, timeFraction);
           SpawnedBehaviour.apply(obj, timeFraction);

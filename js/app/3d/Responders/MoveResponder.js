@@ -18,6 +18,7 @@ define([
      * @constructor
      */
     function MoveResponder(initialPos) {
+      this.gridPos = initialPos;
       this.originPosition = PositionConverter.convert(initialPos);
       this.targetPosition = PositionConverter.convert(initialPos);
     }
@@ -27,6 +28,7 @@ define([
      * @param target - THREE.Vector2
      */
     MoveResponder.prototype.setTargetPosition = function (target) {
+      this.gridPos = target;
       this.originPosition = this.targetPosition;
       this.targetPosition = PositionConverter.convert(target);
     };

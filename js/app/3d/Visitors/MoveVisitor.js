@@ -15,9 +15,11 @@ define(
     /**
      * Set up move instruction for 3d objects.
      * @param simObj - simulation object to be moved
+     * @param tickCount - Current tick count
      * @param timeFraction - Time fraction of current tick (in ms)
      */
-    MoveVisitor.apply = function (simObj, timeFraction) {
+    MoveVisitor.apply = function (simObj, tickCount, timeFraction) {
+      timeFraction = __calcTimeFraction(simObj, tickCount, timeFraction);
       if (simObj.move !== undefined && simObj.state == State.MOVING) {
         simObj.node.position.x = __calculateVelocity(
           simObj.move.originPosition.x, simObj.move.targetPosition.x, timeFraction);
@@ -39,6 +41,22 @@ define(
     function __calculateVelocity(origin, destination, timeFraction) {
       var distance = destination - origin;
       return origin + (distance * timeFraction);
+    }
+
+    /**
+     * Calculate simulation object's real time fraction.
+     * Master bots only move every other, and beast every 4th etc.
+     * @param simObj - simulation object to be moved
+     * @param tickCount - Current tick count
+     * @param timeFraction - Time fraction of current tick (in ms)
+     * @returns {number}
+     * @private
+     */
+    function __calcTimeFraction(simObj, tickCount, timeFraction) {
+      if(simObj.calcTimeFraction === undefined) {
+        return timeFraction;
+      }
+      return simObj.calcTimeFraction(tickCount, timeFraction);
     }
 
     // Return object
