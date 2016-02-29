@@ -37,7 +37,7 @@ define([
     MeshFactory.initMesh = function () {
       masterBotGeometry = new THREE.SphereGeometry(7.5, 32, 32);
       masterBotStripesGeometry = new THREE.DodecahedronGeometry(8.5);
-      miniBotGeometry = new THREE.IcosahedronGeometry(5);
+      miniBotGeometry = new THREE.IcosahedronGeometry(4.5);
       beastGeometry = new THREE.TorusGeometry(3, 1.6, 2, 5);
       flowerGeometry = new THREE.SphereGeometry(3, 4, 3);
       wallGeometry = new THREE.BoxGeometry(10, 10, 20);
@@ -59,16 +59,15 @@ define([
         color: 0xffff00
       });
       floorMaterial = new THREE.MeshPhongMaterial({
-        color: 0x999999,
-        shininess: 200,
+        color: 0x888888,
+        shininess: 80,
         shading: THREE.FlatShading,
         map: Textures.Floor
       });
       wallMaterial = new THREE.MeshPhongMaterial({
-        color: 0xffffff,
-        shininess: 100,
-        shading: THREE.FlatShading,
-        map: Textures.Wall
+        color: 0x383838,
+        shininess: 20,
+        shading: THREE.FlatShading
       });
     };
 
@@ -270,8 +269,8 @@ define([
         materials.push(
           new THREE.MeshPhongMaterial({
             color: colors[i],
-            specular: 0xdddddd,
-            shininess: 10,
+            specular: 0x777777,
+            shininess: 25,
             shading: THREE.FlatShading,
             map: Textures.MiniBot
           })

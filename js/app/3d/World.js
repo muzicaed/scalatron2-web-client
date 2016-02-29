@@ -172,11 +172,11 @@ define([
       var x = (boardData.width * Static.TileSize) / 2;
       var y = (boardData.height * Static.TileSize) / 2;
 
-      camera.position.set(x, y - (y / 10), y * 1.6); // TODO: Calc zoom based on scale screen vs. board size.
+      camera.position.set(x, y - (y / 10), y * 1.6);
       camera.lookAt(new THREE.Vector3(x, y, 0));
 
       // TODO: Test code, camera zoom in.
-      camera.position.set(x - 250, y + 180, 100);
+      camera.position.set(x - 250, y + 180, 250);
       camera.lookAt(new THREE.Vector3(x - 250, y + 200, 0));
 /*
       var newY = y;
@@ -196,22 +196,13 @@ define([
       var x = (boardData.width * Static.TileSize);
       var y = (boardData.height * Static.TileSize);
 
-      var blueLight = new THREE.PointLight(0x993322, 1.7, y + (y / 3), 1.1);
-      blueLight.position.set(x / 10, y / 10, y);
+      var blueLight = new THREE.PointLight(0x773322, 1.3, y + (y / 3), 1.1);
+      blueLight.position.set(x / 10, y / 10, y / 2);
       scene.add(blueLight);
 
-      var redLight = new THREE.PointLight(0x3333aa, 1.7, y + (y / 3), 1.1);
-      redLight.position.set(x - (x / 10), y - (y / 10), y);
+      var redLight = new THREE.PointLight(0x333388, 1.3, y + (y / 3), 1.1);
+      redLight.position.set(x - (x / 10), y - (y / 10), y / 2);
       scene.add(redLight);
-
-      var spotLight = new THREE.SpotLight(0xaaaaaa, 1.2, x + y + 500);
-      spotLight.position.set(x / 2, (y / 2) - 30, x + y + 300); // TODO: Calc zoom based on scale screen vs. board size.
-      spotLight.target.position.set(x / 2, (y / 2), 0);
-      scene.add(spotLight);
-      scene.add(spotLight.target);
-
-      var spotLightHelper = new THREE.SpotLightHelper(spotLight);
-      scene.add(spotLightHelper);
 
 
       var ambient = new THREE.AmbientLight(0xaaaaaa);

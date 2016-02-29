@@ -34,8 +34,9 @@ define([
       );
 
       loader.load("textures/wall.jpg", function (texture) {
-          texture.wrapS = THREE.ClampToEdgeWrapping;
-          texture.wrapT = THREE.ClampToEdgeWrapping;
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(0.2, 0.4);
           Textures.Wall = texture;
           textureCount++;
           __done();
@@ -45,7 +46,7 @@ define([
       loader.load("textures/mini-bot.jpg", function (texture) {
           texture.wrapS = THREE.RepeatWrapping;
           texture.wrapT = THREE.RepeatWrapping;
-          texture.repeat.set(4, 3);
+          texture.repeat.set(1.5, 1);
           Textures.MiniBot = texture;
           textureCount++;
           __done();
