@@ -67,7 +67,7 @@ define([
      * @returns THREE.Mesh
      */
     MeshFactory.createBotBodyMesh = function (colorId) {
-      var material = masterBotMaterials[colorCombinations[colorId].sec];
+      var material = masterBotMaterials[colorCombinations[colorId].pri];
       return new THREE.Mesh(masterBotGeometry, material);
     };
 
@@ -77,7 +77,7 @@ define([
      * @returns THREE.Mesh
      */
     MeshFactory.createBotStripeMesh = function (colorId) {
-      var material = masterBotStripeMaterials[colorCombinations[colorId].pri];
+      var material = masterBotStripeMaterials[colorCombinations[colorId].sec];
       return new THREE.Mesh(masterBotStripesGeometry, material);
     };
 
