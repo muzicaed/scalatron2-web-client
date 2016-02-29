@@ -230,7 +230,7 @@ define([
           new THREE.MeshPhongMaterial({
             color: colors[i],
             specular: 0x888888,
-            shininess: 1000,
+            shininess: 800,
             map: Textures.Bot
           })
         );
@@ -269,8 +269,8 @@ define([
         materials.push(
           new THREE.MeshPhongMaterial({
             color: colors[i],
-            specular: 0x777777,
-            shininess: 25,
+            specular: 0x888888,
+            shininess: 100,
             shading: THREE.FlatShading,
             map: Textures.MiniBot
           })
