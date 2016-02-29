@@ -163,9 +163,11 @@ define([
         bot1.state = State.IDLING;
       }
 
-      if (tickCount % 4 == 0) {
+      if (tickCount % 4 == 0 && tickCount < 20) {
         beast1.state = State.MOVING;
         beast1.move.setTargetPosition({x: 9, y: beast1.move.gridPos.y + 1});
+      } else if (tickCount % 4 == 0 && tickCount >= 20) {
+        beast1.state = State.DYING;
       }
 
       if (tickCount < 3) {

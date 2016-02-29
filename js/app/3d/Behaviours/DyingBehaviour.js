@@ -14,7 +14,7 @@ define([
     /**
      * Create move behaviour
      * @param obj - MasterBotNode
-     * @param tickCount - Current tick count*
+     * @param tickCount - Current tick count
      * @param timeFraction - Time fraction of current tick (in ms)
      */
     DyingBehaviour.apply = function (obj, tickCount, timeFraction) {
