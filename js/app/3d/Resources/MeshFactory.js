@@ -37,7 +37,7 @@ define([
     MeshFactory.initMesh = function () {
       masterBotGeometry = new THREE.SphereGeometry(7.5, 32, 32);
       masterBotStripesGeometry = new THREE.DodecahedronGeometry(8.5);
-      miniBotGeometry = new THREE.IcosahedronGeometry(4.5);
+      miniBotGeometry = new THREE.OctahedronGeometry(4.5);
       beastGeometry = new THREE.TorusGeometry(3, 1.6, 2, 5);
       flowerGeometry = new THREE.SphereGeometry(3, 4, 3);
       wallGeometry = new THREE.BoxGeometry(10, 10, 20);
@@ -46,17 +46,25 @@ define([
       masterBotStripeMaterials = __generateMasterBotStripeMaterials();
       miniBotMaterials = __generateMiniBotMaterials();
 
-      goodBeastMaterial = new THREE.MeshLambertMaterial({
-        color: 0x0000ff
+      goodBeastMaterial = new THREE.MeshPhongMaterial({
+        color: 0x0000ff,
+        specular: 0xaaaaaa,
+        shininess: 500
       });
-      badBeastMaterial = new THREE.MeshLambertMaterial({
-        color: 0xff0000
+      badBeastMaterial = new THREE.MeshPhongMaterial({
+        color: 0xff0000,
+        specular: 0xaaaaaa,
+        shininess: 500
       });
-      goodFlowerMaterial = new THREE.MeshLambertMaterial({
-        color: 0x00ff00
+      goodFlowerMaterial = new THREE.MeshPhongMaterial({
+        color: 0x00ff00,
+        specular: 0xaaaaaa,
+        shininess: 500
       });
-      badFlowerMaterial = new THREE.MeshLambertMaterial({
-        color: 0xffff00
+      badFlowerMaterial = new THREE.MeshPhongMaterial({
+        color: 0xffff00,
+        specular: 0xaaaaaa,
+        shininess: 500
       });
       floorMaterial = new THREE.MeshPhongMaterial({
         color: 0x888888,
@@ -250,7 +258,7 @@ define([
           new THREE.MeshPhongMaterial({
             color: colors[i],
             specular: 0xdddddd,
-            shininess: 200,
+            shininess: 90,
             shading: THREE.FlatShading
           })
         );
@@ -269,9 +277,8 @@ define([
         materials.push(
           new THREE.MeshPhongMaterial({
             color: colors[i],
-            specular: 0x888888,
-            shininess: 100,
-            shading: THREE.FlatShading,
+            specular: 0xaaaaaa,
+            shininess: 90,
             map: Textures.MiniBot
           })
         );

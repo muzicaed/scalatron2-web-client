@@ -176,17 +176,18 @@ define([
       camera.lookAt(new THREE.Vector3(x, y, 0));
 
       // TODO: Test code, camera zoom in.
-      camera.position.set(x - 250, y + 180, 250);
-      camera.lookAt(new THREE.Vector3(x - 250, y + 200, 0));
-/*
-      var newY = y;
+      camera.position.set(x - 200, y + 180, 150);
+      camera.lookAt(new THREE.Vector3(x - 200, y + 220, 0));
+
+      var newX = x;
       setInterval(function () {
-        camera.position.z -= 0.9;
-        camera.position.y += 0.2;
-        newY += 0.3;
-        camera.lookAt(new THREE.Vector3(x, newY, 0));
-      }, 5);
-*/
+        camera.position.x += 0.8;
+        camera.position.y -= 0.4;
+        camera.position.z -= 0.23;
+        newX += 0.3;
+        //camera.lookAt(new THREE.Vector3(newX, y + 10, 0));
+      }, 30);
+
     }
 
     /**

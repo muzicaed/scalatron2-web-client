@@ -58,9 +58,9 @@ define([
         }
       }
 
-      for (var x = 0; x < 60; x++) {
-        for (var y = 0; y < 30; y++) {
-          world.addMiniBot("mini2-" + x + "-" + y, {x: 14 + x, y: 0 + y}, Math.floor(Math.random() * 49) + 1);
+      for (var x = 0; x < 50; x++) {
+        for (var y = 0; y < 40; y++) {
+          world.addMiniBot("mini2-" + x + "-" + y, {x: 31 + x, y: 0 + y}, Math.floor(Math.random() * 49) + 1);
         }
       }
       for (var x = 0; x < 7; x++) {
@@ -105,8 +105,8 @@ define([
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 7; y++) {
           testMov.push(world.addMiniBot("mini6-" + x + "-" + y, {
-            x: 46 + (x * 2),
-            y: 8 + (y * 2)
+            x: 20 + (x * 2),
+            y: 2 + (y * 2)
           }, Math.floor(Math.random() * 49) + 1));
         }
       }
