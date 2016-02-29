@@ -30,8 +30,8 @@ define([
       this.node.position.y = position.y;
       this.node.position.z = 0;
 
-      this.node.scale.x = 0;
-      this.node.scale.y = 0;
+      this.node.scale.x = 0.01;
+      this.node.scale.y = 0.01;
     }
 
 

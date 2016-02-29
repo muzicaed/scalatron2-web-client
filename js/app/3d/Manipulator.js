@@ -9,12 +9,13 @@ define([
     "app/3d/Behaviours/SpawnedBehaviour",
     "app/3d/Behaviours/BeastBehaviour",
     "app/3d/Behaviours/ExplosionBehaviour",
+    "app/3d/Behaviours/DyingBehaviour",
     "app/3d/Nodes/ExplosionNode",
     "app/3d/Nodes/State"
   ],
 
   function (THREE, MoveVisitor, SpinBehaviour, SpawningBehaviour, SpawnedBehaviour,
-            BeastBehaviour, ExplosionBehaviour, ExplosionNode, State) {
+            BeastBehaviour, ExplosionBehaviour, DyingBehaviour, ExplosionNode, State) {
 
     var simulationObjects = {};
 
@@ -62,6 +63,7 @@ define([
           SpawningBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
           SpawnedBehaviour.apply(obj, timeFraction);
           BeastBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
+          DyingBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
           __handleExplosion(obj, timeFraction);
         }
       }
@@ -89,7 +91,7 @@ define([
         Manipulator.scene.add(explosion.node);
         simulationObjects[explosion.id] = explosion;
         obj.explodedTick = Manipulator.tickCount;
-        obj.state = State.EXPLODING;
+        obj.state = State.DYING;
       } else if (obj.state == State.EXPLODING) {
         ExplosionBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
       }

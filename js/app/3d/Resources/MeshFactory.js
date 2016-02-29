@@ -38,7 +38,7 @@ define([
       masterBotGeometry = new THREE.SphereGeometry(7.5, 32, 32);
       masterBotStripesGeometry = new THREE.DodecahedronGeometry(8.5);
       miniBotGeometry = new THREE.OctahedronGeometry(4.5);
-      beastGeometry = new THREE.TorusGeometry(3, 1.6, 2, 5);
+      beastGeometry = new THREE.TorusGeometry(2.8, 1.3, 3, 5);
       flowerGeometry = new THREE.SphereGeometry(3, 4, 3);
       wallGeometry = new THREE.BoxGeometry(10, 10, 20);
 

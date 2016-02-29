@@ -47,10 +47,12 @@ define([
       requestAnimationFrame(this.render.bind(this));
       renderer.render(scene, camera);
 
+      /* TODO: Test code
       camera.position.x += 0.4;
       camera.position.y -= 0.2;
       camera.position.z -= 0.03;
       //camera.lookAt(new THREE.Vector3(camera.position.x, camera.position.y + 100, 0));
+      */
     };
 
     /**
@@ -110,7 +112,7 @@ define([
      * @returns {FlowerNode}
      */
     World.prototype.addGoodFlower = function (id, initialPos) {
-      var flowerNode = new FlowerNode("G-BEAST-" + id, initialPos, FlowerNode.Type.GOOD);
+      var flowerNode = new FlowerNode("G-FLOWER-" + id, initialPos, FlowerNode.Type.GOOD);
       __addObj(flowerNode);
       return flowerNode;
     };
@@ -122,7 +124,7 @@ define([
      * @returns {FlowerNode}
      */
     World.prototype.addBadFlower = function (id, initialPos) {
-      var flowerNode = new FlowerNode("B-BEAST-" + id, initialPos, FlowerNode.Type.BAD);
+      var flowerNode = new FlowerNode("B-FLOWER-" + id, initialPos, FlowerNode.Type.BAD);
       __addObj(flowerNode);
       return flowerNode;
     };
@@ -181,6 +183,7 @@ define([
       camera.lookAt(new THREE.Vector3(x, y, 0));
 
       // TODO: Test code, camera zoom in.
+
       camera.position.set(x - 200, y + 180, 70);
       camera.fox = 30;
       camera.lookAt(new THREE.Vector3(x - 200, y + 250, 0));

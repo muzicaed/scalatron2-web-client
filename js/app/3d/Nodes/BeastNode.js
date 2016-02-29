@@ -21,12 +21,11 @@ define([
     function BeastNode(id, initialPos, type) {
       this.id = id;
       this.state = State.IDLING;
-      this.node = new THREE.Object3D();
       this.type = type;
       if (type == BeastNode.Type.GOOD) {
-        this.node.add(MeshFactory.createGoodBeastMesh());
+        this.node = MeshFactory.createGoodBeastMesh();
       } else {
-        this.node.add(MeshFactory.createBadBeastMesh());
+        this.node = MeshFactory.createBadBeastMesh();
       }
       this.move = new MoveResponder(initialPos);
       this.move.placeOrigin(this.node);

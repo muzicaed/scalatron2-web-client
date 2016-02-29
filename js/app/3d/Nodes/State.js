@@ -7,14 +7,14 @@ define([],
 
     // Return object
     return Object.freeze({
-      "IDLING": 0,
-      "MOVING": 1,
-      "SPAWNING": 2,
-      "SPAWNED": 3,
-      "DYING": 4,
-      "WALL_BUMPING": 5,
-      "EXPLODE": 6,
-      "EXPLODING": 7,
-      "REMOVE": 8
+      "IDLING": 1,
+      "MOVING": 2,
+      "SPAWNING": 3,
+      "SPAWNED": 4,
+      "DYING": 5,
+      "WALL_BUMPING": 6,
+      "EXPLODE": 7,
+      "EXPLODING": 8,
+      "REMOVE": 9
     });
   });

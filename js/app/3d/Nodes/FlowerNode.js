@@ -15,18 +15,17 @@ define([
      * Create a Flower
      * @param id - String, object's id
      * @param initialPos - THREE.Vector2, position on 2d grid
-     * @param type - BeastNode.Type
+     * @param type - FlowerNode.Type
      * @constructor
      */
     function FlowerNode(id, initialPos, type) {
       this.id = id;
       this.state = State.IDLING;
-      this.node = new THREE.Object3D();
       this.type = type;
       if (type == FlowerNode.Type.GOOD) {
-        this.node.add(MeshFactory.createGoodFlowerMesh());
+        this.node = MeshFactory.createGoodFlowerMesh();
       } else {
-        this.node.add(MeshFactory.createBadFlowerMesh());
+        this.node = MeshFactory.createBadFlowerMesh();
       }
 
       var position = PositionConverter.convert(initialPos);

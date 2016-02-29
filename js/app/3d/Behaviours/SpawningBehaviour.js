@@ -24,12 +24,12 @@ define([
           timeFraction = obj.calcTimeFraction(tickCount, timeFraction);
         }
         if (timeFraction < 0.35) {
-          var scale = 1 - (timeFraction / 4) + 0.01;
-          obj.node.scale.x = scale;
-          obj.node.scale.y = scale;
+          var scale = 1 - (timeFraction / 4);
+          obj.node.scale.x = Math.max(scale , 0.1);
+          obj.node.scale.y = Math.max(scale , 0.1);
         } else if (timeFraction < 0.5) {
-          obj.node.scale.x = (timeFraction * 2) + 0.25;
-          obj.node.scale.y = (timeFraction * 2) + 0.25;
+          obj.node.scale.x = Math.max((timeFraction * 2) + 0.25, 0.1);
+          obj.node.scale.y = Math.max((timeFraction * 2) + 0.25, 0.1);
         } else if (timeFraction < 0.75) {
           obj.node.scale.x = 1;
           obj.node.scale.y = 1;

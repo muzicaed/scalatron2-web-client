@@ -8,7 +8,7 @@ define([],
     // Return object
     return {
       TileSize: 10,
-      TimePerTick: 250
+      TimePerTick: 750
     };
 
   });

@@ -15,7 +15,6 @@ define([
     var world = new World();
     var boardData = null;
     var node = new THREE.Object3D();
-    var floor = null;
 
     // TODO: Test code
     var bot1;
@@ -45,29 +44,33 @@ define([
       bot3 = world.addMiniBot("3", {x: 12, y: 0}, 24);
       beast1 = world.addGoodBeast("x", {x: 9, y: 0});
 
-      world.addGoodFlower("1", {x: 13, y: 12});
-      world.addBadFlower("1", {x: 14, y: 12});
+      bot4 = world.addMiniBot("4", {x: 13, y: 8}, 12);
+
+      myFlower = world.addGoodFlower("FLOW-1", {x: 13, y: 10});
+      world.addBadFlower("F2", {x: 14, y: 12});
 
 
-      // TESTING COLORS
-
-      for (var x = 0; x < 7; x++) {
-        for (var y = 0; y < 7; y++) {
-          var colorId = x + (y * 7) + 1;
-          world.addMasterBot("mini-" + x + "-" + y, {x: 1 + x * 2, y: 8 + y * 2}, colorId);
-        }
-      }
-
+      // TODO: Remove, TESTING COLORS & EVENTS ETC
+      /*
+       for (var x = 0; x < 7; x++) {
+       for (var y = 0; y < 7; y++) {
+       var colorId = x + (y * 7) + 1;
+       world.addMasterBot("mini-" + x + "-" + y, {x: 1 + x * 2, y: 8 + y * 2}, colorId);
+       }
+       }
+       */
       for (var x = 0; x < 50; x++) {
         for (var y = 0; y < 40; y++) {
           world.addMiniBot("mini2-" + x + "-" + y, {x: 31 + x, y: 0 + y}, Math.floor(Math.random() * 49) + 1);
         }
       }
-      for (var x = 0; x < 7; x++) {
-        for (var y = 0; y < 7; y++) {
-            world.addMasterBot("mini2-" + x + "-" + y, {x: 50 + x, y: 50 + y}, Math.floor(Math.random() * 49) + 1);
-        }
-      }
+      /*
+       for (var x = 0; x < 7; x++) {
+       for (var y = 0; y < 7; y++) {
+       world.addMasterBot("mini2-" + x + "-" + y, {x: 50 + x, y: 50 + y}, Math.floor(Math.random() * 49) + 1);
+       }
+       }
+       */
       for (var x = 0; x < 20; x++) {
         for (var y = 0; y < 20; y++) {
           world.addBadBeast("beas-" + x + "-" + y, {x: 20 + x, y: 40 + y});
@@ -95,9 +98,9 @@ define([
         }
       }
 
-      for (var x = 0; x < 7; x++) {
-        for (var y = 0; y < 7; y++) {
-          world.addGoodFlower("flow-" + x + "-" + y, {x: 0 + x, y: 0 + y});
+      for (var x = 0; x < 3; x++) {
+        for (var y = 0; y < 3; y++) {
+          world.addGoodFlower("flow-" + x + "-" + y, {x: 1 + x, y: 1 + y});
         }
       }
 
@@ -153,7 +156,7 @@ define([
 
       if (tickCount > 2) {
         minitest.state = State.MOVING;
-        minitest.move.setTargetPosition({x: 10, y: 5 + 1});
+        minitest.move.setTargetPosition({x: 10 - 1, y: 5});
       }
 
       if (tickCount == 4) {
@@ -182,6 +185,15 @@ define([
       for (var index in testMov) {
         testMov[index].state = State.MOVING;
         testMov[index].move.setTargetPosition({x: testMov[index].move.gridPos.x, y: testMov[index].move.gridPos.y + 1});
+      }
+
+
+      bot4.state = State.MOVING;
+      bot4.move.setTargetPosition({x: bot4.move.gridPos.x, y: bot4.move.gridPos.y + 1});
+
+      if (tickCount == 2) {
+        log("SEt dying");
+        myFlower.state = State.DYING;
       }
     }
 
