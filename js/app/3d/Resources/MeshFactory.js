@@ -48,13 +48,13 @@ define([
 
       goodBeastMaterial = new THREE.MeshPhongMaterial({
         color: 0x0000ff,
-        specular: 0xaaaaaa,
-        shininess: 500
+        specular: 0x888888,
+        shininess: 30
       });
       badBeastMaterial = new THREE.MeshPhongMaterial({
         color: 0xff0000,
-        specular: 0xaaaaaa,
-        shininess: 500
+        specular: 0x888888,
+        shininess: 30
       });
       goodFlowerMaterial = new THREE.MeshPhongMaterial({
         color: 0x00ff00,
