@@ -15,10 +15,14 @@ define([
     /**
      * Create move behaviour
      * @param obj - MasterBotNode
+     * @param tickCount - Current tick count
      * @param timeFraction - Time fraction of current tick (in ms)
      */
-    SpawningBehaviour.apply = function (obj, timeFraction) {
-      if (obj !== undefined && obj instanceof MasterBotNode && obj.state == State.SPAWNING) {
+    SpawningBehaviour.apply = function (obj, tickCount, timeFraction) {
+      if (obj !== undefined && obj.state == State.SPAWNING) {
+        if (obj.calcTimeFraction !== undefined) {
+          timeFraction = obj.calcTimeFraction(tickCount, timeFraction);
+        }
         if (timeFraction < 0.35) {
           var scale = 1 - (timeFraction / 4) + 0.01;
           obj.node.scale.x = scale;

@@ -27,6 +27,7 @@ define([
       renderer.setSize(viewPort.width, viewPort.height);
       document.body.appendChild(renderer.domElement);
       __addFullScreenShortcut()
+      Manipulator.scene = scene;
     }
 
     /**

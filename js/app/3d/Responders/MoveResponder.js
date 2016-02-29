@@ -40,7 +40,6 @@ define([
     MoveResponder.prototype.placeOrigin = function (node) {
       node.position.x = this.originPosition.x;
       node.position.y = this.originPosition.y;
-      //node.position.z = this.originPosition.z;
     };
 
     // Return "class"

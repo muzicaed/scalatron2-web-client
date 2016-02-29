@@ -26,6 +26,7 @@ define([
       this.node.position.z = 3.5;
       this.move = new MoveResponder(initialPos);
       this.move.placeOrigin(this.node);
+      this.explodedTick = -1;
     }
 
     // Return "class"

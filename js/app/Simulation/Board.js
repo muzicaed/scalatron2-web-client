@@ -39,8 +39,9 @@ define([
       world.addStatic(node);
 
       // TODO: Remove test code
-      bot1 = world.addMasterBot("1", {x: 11, y: 0}, 5);
+      bot1 = world.addMasterBot("1", {x: 10, y: 3}, 7);
       bot2 = world.addMiniBot("2", {x: 13, y: 0}, 13);
+      bot3 = world.addMiniBot("3", {x: 12, y: 0}, 24);
       beast1 = world.addGoodBeast("x", {x: 9, y: 0});
 
       world.addGoodFlower("1", {x: 13, y: 12});
@@ -48,12 +49,6 @@ define([
 
 
       // TESTING COLORS
-      for (var x = 0; x < 7; x++) {
-        for (var y = 0; y < 1; y++) {
-          var colorId = x + (y * 7) + 1;
-          world.addMasterBot("master-" + x + "-" + y, {x: 8 + x, y: y}, colorId);
-        }
-      }
 
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 7; y++) {
@@ -181,9 +176,24 @@ define([
     function __labTick(tickCount) {
       //log("Board tick " + tickCount + " - " + tickCount % 4);
 
-      if (tickCount % 2 == 0) {
+      if (tickCount == 0) {
         bot1.state = State.MOVING;
-        bot1.move.setTargetPosition({x: 11, y: bot1.move.gridPos.y + 1});
+        bot1.move.setTargetPosition({x: 10, y: bot1.move.gridPos.y + 1});
+      }
+
+      if (tickCount == 2) {
+        bot1.state = State.SPAWNING;
+        minitest = world.addMiniBot("123123", {x: 10, y: 5}, 7);
+        minitest.state = State.SPAWNED;
+      }
+
+      if (tickCount > 2) {
+        minitest.state = State.MOVING;
+        minitest.move.setTargetPosition({x: 10, y: 5 + 1});
+      }
+
+      if (tickCount == 4) {
+        bot1.state = State.IDLING;
       }
 
       if (tickCount % 4 == 0) {
@@ -191,9 +201,19 @@ define([
         beast1.move.setTargetPosition({x: 9, y: beast1.move.gridPos.y + 1});
       }
 
-      bot2.state = State.MOVING;
-      bot2.move.setTargetPosition({x: 13, y: bot2.move.gridPos.y + 1});
+      if (tickCount < 3) {
+        bot2.state = State.MOVING;
+        bot2.move.setTargetPosition({x: 13, y: bot2.move.gridPos.y + 1});
+      } else if (tickCount == 3)  {
+        bot2.state = State.EXPLODE;
+      }
 
+      if (tickCount < 4) {
+        bot3.state = State.MOVING;
+        bot3.move.setTargetPosition({x: 12, y: bot3.move.gridPos.y + 1});
+      } else if (tickCount == 4)  {
+        bot3.state = State.EXPLODE;
+      }
 
       for (var index in testMov) {
         testMov[index].state = State.MOVING;

@@ -12,7 +12,9 @@ define([],
       "SPAWNING": 2,
       "SPAWNED": 3,
       "DYING": 4,
-      "EXPLODING": 5,
-      "WALL_BUMPING": 6
+      "WALL_BUMPING": 5,
+      "EXPLODE": 6,
+      "EXPLODING": 7,
+      "REMOVE": 8
     });
   });

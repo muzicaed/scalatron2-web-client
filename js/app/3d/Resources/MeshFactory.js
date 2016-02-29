@@ -143,6 +143,21 @@ define([
     };
 
     /**
+     * Creates a explosion mesh
+     * Note: Can not reuse geometry or material.
+     * @returns THREE.Mesh
+     */
+    MeshFactory.createExplosion = function(tileRadius) {
+      var geometry = new THREE.CircleGeometry(tileRadius * Static.TileSize, 12);
+      var material = new THREE.MeshLambertMaterial({
+        color: 0xff4500,
+        transparent: true,
+        opacity: 0.4
+      });
+      return new THREE.Mesh(geometry, material);
+    };
+
+    /**
      * Creates a floor mesh
      * @params width - Size in 2d tiles
      * @params height - Size in 2d tiles
