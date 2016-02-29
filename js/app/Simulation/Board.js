@@ -15,6 +15,7 @@ define([
     var world = new World();
     var boardData = null;
     var node = new THREE.Object3D();
+    var floor = null;
 
     // TODO: Test code
     var bot1;
@@ -34,7 +35,7 @@ define([
     Board.prototype.init = function (board) {
       boardData = board;
       PositionConverter.init(boardData.height);
-      __generateBoardNode();
+      node = MeshFactory.createBoard(boardData);
       world.init(boardData);
       world.addStatic(node);
 
@@ -53,34 +54,44 @@ define([
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 7; y++) {
           var colorId = x + (y * 7) + 1;
-          world.addMiniBot("mini-" + x + "-" + y, {x: 8 + x, y: 8 + y}, colorId);
+          world.addMiniBot("mini-" + x + "-" + y, {x: 1 + x, y: 8 + y}, colorId);
         }
       }
 
-      for (var x = 0; x < 7; x++) {
-        for (var y = 0; y < 7; y++) {
-          world.addMiniBot("mini2-" + x + "-" + y, {x: 8 + x, y: 20 + y}, 12);
+      for (var x = 0; x < 60; x++) {
+        for (var y = 0; y < 30; y++) {
+          world.addMiniBot("mini2-" + x + "-" + y, {x: 14 + x, y: 0 + y}, Math.floor(Math.random() * 49) + 1);
         }
       }
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 7; y++) {
-          world.addBadBeast("beas-" + x + "-" + y, {x: 20 + x, y: 20 + y});
+            world.addMasterBot("mini2-" + x + "-" + y, {x: 50 + x, y: 50 + y}, Math.floor(Math.random() * 49) + 1);
+        }
+      }
+      for (var x = 0; x < 20; x++) {
+        for (var y = 0; y < 20; y++) {
+          world.addBadBeast("beas-" + x + "-" + y, {x: 20 + x, y: 40 + y});
+        }
+      }
+      for (var x = 0; x < 10; x++) {
+        for (var y = 0; y < 10; y++) {
+          world.addGoodBeast("beas-" + x + "-" + y, {x: 4 + x, y: 40 + y});
         }
       }
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 7; y++) {
-          world.addMiniBot("mini4-" + x + "-" + y, {x: 0 + x, y: 20 + y}, 9);
+          world.addMiniBot("mini4-" + x + "-" + y, {x: 0 + x, y: 20 + y}, Math.floor(Math.random() * 49) + 1);
         }
       }
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 7; y++) {
-          world.addMiniBot("mini5-" + x + "-" + y, {x: 0 + x, y: 8 + y}, 30);
+          world.addMiniBot("mini5-" + x + "-" + y, {x: 0 + x, y: 30 + y}, Math.floor(Math.random() * 49) + 1);
         }
       }
 
-      for (var x = 0; x < 7; x++) {
-        for (var y = 0; y < 7; y++) {
-          world.addBadFlower("flowb-" + x + "-" + y, {x: 20 + x, y: 0 + y});
+      for (var x = 0; x < 20; x++) {
+        for (var y = 0; y < 20; y++) {
+          world.addBadFlower("flowb-" + x + "-" + y, {x: 43 + x, y: 30 + y});
         }
       }
 
@@ -93,7 +104,10 @@ define([
       testMov = [];
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 7; y++) {
-          testMov.push(world.addMiniBot("mini6-" + x + "-" + y, {x: 20 + x, y: 8 + y}, 20));
+          testMov.push(world.addMiniBot("mini6-" + x + "-" + y, {
+            x: 46 + (x * 2),
+            y: 8 + (y * 2)
+          }, Math.floor(Math.random() * 49) + 1));
         }
       }
 
@@ -121,56 +135,6 @@ define([
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Generates a 3d board based on boardData.
-     * @private
-     */
-    function __generateBoardNode() {
-      __createFloor();
-      for (var x = 0, len = boardData.width; x < len; x++) {
-        for (var y = boardData.height - 1; y >= 0; y--) {
-          var index = x + (y * boardData.height);
-          if (boardData.grid[index] == 1) {
-            __addTile(__createWall(), new THREE.Vector2(x, y));
-          }
-        }
-      }
-    }
-
-    /**
-     * Adds a tile to the board node.
-     * @param tile - THREE.Mesh
-     * @param vec - THREE.Vector2
-     * @private
-     */
-    function __addTile(tile, vec) {
-      var vec3d = PositionConverter.convert(vec);
-      tile.position.x = vec3d.x;
-      tile.position.y = vec3d.y;
-      node.add(tile);
-    }
-
-    /**
-     * Creates a wall cube
-     * @returns THREE.Mesh
-     * @private
-     */
-    function __createWall() {
-      var wall = MeshFactory.createWallMesh();
-      wall.position.z = 0;
-      return wall;
-    }
-
-    /**
-     * Creates a floor tile
-     * @returns THREE.Mesh
-     * @private
-     */
-    function __createFloor() {
-      var floor = MeshFactory.createFloorMesh(boardData.width, boardData.height);
-      floor.position.z = -4;
-      node.add(floor);
-    }
 
     // TODO: Test code.
     function __labTick(tickCount) {
@@ -204,14 +168,14 @@ define([
       if (tickCount < 3) {
         bot2.state = State.MOVING;
         bot2.move.setTargetPosition({x: 13, y: bot2.move.gridPos.y + 1});
-      } else if (tickCount == 3)  {
+      } else if (tickCount == 3) {
         bot2.state = State.EXPLODE;
       }
 
       if (tickCount < 4) {
         bot3.state = State.MOVING;
         bot3.move.setTargetPosition({x: 12, y: bot3.move.gridPos.y + 1});
-      } else if (tickCount == 4)  {
+      } else if (tickCount == 4) {
         bot3.state = State.EXPLODE;
       }
 

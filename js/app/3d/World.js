@@ -167,23 +167,25 @@ define([
       camera = new THREE.PerspectiveCamera(75,
         viewPort.width / viewPort.height,
         0.1,
-        500);
+        2000);
 
       var x = (boardData.width * Static.TileSize) / 2;
       var y = (boardData.height * Static.TileSize) / 2;
 
       camera.position.set(x, y - (y / 10), y * 1.6); // TODO: Calc zoom based on scale screen vs. board size.
-      //camera.position.set(x + 40, y - 60, 20);
+      //camera.position.set(x + 40, y, 100);
       camera.lookAt(new THREE.Vector3(x, y, 0));
 
       // TODO: Test code, camera zoom in.
 
 /*
-       setInterval(function() {
-       camera.position.z -= 0.3;
-       camera.position.y -= 0.1;
-       camera.lookAt(new THREE.Vector3(x, y, 0));
-       }, 25);
+      var newY = y;
+      setInterval(function () {
+        camera.position.z -= 0.9;
+        camera.position.y += 0.2;
+        newY += 0.3;
+        camera.lookAt(new THREE.Vector3(x, newY, 0));
+      }, 5);
 */
     }
 
@@ -194,12 +196,12 @@ define([
       var x = (boardData.width * Static.TileSize);
       var y = (boardData.height * Static.TileSize);
 
-      var blueLight = new THREE.PointLight(0x993322, 1, 600, 0.8);
-      blueLight.position.set(50, 50, 30);
+      var blueLight = new THREE.PointLight(0x993322, 1.5, y + (y / 2), 1.1);
+      blueLight.position.set(x / 4, y / 4, y);
       scene.add(blueLight);
 
-      var redLight = new THREE.PointLight(0x3333aa, 1, 600, 0.8);
-      redLight.position.set(x - 50, y - 50, 30);
+      var redLight = new THREE.PointLight(0x3333aa, 1.5, y + (y / 2), 1.1);
+      redLight.position.set(x - (x / 4), y - (y / 4), y);
       scene.add(redLight);
 
       var spotLight = new THREE.SpotLight(0xaaaaaa, 1.2, x + y + 500);

@@ -20,9 +20,7 @@ define([
     function MiniBotNode(id, initialPos, colorId) {
       this.id = id;
       this.state = State.IDLING;
-      this.node = new THREE.Object3D();
-      this.node.add(MeshFactory.createMiniBotMesh(colorId));
-      this.node.add(MeshFactory.createMiniBotStripeMesh(colorId));
+      this.node = MeshFactory.createMiniBotMesh(colorId);
       this.node.position.z = 3.5;
       this.move = new MoveResponder(initialPos);
       this.move.placeOrigin(this.node);
