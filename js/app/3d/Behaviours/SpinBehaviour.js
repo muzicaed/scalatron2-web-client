@@ -16,8 +16,8 @@ define([
      */
     SpinBehaviour.apply = function (obj) {
       if (obj !== undefined && obj instanceof MiniBotNode) {
-        obj.node.rotation.x += (Math.random() * (0.09) + 0.08);
-        obj.node.rotation.y -= (Math.random() * (0.09) + 0.08);
+        obj.node.rotation.x += (Math.random() * (0.022) + 0.013);
+        obj.node.rotation.y -= (Math.random() * (0.010) + 0.015);
       }
     };
 

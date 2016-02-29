@@ -32,7 +32,7 @@ define([
       var position = PositionConverter.convert(initialPos);
       this.node.position.x = position.x;
       this.node.position.y = position.y;
-      this.node.position.z = -3.5;
+      this.node.position.z = -1.5;
     }
 
     FlowerNode.Type = Object.freeze({

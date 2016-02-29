@@ -52,7 +52,6 @@ define([
      */
     Manipulator.updateFrame = function () {
       Manipulator.frameCount++;
-      //if (Manipulator.frameCount % 2 == 0) {
       __cleanSimulationObjects();
       var timeFraction = __calculateTimeFraction();
       for (var index in simulationObjects) {
@@ -66,7 +65,6 @@ define([
           __handleExplosion(obj, timeFraction);
         }
       }
-      //}
     };
 
     /**

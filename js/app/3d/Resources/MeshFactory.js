@@ -4,18 +4,19 @@
 define([
     "lib/three",
     "app/3d/PositionConverter",
+    "app/3d/Resources/Textures",
     "app/Common/Static"
   ],
 
-  function (THREE, PositionConverter, Static) {
+  function (THREE, PositionConverter, Textures, Static) {
 
     var NoOfColors = 7;
 
     var colors = {
-      1: new THREE.Color(0xeeeeee),
+      1: new THREE.Color(0x00ffff),
       2: new THREE.Color(0xfcd04a),
       3: new THREE.Color(0xe45e9f),
-      4: new THREE.Color(0x111111),
+      4: new THREE.Color(0x8B4513),
       5: new THREE.Color(0x5ab322),
       6: new THREE.Color(0xdb302e),
       7: new THREE.Color(0x3366ff)
@@ -23,33 +24,9 @@ define([
 
     var colorCombinations = __generateColorCombinations();
 
-    var masterBotGeometry = new THREE.SphereGeometry(7.5, 32, 32);
-    var masterBotStripesGeometry = new THREE.DodecahedronGeometry(8.5);
-    var miniBotGeometry = new THREE.IcosahedronGeometry(5);
-    var beastGeometry = new THREE.TorusGeometry(3, 1.6, 2, 5);
-    var flowerGeometry = new THREE.SphereGeometry(3, 4, 3);
-    var wallGeometry = new THREE.BoxGeometry(10, 10, 10);
-
-    var masterBotMaterials = __generateMasterBotMaterials();
-    var masterBotStripeMaterials = __generateMasterBotStripeMaterials();
-    var miniBotMaterials = __generateMiniBotMaterials();
-
-    var goodBeastMaterial = new THREE.MeshLambertMaterial({
-      color: 0x0000ff
-    });
-    var badBeastMaterial = new THREE.MeshLambertMaterial({
-      color: 0xff0000
-    });
-    var goodFlowerMaterial = new THREE.MeshLambertMaterial({
-      color: 0x00ff00
-    });
-    var badFlowerMaterial = new THREE.MeshLambertMaterial({
-      color: 0xffff00
-    });
-    var wallMaterial = new THREE.MeshPhongMaterial({
-      color: 0x444444,
-      shininess: 60
-    });
+    var masterBotGeometry, masterBotStripesGeometry, miniBotGeometry, beastGeometry, flowerGeometry, wallGeometry;
+    var masterBotMaterials, masterBotStripeMaterials, miniBotMaterials, goodBeastMaterial, badBeastMaterial,
+      goodFlowerMaterial, badFlowerMaterial, wallMaterial, floorMaterial;
 
     // Object
     var MeshFactory = {};
@@ -58,7 +35,41 @@ define([
      * Init mesh factory
      */
     MeshFactory.initMesh = function () {
-      // TODO: Do real init with different colors etc.
+      masterBotGeometry = new THREE.SphereGeometry(7.5, 32, 32);
+      masterBotStripesGeometry = new THREE.DodecahedronGeometry(8.5);
+      miniBotGeometry = new THREE.IcosahedronGeometry(5);
+      beastGeometry = new THREE.TorusGeometry(3, 1.6, 2, 5);
+      flowerGeometry = new THREE.SphereGeometry(3, 4, 3);
+      wallGeometry = new THREE.BoxGeometry(10, 10, 20);
+
+      masterBotMaterials = __generateMasterBotMaterials();
+      masterBotStripeMaterials = __generateMasterBotStripeMaterials();
+      miniBotMaterials = __generateMiniBotMaterials();
+
+      goodBeastMaterial = new THREE.MeshLambertMaterial({
+        color: 0x0000ff
+      });
+      badBeastMaterial = new THREE.MeshLambertMaterial({
+        color: 0xff0000
+      });
+      goodFlowerMaterial = new THREE.MeshLambertMaterial({
+        color: 0x00ff00
+      });
+      badFlowerMaterial = new THREE.MeshLambertMaterial({
+        color: 0xffff00
+      });
+      floorMaterial = new THREE.MeshPhongMaterial({
+        color: 0x999999,
+        shininess: 200,
+        shading: THREE.FlatShading,
+        map: Textures.Floor
+      });
+      wallMaterial = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        shininess: 100,
+        shading: THREE.FlatShading,
+        map: Textures.Wall
+      });
     };
 
     /**
@@ -130,7 +141,7 @@ define([
      * Note: Can not reuse geometry or material.
      * @returns THREE.Mesh
      */
-    MeshFactory.createExplosion = function(tileRadius) {
+    MeshFactory.createExplosion = function (tileRadius) {
       var geometry = new THREE.CircleGeometry(tileRadius * Static.TileSize, 12);
       var material = new THREE.MeshLambertMaterial({
         color: 0xff4500,
@@ -148,11 +159,6 @@ define([
      */
     MeshFactory.createFloorMesh = function (width, height) {
       var geometry = new THREE.BoxGeometry(width * Static.TileSize, height * Static.TileSize, 1);
-      var material = new THREE.MeshPhongMaterial({
-        color: 0x888888,
-        shininess: 10,
-        shading: THREE.FlatShading
-      });
       var mesh = new THREE.Mesh(geometry, material);
       mesh.position.x = ((width * Static.TileSize) / 2) - (Static.TileSize / 2);
       mesh.position.y = ((height * Static.TileSize) / 2) + (Static.TileSize / 2);
@@ -166,11 +172,6 @@ define([
      */
     MeshFactory.createBoard = function (boardData) {
       var floorGeometry = new THREE.BoxGeometry(boardData.width * Static.TileSize, boardData.height * Static.TileSize, 1);
-      var floorMaterial = new THREE.MeshPhongMaterial({
-        color: 0x888888,
-        shininess: 10,
-        shading: THREE.FlatShading
-      });
       var floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
       floorMesh.position.x = ((boardData.width * Static.TileSize) / 2) - (Static.TileSize / 2);
       floorMesh.position.y = ((boardData.height * Static.TileSize) / 2) + (Static.TileSize / 2);
@@ -182,7 +183,7 @@ define([
         for (var y = boardData.height - 1; y >= 0; y--) {
           var index = x + (y * boardData.height);
           if (boardData.grid[index] == 1) {
-            var wallMesh = new THREE.Mesh(wallGeometry, wallMaterial);
+            var wallMesh = new THREE.Mesh(wallGeometry);
             var vec3d = PositionConverter.convert(new THREE.Vector2(x, y));
             wallMesh.position.x = vec3d.x;
             wallMesh.position.y = vec3d.y;
@@ -230,8 +231,8 @@ define([
           new THREE.MeshPhongMaterial({
             color: colors[i],
             specular: 0x888888,
-            shininess: 2000,
-            shading: THREE.FlatShading
+            shininess: 1000,
+            map: Textures.Bot
           })
         );
       }
@@ -249,8 +250,8 @@ define([
         materials.push(
           new THREE.MeshPhongMaterial({
             color: colors[i],
-            specular: 0x222222,
-            shininess: 90,
+            specular: 0xdddddd,
+            shininess: 200,
             shading: THREE.FlatShading
           })
         );
@@ -269,9 +270,10 @@ define([
         materials.push(
           new THREE.MeshPhongMaterial({
             color: colors[i],
-            specular: 0x999999,
-            shininess: 5,
-            shading: THREE.FlatShading
+            specular: 0xdddddd,
+            shininess: 10,
+            shading: THREE.FlatShading,
+            map: Textures.MiniBot
           })
         );
       }

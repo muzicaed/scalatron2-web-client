@@ -17,11 +17,16 @@ requirejs.onError = function (err) {
  * App Main.
  */
 define([
+    "app/3d/Resources/MeshFactory",
+    "app/3d/Resources/Textures",
     "app/Simulation/Simulation"
   ],
 
-  function (Simulation) {
-    var sim = new Simulation();
-    sim.runSimulation();
+  function (MeshFactory, Textures, Simulation) {
+    Textures.preload(function(){
+      MeshFactory.initMesh();
+      var sim = new Simulation();
+      sim.runSimulation();
+    });
   }
 );

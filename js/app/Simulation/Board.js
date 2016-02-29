@@ -54,7 +54,7 @@ define([
       for (var x = 0; x < 7; x++) {
         for (var y = 0; y < 7; y++) {
           var colorId = x + (y * 7) + 1;
-          world.addMiniBot("mini-" + x + "-" + y, {x: 1 + x, y: 8 + y}, colorId);
+          world.addMasterBot("mini-" + x + "-" + y, {x: 1 + x * 2, y: 8 + y * 2}, colorId);
         }
       }
 
