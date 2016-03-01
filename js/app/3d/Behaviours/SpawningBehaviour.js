@@ -17,6 +17,7 @@ define([
      * @param obj - MasterBotNode
      * @param tickCount - Current tick count
      * @param timeFraction - Time fraction of current tick (in ms)
+     * TODO: More functions...
      */
     SpawningBehaviour.apply = function (obj, tickCount, timeFraction) {
       if (obj !== undefined && obj.state == State.SPAWNING) {

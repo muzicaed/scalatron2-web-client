@@ -34,7 +34,6 @@ define([
       this.node.scale.y = 0.01;
     }
 
-
     // Return "class"
     return ExplosionNode;
   }

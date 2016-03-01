@@ -34,9 +34,9 @@ define([
       );
 
       loader.load("textures/wall.jpg", function (texture) {
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(0.2, 0.4);
+          texture.wrapS = THREE.RepeatWrapping;
+          texture.wrapT = THREE.RepeatWrapping;
+          texture.repeat.set(0.2, 0.4);
           Textures.Wall = texture;
           textureCount++;
           __done();

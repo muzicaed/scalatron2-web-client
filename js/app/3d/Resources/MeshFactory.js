@@ -106,9 +106,7 @@ define([
      */
     MeshFactory.createMiniBotMesh = function (colorId) {
       var priMaterial = miniBotMaterials[colorCombinations[colorId].pri];
-      var botMesh = new THREE.Mesh(miniBotGeometry, priMaterial);
-
-      return botMesh;
+      return new THREE.Mesh(miniBotGeometry, priMaterial);
     };
 
     /**
@@ -175,7 +173,7 @@ define([
     /**
      * Creates a floor mesh
      * @params boardData
-     * @returns THREE.Mesh
+     * @returns THREE.Object3D
      */
     MeshFactory.createBoard = function (boardData) {
       var floorGeometry = new THREE.BoxGeometry(boardData.width * Static.TileSize, boardData.height * Static.TileSize, 1);
@@ -213,7 +211,7 @@ define([
 
     /**
      * Generates color combination matrix.
-     * @returns color matrix
+     * @returns Object - color matrix
      * @private
      */
     function __generateColorCombinations() {

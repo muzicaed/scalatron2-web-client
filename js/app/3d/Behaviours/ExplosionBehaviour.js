@@ -17,6 +17,7 @@ define([
      * @param obj - Simulation object
      * @param tickCount - Current tick count
      * @param timeFraction - Time fraction of current tick (in ms)
+     * TODO: More functions
      */
     ExplosionBehaviour.apply = function (obj, tickCount, timeFraction) {
       var frame = tickCount - obj.birthTick;

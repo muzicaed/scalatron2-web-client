@@ -23,7 +23,7 @@ define([
   ],
 
   function (MeshFactory, Textures, Simulation) {
-    Textures.preload(function(){
+    Textures.preload(function () {
       MeshFactory.initMesh();
       var sim = new Simulation();
       sim.runSimulation();

@@ -40,7 +40,6 @@ define([
      * @returns {number}
      */
     BeastNode.prototype.calcTimeFraction = function (tickCount, timeFraction) {
-      // TODO: Fix here!
       var frameOffset = tickCount % 4;
       return (timeFraction / 4) + (frameOffset / 4);
     };

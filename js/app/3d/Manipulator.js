@@ -50,6 +50,7 @@ define([
     /**
      * Manipulates all objects for each frame draw.
      * Call this on every frame request.
+     * TODO: Refactoring, smaller method.
      */
     Manipulator.updateFrame = function () {
       Manipulator.frameCount++;
@@ -84,6 +85,7 @@ define([
      * @param obj - Simulation object
      * @param timeFraction - Time fraction of current tick (in ms)
      * @private
+     * TODO: Not looking good. Solve without "if" = two methods?
      */
     function __handleExplosion(obj, timeFraction) {
       if (obj.state == State.EXPLODE) {
@@ -128,5 +130,4 @@ define([
     // Return object
     return Manipulator;
   }
-)
-;
+);

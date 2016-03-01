@@ -6,8 +6,7 @@
  */
 define([
     "lib/three",
-    "app/3d/PositionConverter",
-    "app/3d/Behaviours/MoveBehaviour"
+    "app/3d/PositionConverter"
   ],
 
   function (THREE, PositionConverter) {

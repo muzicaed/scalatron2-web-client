@@ -5,7 +5,7 @@ define([],
     var wsUri = "ws://10.0.0.154:8888/greeter";
 
     /**
-     *  Create a scalatron socket.
+     *  Create a Scalatron socket.
      * @constructor
      */
     function ScalatronSocket(onConnectedCallback, onMessageCallback) {

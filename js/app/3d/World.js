@@ -26,7 +26,7 @@ define([
     function World() {
       renderer.setSize(viewPort.width, viewPort.height);
       document.body.appendChild(renderer.domElement);
-      __addFullScreenShortcut()
+      __addFullScreenShortcut();
       Manipulator.scene = scene;
     }
 
@@ -46,13 +46,6 @@ define([
       Manipulator.updateFrame();
       requestAnimationFrame(this.render.bind(this));
       renderer.render(scene, camera);
-
-      // TODO: Test code
-
-      camera.position.x += 0.4;
-      camera.position.y -= 0.2;
-      camera.position.z -= 0.03;
-      //camera.lookAt(new THREE.Vector3(camera.position.x, camera.position.y + 100, 0));
     };
 
     /**
@@ -181,11 +174,6 @@ define([
 
       camera.position.set(x, y - (y / 10), y * 1.6);
       camera.lookAt(new THREE.Vector3(x, y, 0));
-
-      // TODO: Test code, camera zoom in.
-      camera.position.set(x - 200, y + 180, 70);
-      camera.fox = 30;
-      camera.lookAt(new THREE.Vector3(x - 200, y + 250, 0));
     }
 
     /**
