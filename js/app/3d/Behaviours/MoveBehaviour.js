@@ -1,10 +1,11 @@
 /**
- * Visitor object.
  * Moves 3d objects in world.
+ * Requires the target object to have a property
+ * "move" of type MoveResponder
  */
 define(
   [
-    "app/3d/Nodes/State"
+    "app/3d//Nodes/State"
   ],
 
   function (State) {

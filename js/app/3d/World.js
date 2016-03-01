@@ -47,12 +47,12 @@ define([
       requestAnimationFrame(this.render.bind(this));
       renderer.render(scene, camera);
 
-      /* TODO: Test code
+      // TODO: Test code
+
       camera.position.x += 0.4;
       camera.position.y -= 0.2;
       camera.position.z -= 0.03;
       //camera.lookAt(new THREE.Vector3(camera.position.x, camera.position.y + 100, 0));
-      */
     };
 
     /**
@@ -183,21 +183,9 @@ define([
       camera.lookAt(new THREE.Vector3(x, y, 0));
 
       // TODO: Test code, camera zoom in.
-
       camera.position.set(x - 200, y + 180, 70);
       camera.fox = 30;
       camera.lookAt(new THREE.Vector3(x - 200, y + 250, 0));
-/*
-      var newX = x;
-      setInterval(function () {
-        camera.position.x += 0.8;
-        camera.position.y -= 0.4;
-        camera.position.z -= 0.09;
-        newX += 0.3;
-        //camera.lookAt(new THREE.Vector3(newX, y + 10, 0));
-      }, 30);
-      */
-
     }
 
     /**

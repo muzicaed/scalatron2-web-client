@@ -3,7 +3,7 @@
  */
 define([
     "lib/three",
-    "app/3d/Visitors/MoveVisitor",
+    "app/3d/Behaviours/MoveBehaviour",
     "app/3d/Behaviours/SpinBehaviour",
     "app/3d/Behaviours/SpawningBehaviour",
     "app/3d/Behaviours/SpawnedBehaviour",
