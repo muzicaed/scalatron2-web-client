@@ -194,7 +194,6 @@ define([
       bot4.move.setTargetPosition({x: bot4.move.gridPos.x, y: bot4.move.gridPos.y + 1});
 
       if (tickCount == 2) {
-        log("SEt dying");
         myFlower.state = State.DYING;
       }
     }
