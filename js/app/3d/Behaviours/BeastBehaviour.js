@@ -16,7 +16,6 @@ define([
      * @param obj - Simulation object
      * @param tickCount - Current tick count
      * @param timeFraction - Time fraction of current tick (in ms)
-     * TODO: More functions...
      */
     BeastBehaviour.apply = function (obj, tickCount, timeFraction) {
       if (obj !== undefined && obj instanceof BeastNode && obj.state != State.DYING) {
