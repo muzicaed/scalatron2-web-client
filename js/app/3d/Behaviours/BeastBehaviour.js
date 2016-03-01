@@ -33,8 +33,8 @@ define([
 
     /**
      * Scale down animation
-     * @param obj
-     * @param timeFraction
+     * @param obj - MasterBotNode
+     * @param timeFraction - Time fraction of current tick (in ms)
      * @private
      */
     function __scaleDown(obj, timeFraction) {
