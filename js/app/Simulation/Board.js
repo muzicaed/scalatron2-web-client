@@ -16,10 +16,6 @@ define([
     var boardData = null;
     var node = new THREE.Object3D();
 
-    // TODO: Test code
-    var bot1;
-    var bot2;
-
     /**
      *  Create the 3d board
      * @constructor
@@ -39,6 +35,34 @@ define([
       world.addStatic(node);
 
       // TODO: Remove test code
+      __createTestObjects();
+    };
+
+    /**
+     * Starts the simulation.
+     */
+    Board.prototype.runSimulation = function () {
+      world.render();
+    };
+
+    /**
+     * Handle a Scalatron server tick.
+     * @param tickCount
+     * @param targetTime - Target time for tick completion (in ms).
+     */
+    Board.prototype.tick = function (tickCount, targetTime) {
+      __labTick(tickCount);
+      Manipulator.tickCount = tickCount;
+      Manipulator.tickStartTime = new Date().getTime();
+      Manipulator.nextTickTargetTime = targetTime;
+    };
+
+
+    /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    // TODO: Test code remove
+    function __createTestObjects() {
       bot1 = world.addMasterBot("1", {x: 10, y: 3}, 7);
       bot2 = world.addMiniBot("2", {x: 13, y: 0}, 13);
       bot3 = world.addMiniBot("3", {x: 12, y: 0}, 24);
@@ -113,33 +137,10 @@ define([
           }, Math.floor(Math.random() * 49) + 1));
         }
       }
-
-    };
-
-    /**
-     * Starts the simulation.
-     */
-    Board.prototype.runSimulation = function () {
-      world.render();
-    };
-
-    /**
-     * Handle a Scalatron server tick.
-     * @param tickCount
-     * @param targetTime - Target time for tick completion (in ms).
-     */
-    Board.prototype.tick = function (tickCount, targetTime) {
-      __labTick(tickCount);
-      Manipulator.tickCount = tickCount;
-      Manipulator.tickStartTime = new Date().getTime();
-      Manipulator.nextTickTargetTime = targetTime;
-    };
+    }
 
 
-    /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    // TODO: Test code.
+    // TODO: Test code remove
     function __labTick(tickCount) {
       //log("Board tick " + tickCount + " - " + tickCount % 4);
 
