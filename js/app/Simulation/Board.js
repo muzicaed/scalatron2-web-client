@@ -83,8 +83,8 @@ define([
        }
        }
        */
-      for (var x = 0; x < 50; x++) {
-        for (var y = 0; y < 40; y++) {
+      for (var x = 0; x < 10; x++) {
+        for (var y = 0; y < 10; y++) {
           world.addMiniBot("mini2-" + x + "-" + y, {x: 31 + x, y: 0 + y}, Math.floor(Math.random() * 49) + 1);
         }
       }
@@ -95,8 +95,8 @@ define([
        }
        }
        */
-      for (var x = 0; x < 20; x++) {
-        for (var y = 0; y < 20; y++) {
+      for (var x = 0; x < 10; x++) {
+        for (var y = 0; y < 10; y++) {
           world.addBadBeast("beas-" + x + "-" + y, {x: 20 + x, y: 40 + y});
         }
       }
@@ -116,8 +116,8 @@ define([
         }
       }
 
-      for (var x = 0; x < 20; x++) {
-        for (var y = 0; y < 20; y++) {
+      for (var x = 0; x < 10; x++) {
+        for (var y = 0; y < 10; y++) {
           world.addBadFlower("flowb-" + x + "-" + y, {x: 43 + x, y: 30 + y});
         }
       }
