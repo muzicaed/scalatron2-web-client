@@ -174,6 +174,11 @@ define([
 
       camera.position.set(x, y - (y / 10), y * 1.6);
       camera.lookAt(new THREE.Vector3(x, y, 0));
+
+      // TODO: REMOVE TEST CODE
+      camera.position.set(100, 600, 100);
+      camera.lookAt(new THREE.Vector3(100, 600, 0));
+
     }
 
     /**

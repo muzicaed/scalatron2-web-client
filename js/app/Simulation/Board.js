@@ -7,10 +7,11 @@ define([
     "app/3d/Manipulator",
     "app/3d/World",
     "app/3d/Nodes/State",
-    "app/3d/Resources/MeshFactory"
+    "app/3d/Resources/MeshFactory",
+    "app/Audio"
   ],
 
-  function (THREE, PositionConverter, Manipulator, World, State, MeshFactory) {
+  function (THREE, PositionConverter, Manipulator, World, State, MeshFactory, Audio) {
 
     var world = new World();
     var boardData = null;
@@ -176,6 +177,7 @@ define([
         bot2.move.setTargetPosition({x: 13, y: bot2.move.gridPos.y + 1});
       } else if (tickCount == 3) {
         bot2.state = State.EXPLODE;
+        Audio.playSound("EXPLOSION");
       }
 
       if (tickCount < 4) {
@@ -183,6 +185,8 @@ define([
         bot3.move.setTargetPosition({x: 12, y: bot3.move.gridPos.y + 1});
       } else if (tickCount == 4) {
         bot3.state = State.EXPLODE;
+        Audio.playSound("EXPLOSION");
+
       }
 
       for (var index in testMov) {

@@ -8,8 +8,10 @@ define([],
     // Object
     var Audio = {};
 
-    var SoundFX = {};
-    var Music = {};
+    var soundFX = {};
+    var soundFXCount = {};
+    var MaxChannels = 10;
+    //var music;
 
     /**
      * Load sounds
@@ -17,8 +19,28 @@ define([],
      */
     Audio.load = function () {
       if(hasAudio()) {
-        var test = createAudio("audio/music/cuban.mp3");
-        test.play();
+        var music = createAudio("audio/music/blipstream.mp3", 0.5, true);
+        //music.play();
+        soundFX["DIE"] = createFxAudio("audio/sound-fx/die.wav", 0.5);
+        soundFX["EAT"] = createFxAudio("audio/sound-fx/eat.wav", 0.5);
+        soundFX["EXPLOSION"] = createFxAudio("audio/sound-fx/explosion.wav", 0.5);
+        soundFX["WALL-HIT"] = createFxAudio("audio/sound-fx/wall-hit.wav", 0.5);
+        soundFXCount["DIE"] = 0;
+        soundFXCount["EAT"] = 0;
+        soundFXCount["EXPLOSION"] = 0;
+        soundFXCount["WALL-HIT"] = 0;
+      }
+    };
+
+    /**
+     * Play sound effect.
+     */
+    Audio.playSound = function(key) {
+      if(soundFX[key] !== undefined)
+      soundFX[key][soundFXCount[key]].play();
+      soundFXCount[key]++;
+      if(soundFXCount[key] >= MaxChannels) {
+        soundFXCount[key] = 0;
       }
     };
 
@@ -30,7 +52,7 @@ define([],
      * @param src
      * @param volume
      * @param isLooping
-     * @returns {Element} - Audio.js
+     * @returns {Element} - Audio
      */
     function createAudio(src, volume, isLooping) {
       var audio = document.createElement('audio');
@@ -40,6 +62,18 @@ define([],
       return audio;
     }
 
+    /**
+     * Prepares polyphonic channels.
+     * @returns {Array} - of Audio elements
+     */
+    function createFxAudio(src, volume) {
+      var audio = createAudio(src, volume, false);
+      var audioArr = [];
+      for(var i = 0; i < MaxChannels; i++) {
+        audioArr.push(audio.cloneNode());
+      }
+      return audioArr;
+    }
 
     /**
      * Check if audio is supported.
