@@ -19,12 +19,12 @@ define([],
      */
     Audio.load = function () {
       if(hasAudio()) {
-        var music = createAudio("audio/music/blipstream.mp3", 0.5, true);
-        //music.play();
-        soundFX["DIE"] = createFxAudio("audio/sound-fx/die.wav", 0.5);
-        soundFX["EAT"] = createFxAudio("audio/sound-fx/eat.wav", 0.5);
-        soundFX["EXPLOSION"] = createFxAudio("audio/sound-fx/explosion.wav", 0.5);
-        soundFX["WALL-HIT"] = createFxAudio("audio/sound-fx/wall-hit.wav", 0.5);
+        var music = createAudio("audio/music/blipstream.mp3", 0.35, true);
+        music.play();
+        soundFX["DIE"] = createFxAudio("audio/sound-fx/die.mp3");
+        soundFX["EAT"] = createFxAudio("audio/sound-fx/eat.mp3");
+        soundFX["EXPLOSION"] = createFxAudio("audio/sound-fx/explosion.mp3");
+        soundFX["WALL-HIT"] = createFxAudio("audio/sound-fx/wall-hit.mp3");
         soundFXCount["DIE"] = 0;
         soundFXCount["EAT"] = 0;
         soundFXCount["EXPLOSION"] = 0;
@@ -70,6 +70,8 @@ define([],
       var audio = createAudio(src, volume, false);
       var audioArr = [];
       for(var i = 0; i < MaxChannels; i++) {
+        var copy = audio.cloneNode();
+        copy.volume = audio.volume;
         audioArr.push(audio.cloneNode());
       }
       return audioArr;

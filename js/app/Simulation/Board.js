@@ -168,8 +168,9 @@ define([
       if (tickCount % 4 == 0 && tickCount < 20) {
         beast1.state = State.MOVING;
         beast1.move.setTargetPosition({x: 9, y: beast1.move.gridPos.y + 1});
-      } else if (tickCount % 4 == 0 && tickCount >= 20) {
+      } else if (tickCount % 4 == 0 && tickCount >= 20 && tickCount < 24) {
         beast1.state = State.DYING;
+        Audio.playSound("DIE");
       }
 
       if (tickCount < 3) {
@@ -200,6 +201,7 @@ define([
 
       if (tickCount == 2) {
         myFlower.state = State.DYING;
+        Audio.playSound("DIE");
       }
     }
 
