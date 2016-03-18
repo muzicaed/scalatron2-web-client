@@ -10,7 +10,7 @@ define([
     // Object
     var Textures = {};
 
-    var noOfTextures = 4;
+    var noOfTextures = 5;
     var textureCount = 0;
 
     var doneCallback = null;
@@ -58,6 +58,13 @@ define([
           texture.wrapT = THREE.RepeatWrapping;
           texture.repeat.set(0.5, 0.5);
           Textures.Bot = texture;
+          textureCount++;
+          __done();
+        }
+      );
+
+      loader.load("textures/fire.png", function (texture) {
+          Textures.Explosion = texture;
           textureCount++;
           __done();
         }

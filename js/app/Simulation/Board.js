@@ -154,6 +154,7 @@ define([
         bot1.state = State.SPAWNING;
         minitest = world.addMiniBot("123123", {x: 10, y: 5}, 7);
         minitest.state = State.SPAWNED;
+        Audio.playSound("EAT");
       }
 
       if (tickCount > 2) {

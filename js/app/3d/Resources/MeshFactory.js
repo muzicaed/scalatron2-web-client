@@ -149,9 +149,9 @@ define([
     MeshFactory.createExplosion = function (tileRadius) {
       var geometry = new THREE.CircleGeometry(tileRadius * Static.TileSize, 12);
       var material = new THREE.MeshLambertMaterial({
-        color: 0xff4500,
         transparent: true,
-        opacity: 0.4
+        opacity: 0.6,
+        map: Textures.Explosion
       });
       return new THREE.Mesh(geometry, material);
     };

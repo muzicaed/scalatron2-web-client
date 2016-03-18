@@ -21,6 +21,7 @@ define([
      */
     ExplosionBehaviour.apply = function (obj, tickCount, timeFraction) {
       var frame = tickCount - obj.birthTick;
+      obj.node.rotation.z += (Math.random() * (0.042) + 0.010);
       switch (frame) {
         case 0:
           obj.node.scale.x = Math.max(timeFraction, 0.01);
