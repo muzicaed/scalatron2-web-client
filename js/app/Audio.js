@@ -11,7 +11,7 @@ define([],
     var soundFX = {};
     var soundFXCount = {};
     var MaxChannels = 10;
-    //var music;
+    var music;
 
     /**
      * Load sounds
@@ -19,8 +19,7 @@ define([],
      */
     Audio.load = function () {
       if(hasAudio()) {
-        var music = createAudio("audio/music/blipstream.mp3", 0.35, true);
-        music.play();
+        music = createAudio("audio/music/blipstream.mp3", 0.35, true);
         soundFX["DIE"] = createFxAudio("audio/sound-fx/die.mp3");
         soundFX["EAT"] = createFxAudio("audio/sound-fx/eat.mp3");
         soundFX["EXPLOSION"] = createFxAudio("audio/sound-fx/explosion.mp3");
@@ -29,6 +28,8 @@ define([],
         soundFXCount["EAT"] = 0;
         soundFXCount["EXPLOSION"] = 0;
         soundFXCount["WALL-HIT"] = 0;
+
+        music.play();
       }
     };
 

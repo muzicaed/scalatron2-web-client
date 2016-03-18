@@ -26,7 +26,7 @@ define([
       loader.load("textures/floor.jpg", function (texture) {
           texture.wrapS = THREE.RepeatWrapping;
           texture.wrapT = THREE.RepeatWrapping;
-          texture.repeat.set(10, 10);
+          texture.repeat.set(9.18, 9.18);
           Textures.Floor = texture;
           textureCount++;
           __done();
