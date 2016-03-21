@@ -14,6 +14,11 @@ define([
     var Instructor = {};
 
     /**
+     * The Scene
+     */
+    Instructor.scene = null;
+
+    /**
      * Handels the tick data from server.
      * Instructs all simulation objects about changes,
      * and creates/removes objcets as needed.

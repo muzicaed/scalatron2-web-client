@@ -5,6 +5,7 @@ define([
     "lib/three",
     "lib/threex-fullscreen",
     "app/3d/Manipulator",
+    "app/Simulation/Instructor",
     "app/3d/Nodes/MasterBotNode",
     "app/3d/Nodes/MiniBotNode",
     "app/3d/Nodes/BeastNode",
@@ -13,7 +14,8 @@ define([
     "app/Common/Static"
   ],
 
-  function (THREE, THREEx, Manipulator, MasterBotNode, MiniBotNode, BeastNode, FlowerNode, PositionConverter, Static) {
+  function (THREE, THREEx, Manipulator, Instructor, MasterBotNode, MiniBotNode, BeastNode,
+            FlowerNode, PositionConverter, Static) {
     var viewPort = {width: window.innerWidth, height: window.innerHeight};
     var renderer = new THREE.WebGLRenderer({antialias: true});
     var scene = new THREE.Scene();
@@ -28,6 +30,7 @@ define([
       document.body.appendChild(renderer.domElement);
       __addFullScreenShortcut();
       Manipulator.scene = scene;
+      Instructor.scene = scene;
     }
 
     /**
