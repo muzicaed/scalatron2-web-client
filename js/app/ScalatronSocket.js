@@ -2,7 +2,7 @@ define([],
 
   function () {
 
-    var wsUri = "ws://10.0.0.154:8888/greeter";
+    var wsUri = "ws://localhost:8888/room";
 
     /**
      *  Create a Scalatron socket.
@@ -34,7 +34,7 @@ define([],
      */
     ScalatronSocket.prototype.__onOpen = function (evt) {
       log("CONNECTED!");
-      this.onConnectedCallback();
+      this.onConnectedCallback(evt);
     };
 
     /**
@@ -51,13 +51,23 @@ define([],
       log("onError!");
     };
 
+    var debugCount = 0;
+
     /**
      * On web socket error.
      */
     ScalatronSocket.prototype.__onMessage = function (evt) {
       log("Received message:");
-      log(evt);
-      this.onMessageCallback(evt);
+      var data = JSON.parse(evt.data);
+
+      if (data.constructor !== Array) {
+        // TODO: Remove test code.
+        debugCount++;
+        if (debugCount > 10) {
+          this.socket.close();
+        }
+        this.onMessageCallback(data);
+      }
     };
 
 
