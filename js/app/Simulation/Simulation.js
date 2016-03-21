@@ -31,8 +31,6 @@ define([
      */
     Simulation.prototype.runSimulation = function () {
       isRunning = true;
-      log(tickQueue);
-
       if (tickQueue.length > 0) {
         board.init(BoardCreator.create(tickQueue[0]));
         board.runSimulation();
@@ -65,8 +63,7 @@ define([
         if (tickCount < queueLength) {
           __tick(tickQueue[tickCount]);
         } else {
-          // TODO: Implement some buffering
-          log("Buffering...");
+          // TODO: Implement some buffering user information
         }
       }.bind(this), Static.TimePerTick);
     }
@@ -77,9 +74,8 @@ define([
      * @private
      */
     function __tick(tickData) {
-      // TODO: Send in state data from sever here...
       var targetTime = new Date().getTime() + Static.TimePerTick;
-      board.tick(tickCount, targetTime);
+      board.tick(tickCount, targetTime, tickData);
       tickCount++;
     }
 

@@ -61,8 +61,7 @@ define([
         color: 0x00ff00,
         specular: 0xffffff,
         shininess: 10,
-        shading: THREE.FlatShading,
-        map: Textures.Plant
+        shading: THREE.FlatShading
       });
       badFlowerMaterial = new THREE.MeshPhongMaterial({
         color: 0xffff00,

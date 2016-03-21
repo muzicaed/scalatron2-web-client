@@ -33,7 +33,6 @@ define([],
      * On web socket open.
      */
     ScalatronSocket.prototype.__onOpen = function (evt) {
-      log("CONNECTED!");
       this.onConnectedCallback(evt);
     };
 
@@ -51,21 +50,12 @@ define([],
       log("onError!");
     };
 
-    var debugCount = 0;
-
     /**
      * On web socket error.
      */
     ScalatronSocket.prototype.__onMessage = function (evt) {
-      log("Received message:");
       var data = JSON.parse(evt.data);
-
       if (data.constructor !== Array) {
-        // TODO: Remove test code.
-        debugCount++;
-        if (debugCount > 10) {
-          this.socket.close();
-        }
         this.onMessageCallback(data);
       }
     };

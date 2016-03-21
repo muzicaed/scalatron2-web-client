@@ -48,78 +48,9 @@ define([
       renderer.render(scene, camera);
     };
 
-    /**
-     * Creates and adds a new master bot.
-     * @param id - String
-     * @param initialPos - THREE.Vector2, position on 2d grid
-     * @param colorId - Number
-     * @returns {MasterBotNode}
-     */
-    World.prototype.addMasterBot = function (id, initialPos, colorId) {
-      var botNode = new MasterBotNode("MASTER-" + id, initialPos, colorId);
-      __addObj(botNode);
-      return botNode;
-    };
-
-    /**
-     * Creates and adds a new mini bot.
-     * @param id - String
-     * @param initialPos - THREE.Vector2, position on 2d grid
-     * @param colorId - Number
-     * @returns {MiniBotNode}
-     */
-    World.prototype.addMiniBot = function (id, initialPos, colorId) {
-      var botNode = new MiniBotNode("MINI-" + id, initialPos, colorId);
-      __addObj(botNode);
-      return botNode;
-    };
-
-    /**
-     * Creates and adds a good beast.
-     * @param id - String
-     * @param initialPos - THREE.Vector2, position on 2d grid
-     * @returns {BeastNode}
-     */
-    World.prototype.addGoodBeast = function (id, initialPos) {
-      var beastNode = new BeastNode("G-BEAST-" + id, initialPos, BeastNode.Type.GOOD);
-      __addObj(beastNode);
-      return beastNode;
-    };
-
-    /**
-     * Creates and adds a bad beast.
-     * @param id - String
-     * @param initialPos - THREE.Vector2, position on 2d grid
-     * @returns {BeastNode}
-     */
-    World.prototype.addBadBeast = function (id, initialPos) {
-      var beastNode = new BeastNode("B-BEAST-" + id, initialPos, BeastNode.Type.BAD);
-      __addObj(beastNode);
-      return beastNode;
-    };
-
-    /**
-     * Creates and adds a good flower.
-     * @param id - String
-     * @param initialPos - THREE.Vector2, position on 2d grid
-     * @returns {FlowerNode}
-     */
-    World.prototype.addGoodFlower = function (id, initialPos) {
-      var flowerNode = new FlowerNode("G-FLOWER-" + id, initialPos, FlowerNode.Type.GOOD);
-      __addObj(flowerNode);
-      return flowerNode;
-    };
-
-    /**
-     * Creates and adds a bad beast.
-     * @param id - String
-     * @param initialPos - THREE.Vector2, position on 2d grid
-     * @returns {FlowerNode}
-     */
-    World.prototype.addBadFlower = function (id, initialPos) {
-      var flowerNode = new FlowerNode("B-FLOWER-" + id, initialPos, FlowerNode.Type.BAD);
-      __addObj(flowerNode);
-      return flowerNode;
+    // TODO: Remove this test code...
+    World.prototype.clear = function () {
+      Manipulator.clear();
     };
 
     /**
@@ -178,7 +109,6 @@ define([
       // TODO: REMOVE TEST CODE
       //camera.position.set(100, 600, 190);
       //camera.lookAt(new THREE.Vector3(100, 600, 0));
-
     }
 
     /**

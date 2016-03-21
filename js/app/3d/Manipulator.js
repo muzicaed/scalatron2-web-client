@@ -78,6 +78,15 @@ define([
       simulationObjects[obj.id] = obj;
     };
 
+    // TODO: Remove this test code...
+    Manipulator.clear = function () {
+      for (var index in simulationObjects) {
+        var obj = simulationObjects[index];
+        Manipulator.scene.remove(obj.node);
+        delete simulationObjects[index];
+      }
+    };
+
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
