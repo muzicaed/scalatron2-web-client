@@ -6,16 +6,11 @@ define([
     "lib/threex-fullscreen",
     "app/3d/Manipulator",
     "app/Simulation/Instructor",
-    "app/3d/Nodes/MasterBotNode",
-    "app/3d/Nodes/MiniBotNode",
-    "app/3d/Nodes/BeastNode",
-    "app/3d/Nodes/FlowerNode",
     "app/3d/PositionConverter",
     "app/Common/Static"
   ],
 
-  function (THREE, THREEx, Manipulator, Instructor, MasterBotNode, MiniBotNode, BeastNode,
-            FlowerNode, PositionConverter, Static) {
+  function (THREE, THREEx, Manipulator, Instructor, PositionConverter, Static) {
     var viewPort = {width: window.innerWidth, height: window.innerHeight};
     var renderer = new THREE.WebGLRenderer({antialias: true});
     var scene = new THREE.Scene();
@@ -67,16 +62,6 @@ define([
     };
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Adds an simulation object.
-     * @param obj - Simulation object
-     * @private
-     */
-    function __addObj(obj) {
-      scene.add(obj.node);
-      Manipulator.add(obj);
-    }
 
     /**
      * Adds event handler for "f" key = Set browser fullscreen.

@@ -76,15 +76,39 @@ define([
      */
     Manipulator.add = function (obj) {
       simulationObjects[obj.id] = obj;
+      Manipulator.scene.add(obj.node);
     };
 
-    // TODO: Remove this test code...
-    Manipulator.clear = function () {
+    /**
+     * Retrieves a 3d object
+     * @param id
+     * @returns Objects - if found, else null
+     */
+    Manipulator.retrieve = function (id) {
+      return simulationObjects[id];
+    };
+
+    /**
+     * Clears unused objects.
+     * @param objs - Objects (Hash)
+     */
+    Manipulator.clearUnused = function (ids) {
       for (var index in simulationObjects) {
-        var obj = simulationObjects[index];
-        Manipulator.scene.remove(obj.node);
-        delete simulationObjects[index];
+        if (simulationObjects.hasOwnProperty(index)) {
+          if (ids[index] === undefined) {
+            simulationObjects[index].state = State.REMOVE;
+          }
+        }
       }
+
+      // TODO: Remove test code
+      /*
+      var size = 0;
+      for (var key in simulationObjects) {
+        if (simulationObjects.hasOwnProperty(key)) size++;
+      }
+      log("Sim obj count: " + size);
+      */
     };
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////

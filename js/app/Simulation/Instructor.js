@@ -4,10 +4,16 @@
  * managing their states.
  */
 define([
-    "lib/three"
+    "lib/three",
+    "app/3d/Manipulator",
+    "app/3d/Nodes/MasterBotNode",
+    "app/3d/Nodes/MiniBotNode",
+    "app/3d/Nodes/BeastNode",
+    "app/3d/Nodes/FlowerNode",
+    "app/3d/Nodes/State"
   ],
 
-  function (THREE) {
+  function (THREE, Manipulator, MasterBotNode, MiniBotnode, BeastNode, FlowerNode, State) {
 
 
     // Object
@@ -19,16 +25,104 @@ define([
     Instructor.scene = null;
 
     /**
-     * Handels the tick data from server.
+     * Manages the tick data from server.
      * Instructs all simulation objects about changes,
-     * and creates/removes objcets as needed.
+     * and creates/removes objects as needed.
      * @param tickData
      */
     Instructor.handleTick = function (tickData) {
-
+      var hash = __extractHash(tickData);
+      Manipulator.clearUnused(hash);
+      for (var i = 0, len = tickData.bots.length; i < len; i++) {
+        var entity = tickData.bots[i];
+        if (__isPlant(entity)) {
+          __handlePlant(entity);
+        } else {
+          __handleEntity(entity);
+        }
+      }
     };
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Handle plant entities.
+     * @param entity
+     * @private
+     */
+    function __handlePlant(entity) {
+      var id = __createPlantId(entity);
+      var obj3d = Manipulator.retrieve(id);
+      if (obj3d === undefined) {
+        var type = (entity.t == "P") ? FlowerNode.Type.GOOD : FlowerNode.Type.BAD
+        Manipulator.add(new FlowerNode(id, new THREE.Vector2(entity.x, entity.y), type));
+        return;
+      }
+      obj3d.state = State.IDLING;
+    }
+
+    /**
+     * Handle moving entities (Beast & Bots)
+     * @param entity
+     * @private
+     */
+    function __handleEntity(entity) {
+      // TODO: Test code...
+      if (entity.t == "M") {
+        var obj3d = Manipulator.retrieve(entity.id);
+        if (obj3d === undefined) {
+          obj3d = new MasterBotNode(entity.id, new THREE.Vector2(entity.x, entity.y), 6);
+          Manipulator.add(obj3d);
+        }
+
+        if ((Manipulator.tickCount % 2) == 0) {
+          if (obj3d.move.gridPos.x != entity.x || obj3d.move.gridPos.y != entity.y) {
+            obj3d.move.setTargetPosition(new THREE.Vector2(entity.x, entity.y));
+            obj3d.state = State.MOVING;
+          }
+        }
+      }
+    }
+
+    /**
+     * Extracts a hash of entity ids.
+     * @param tickData
+     * @private
+     * @returns Object - Hash of ids
+     */
+    function __extractHash(tickData) {
+      var hash = {};
+      for (var i = 0, len = tickData.bots.length; i < len; i++) {
+        var entity = tickData.bots[i];
+        if (__isPlant(entity)) {
+          hash[__createPlantId(entity)] = entity;
+        } else {
+          hash[entity.id] = entity;
+        }
+      }
+
+      return hash;
+    }
+
+    /**
+     * Creates id for plant
+     * @param entity
+     * @private
+     * @returns String
+     */
+    function __createPlantId(entity) {
+      return "PLANT-" + entity.x + entity.y;
+    }
+
+    /**
+     * Checks if entity is a plant.
+     * @param entity
+     * @private
+     * @returns Boolean
+     */
+    function __isPlant(entity) {
+      return (entity.t == "P" || entity.t == "p");
+    }
 
     /**
      * Creates and adds a new master bot.

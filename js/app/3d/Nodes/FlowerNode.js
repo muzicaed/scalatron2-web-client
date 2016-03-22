@@ -20,7 +20,7 @@ define([
      */
     function FlowerNode(id, initialPos, type) {
       this.id = id;
-      this.state = State.IDLING;
+      this.state = State.SPAWNED;
       this.type = type;
       if (type == FlowerNode.Type.GOOD) {
         this.node = MeshFactory.createGoodFlowerMesh();
