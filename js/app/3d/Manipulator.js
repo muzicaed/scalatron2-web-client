@@ -12,12 +12,13 @@ define([
     "app/3d/Behaviours/DyingBehaviour",
     "app/3d/Nodes/ExplosionNode",
     "app/3d/Nodes/FlowerNode",
+    "app/3d/Nodes/MiniBotNode",
     "app/3d/Nodes/State",
     "app/Audio"
   ],
 
   function (THREE, MoveVisitor, SpinBehaviour, SpawningBehaviour, SpawnedBehaviour, BeastBehaviour,
-            ExplosionBehaviour, DyingBehaviour, ExplosionNode, FlowerNode, State, Audio) {
+            ExplosionBehaviour, DyingBehaviour, ExplosionNode, FlowerNode, MiniBotNode, State, Audio) {
 
     var simulationObjects = {};
 
@@ -99,7 +100,8 @@ define([
         if (simulationObjects.hasOwnProperty(index)) {
           if (ids[index] === undefined) {
             if (simulationObjects[index].constructor === FlowerNode) {
-              Audio.playSound("DIE");
+              simulationObjects[index].state = State.DYING;
+            } else if (simulationObjects[index].constructor === MiniBotNode) {
               simulationObjects[index].state = State.DYING;
             } else {
               simulationObjects[index].state = State.REMOVE;
@@ -107,15 +109,6 @@ define([
           }
         }
       }
-
-      // TODO: Remove test code
-      /*
-      var size = 0;
-      for (var key in simulationObjects) {
-        if (simulationObjects.hasOwnProperty(key)) size++;
-      }
-      log("Sim obj count: " + size);
-      */
     };
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
