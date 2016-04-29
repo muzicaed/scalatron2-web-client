@@ -92,7 +92,7 @@ define([
       if (entity.t == "M") {
         entity3d = new MasterBotNode(entity.t + entity.id, new THREE.Vector2(entity.x, entity.y), 6);
       } else if (entity.t == "S") {
-        entity3d = new MiniBotnode(entity.t + entity.id, new THREE.Vector2(entity.x, entity.y), 6)
+        entity3d = new MiniBotnode(entity.t + entity.id, "M" + entity.mId, new THREE.Vector2(entity.x, entity.y), 6)
       } else if (entity.t == "B") {
         entity3d = new BeastNode(entity.t + entity.id, new THREE.Vector2(entity.x, entity.y), BeastNode.Type.GOOD)
       } else if (entity.t == "b") {

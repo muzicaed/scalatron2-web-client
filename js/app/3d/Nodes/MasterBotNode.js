@@ -14,15 +14,14 @@ define([
      * Create a Master bot
      * @param id - String, object's id
      * @param initialPos - THREE.Vector2, position on 2d grid
-     * @param colorId - Number
      * @constructor
      */
-    function MasterBotNode(id, initialPos, colorId) {
+    function MasterBotNode(id, initialPos) {
       this.id = id;
       this.state = State.IDLING;
       this.node = new THREE.Object3D();
-      this.node.add(MeshFactory.createBotBodyMesh(colorId));
-      this.node.add(MeshFactory.createBotStripeMesh(colorId));
+      this.node.add(MeshFactory.createBotBodyMesh(this.id));
+      this.node.add(MeshFactory.createBotStripeMesh(this.id));
       this.node.scale.z = 0.75;
       this.node.position.z = 1.2;
 

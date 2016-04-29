@@ -6,10 +6,11 @@ define([
     "lib/three",
     "app/Simulation/Board",
     "app/Common/Static",
-    "app/Simulation/BoardCreator"
+    "app/Simulation/BoardCreator",
+    "app/3d/Resources/Colors"
   ],
 
-  function (THREE, Board, Static, BoardCreator) {
+  function (THREE, Board, Static, BoardCreator, Colors) {
 
     var board = new Board();
     var tickCount = 0;
@@ -32,7 +33,9 @@ define([
     Simulation.prototype.runSimulation = function () {
       isRunning = true;
       if (tickQueue.length > 0) {
-        board.init(BoardCreator.create(tickQueue[0]));
+        var firstTick = tickQueue[0];
+        board.init(BoardCreator.create(firstTick));
+        Colors.reserveColors(firstTick);
         board.runSimulation();
         __startMainTickLoop();
         return;

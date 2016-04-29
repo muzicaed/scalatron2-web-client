@@ -5,24 +5,11 @@ define([
     "lib/three",
     "app/3d/PositionConverter",
     "app/3d/Resources/Textures",
-    "app/Common/Static"
+    "app/Common/Static",
+    "app/3d/Resources/Colors"
   ],
 
-  function (THREE, PositionConverter, Textures, Static) {
-
-    var NoOfColors = 7;
-
-    var colors = {
-      1: new THREE.Color(0x00ffff),
-      2: new THREE.Color(0xfcd04a),
-      3: new THREE.Color(0xe45e9f),
-      4: new THREE.Color(0x8B4513),
-      5: new THREE.Color(0x5ab322),
-      6: new THREE.Color(0xdb302e),
-      7: new THREE.Color(0x3366ff)
-    };
-
-    var colorCombinations = __generateColorCombinations();
+  function (THREE, PositionConverter, Textures, Static, Colors) {
 
     var masterBotGeometry, masterBotStripesGeometry, miniBotGeometry, beastGeometry, flowerGeometry;
     var masterBotMaterials, masterBotStripeMaterials, miniBotMaterials, goodBeastMaterial, badBeastMaterial,
@@ -37,7 +24,7 @@ define([
      */
     MeshFactory.initMesh = function () {
       masterBotGeometry = new THREE.SphereGeometry(9.5, 32, 32);
-      masterBotStripesGeometry = new THREE.DodecahedronGeometry(10.5);
+      masterBotStripesGeometry = new THREE.DodecahedronGeometry(10.8);
       miniBotGeometry = new THREE.OctahedronGeometry(4.5);
       beastGeometry = new THREE.TorusGeometry(3.8, 1.3, 3, 5);
       flowerGeometry = new THREE.SphereGeometry(3.8, 4, 3.5);
@@ -83,31 +70,34 @@ define([
 
     /**
      * Creates a master bot body mesh.
-     * @param colorId - Number
+     * @param masterBotId - Number
      * @returns THREE.Mesh
      */
-    MeshFactory.createBotBodyMesh = function (colorId) {
-      var material = masterBotMaterials[colorCombinations[colorId].pri];
+    MeshFactory.createBotBodyMesh = function (masterBotId) {
+      var color = Colors.getColor(masterBotId);
+      var material = masterBotMaterials[color.sec];
       return new THREE.Mesh(masterBotGeometry, material);
     };
 
     /**
      * Creates a master bot stripe mesh.
-     * @param colorId - Number
+     * @param masterBotId - Number
      * @returns THREE.Mesh
      */
-    MeshFactory.createBotStripeMesh = function (colorId) {
-      var material = masterBotStripeMaterials[colorCombinations[colorId].sec];
+    MeshFactory.createBotStripeMesh = function (masterBotId) {
+      var color = Colors.getColor(masterBotId);
+      var material = masterBotStripeMaterials[color.pri];
       return new THREE.Mesh(masterBotStripesGeometry, material);
     };
 
     /**
      * Creates a mini bot body mesh.
-     * @param colorId - Number
+     * @param masterBotId - Number
      * @returns THREE.Mesh
      */
-    MeshFactory.createMiniBotMesh = function (colorId) {
-      var priMaterial = miniBotMaterials[colorCombinations[colorId].pri];
+    MeshFactory.createMiniBotMesh = function (masterBotId) {
+      var color = Colors.getColor(masterBotId);
+      var priMaterial = miniBotMaterials[color.sec];
       return new THREE.Mesh(miniBotGeometry, priMaterial);
     };
 
@@ -211,32 +201,17 @@ define([
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Generates color combination matrix.
-     * @returns Object - color matrix
-     * @private
-     */
-    function __generateColorCombinations() {
-      var combinations = {};
-      for (var s = 1; s <= NoOfColors; s++) {
-        for (var p = 1; p <= NoOfColors; p++) {
-          combinations[(s + (p * NoOfColors)) - NoOfColors] = {pri: p - 1, sec: s - 1}
-        }
-      }
-      return combinations;
-    }
-
-    /**
      * Generates master bot base materials.
      * @returns Array of materials
      * @private
      */
     function __generateMasterBotMaterials() {
       var materials = [];
-      for (var i = 1; i <= NoOfColors; i++) {
+      for (var i = 1; i <= Colors.count; i++) {
         materials.push(
           new THREE.MeshPhongMaterial({
-            color: colors[i],
-            specular: 0x888888,
+            color: Colors.col[i],
+            specular: 0x555555,
             shininess: 800,
             map: Textures.Bot
           })
@@ -252,12 +227,12 @@ define([
      */
     function __generateMasterBotStripeMaterials() {
       var materials = [];
-      for (var i = 1; i <= NoOfColors; i++) {
+      for (var i = Colors.count; i > 0; i--) {
         materials.push(
           new THREE.MeshPhongMaterial({
-            color: colors[i],
-            specular: 0xdddddd,
-            shininess: 90,
+            color: Colors.col[i],
+            specular: 0x222222,
+            shininess: 10,
             shading: THREE.FlatShading
           })
         );
@@ -272,10 +247,10 @@ define([
      */
     function __generateMiniBotMaterials() {
       var materials = [];
-      for (var i = 1; i <= NoOfColors; i++) {
+      for (var i = 1; i <= Colors.count; i++) {
         materials.push(
           new THREE.MeshPhongMaterial({
-            color: colors[i],
+            color: Colors.col[i],
             specular: 0xaaaaaa,
             shininess: 90,
             map: Textures.MiniBot
