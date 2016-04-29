@@ -52,7 +52,7 @@ define([
      * @private
      */
     function __performAnimation(obj, timeFraction) {
-      var scale = 1 - timeFraction;
+      var scale = 1 - (timeFraction * 0.5);
       obj.node.scale.x = Math.max(scale, 0.01);
       obj.node.scale.y = Math.max(scale, 0.01);
       obj.node.scale.z = Math.max(scale * 2, 0.01);

@@ -19,7 +19,7 @@ define([],
      */
     Audio.load = function () {
       if(hasAudio()) {
-        music = createAudio("audio/music/blipstream.mp3", 0.35, true);
+        music = createAudio("audio/music/blipstream.mp3", 0.5, true);
         soundFX["DIE"] = createFxAudio("audio/sound-fx/die.mp3");
         soundFX["EAT"] = createFxAudio("audio/sound-fx/eat.mp3");
         soundFX["EXPLOSION"] = createFxAudio("audio/sound-fx/explosion.mp3");

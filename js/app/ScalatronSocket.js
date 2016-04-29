@@ -56,6 +56,7 @@ define([],
     ScalatronSocket.prototype.__onMessage = function (evt) {
       var data = JSON.parse(evt.data);
       if (data.constructor !== Array) {
+        log("Hi");
         this.onMessageCallback(data);
       }
     };

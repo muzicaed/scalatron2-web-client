@@ -11,11 +11,13 @@ define([
     "app/3d/Behaviours/ExplosionBehaviour",
     "app/3d/Behaviours/DyingBehaviour",
     "app/3d/Nodes/ExplosionNode",
-    "app/3d/Nodes/State"
+    "app/3d/Nodes/FlowerNode",
+    "app/3d/Nodes/State",
+    "app/Audio"
   ],
 
-  function (THREE, MoveVisitor, SpinBehaviour, SpawningBehaviour, SpawnedBehaviour,
-            BeastBehaviour, ExplosionBehaviour, DyingBehaviour, ExplosionNode, State) {
+  function (THREE, MoveVisitor, SpinBehaviour, SpawningBehaviour, SpawnedBehaviour, BeastBehaviour,
+            ExplosionBehaviour, DyingBehaviour, ExplosionNode, FlowerNode, State, Audio) {
 
     var simulationObjects = {};
 
@@ -96,7 +98,12 @@ define([
       for (var index in simulationObjects) {
         if (simulationObjects.hasOwnProperty(index)) {
           if (ids[index] === undefined) {
-            simulationObjects[index].state = State.REMOVE;
+            if (simulationObjects[index].constructor === FlowerNode) {
+              Audio.playSound("DIE");
+              simulationObjects[index].state = State.DYING;
+            } else {
+              simulationObjects[index].state = State.REMOVE;
+            }
           }
         }
       }

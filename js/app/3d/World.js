@@ -88,10 +88,10 @@ define([
         0.1,
         2000);
 
-      var x = (boardData.width * Static.TileSize) / 2;
-      var y = (boardData.height * Static.TileSize) / 2;
+      var x = ((boardData.width * Static.TileSize) / 2);
+      var y = ((boardData.height * Static.TileSize) / 2) - (Static.TileSize / 2);
 
-      camera.position.set(x, y - (y / 20), y * 1.4);
+      camera.position.set(x, y - (y / 20), y * 1.40);
       camera.lookAt(new THREE.Vector3(x, y, 0));
 
       // TODO: REMOVE TEST CODE

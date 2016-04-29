@@ -36,11 +36,11 @@ define([
      * TODO: Optimize more, reuse the whole mesh when possible
      */
     MeshFactory.initMesh = function () {
-      masterBotGeometry = new THREE.SphereGeometry(7.5, 32, 32);
-      masterBotStripesGeometry = new THREE.DodecahedronGeometry(8.5);
+      masterBotGeometry = new THREE.SphereGeometry(9.5, 32, 32);
+      masterBotStripesGeometry = new THREE.DodecahedronGeometry(10.5);
       miniBotGeometry = new THREE.OctahedronGeometry(4.5);
-      beastGeometry = new THREE.TorusGeometry(2.8, 1.3, 3, 5);
-      flowerGeometry = new THREE.SphereGeometry(3, 4, 3.5);
+      beastGeometry = new THREE.TorusGeometry(3.8, 1.3, 3, 5);
+      flowerGeometry = new THREE.SphereGeometry(5, 4, 3.5);
       wallGeometry = new THREE.BoxGeometry(10, 10, 12);
 
       masterBotMaterials = __generateMasterBotMaterials();
