@@ -24,12 +24,14 @@ define([
     /**
      * Coverts tile 2d position to world 3d position.
      * @param pos - THREE.Vector2, tile position on board
+     * @param offset - Use tile offset?
      * @returns THREE.Vector3 - Position in 3d space
      */
-    PositionConverter.convert = function (pos) {
+    PositionConverter.convert = function (pos, noOffset) {
+      var offset = (noOffset) ? 0 : (Static.TileSize / 2);
       return new THREE.Vector3(
-        (pos.x * Static.TileSize),
-        (-(pos.y * Static.TileSize)) + (boardHeight * Static.TileSize),
+        (pos.x * Static.TileSize) + offset,
+        (-(pos.y * Static.TileSize)) + (boardHeight * Static.TileSize) - offset,
         0
       );
     };

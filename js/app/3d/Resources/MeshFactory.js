@@ -24,7 +24,7 @@ define([
 
     var colorCombinations = __generateColorCombinations();
 
-    var masterBotGeometry, masterBotStripesGeometry, miniBotGeometry, beastGeometry, flowerGeometry, wallGeometry;
+    var masterBotGeometry, masterBotStripesGeometry, miniBotGeometry, beastGeometry, flowerGeometry;
     var masterBotMaterials, masterBotStripeMaterials, miniBotMaterials, goodBeastMaterial, badBeastMaterial,
       goodFlowerMaterial, badFlowerMaterial, wallMaterial, floorMaterial;
 
@@ -41,7 +41,6 @@ define([
       miniBotGeometry = new THREE.OctahedronGeometry(4.5);
       beastGeometry = new THREE.TorusGeometry(3.8, 1.3, 3, 5);
       flowerGeometry = new THREE.SphereGeometry(5, 4, 3.5);
-      wallGeometry = new THREE.BoxGeometry(10, 10, 12);
 
       masterBotMaterials = __generateMasterBotMaterials();
       masterBotStripeMaterials = __generateMasterBotStripeMaterials();
@@ -77,7 +76,7 @@ define([
       });
       wallMaterial = new THREE.MeshPhongMaterial({
         color: 0x383838,
-        shininess: 20,
+        shininess: 200,
         shading: THREE.FlatShading
       });
     };
@@ -185,21 +184,20 @@ define([
       floorMesh.position.y = ((boardData.height * Static.TileSize) / 2) + (Static.TileSize / 2);
       floorMesh.position.z = -4;
 
-
       var combinedGeo = new THREE.Geometry();
-      for (var x = 0, len = boardData.width; x < len; x++) {
-        for (var y = boardData.height - 1; y >= 0; y--) {
-          var index = x + (y * boardData.height);
-          if (boardData.grid[index] == 1) {
-            var wallMesh = new THREE.Mesh(wallGeometry);
-            var vec3d = PositionConverter.convert(new THREE.Vector2(x, y));
-            wallMesh.position.x = vec3d.x;
-            wallMesh.position.y = vec3d.y;
-            wallMesh.position.z = 0;
-            wallMesh.updateMatrix();
-            combinedGeo.merge(wallMesh.geometry, wallMesh.matrix);
-          }
-        }
+      for (var i = 0; i < boardData.walls.length; i++) {
+        var wall = boardData.walls[i];
+        var width = wall.e.x * Static.TileSize;
+        var height = wall.e.y * Static.TileSize;
+
+        var wallGeometry = new THREE.BoxGeometry(width, height, 12);
+        var wallMesh = new THREE.Mesh(wallGeometry);
+        var vec3d = PositionConverter.convert(new THREE.Vector2(wall.x, wall.y), true);
+        wallMesh.position.x = vec3d.x + (width / 2);
+        wallMesh.position.y = vec3d.y - (height / 2);
+        wallMesh.position.z = 0;
+        wallMesh.updateMatrix();
+        combinedGeo.merge(wallMesh.geometry, wallMesh.matrix);
       }
 
       var combinedWallMesh = new THREE.Mesh(combinedGeo, wallMaterial);

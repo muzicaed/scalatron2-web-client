@@ -23,7 +23,6 @@ define([],
      * Send message using socket.
      */
     ScalatronSocket.prototype.sendMessage = function (message) {
-      log("Sending: " + message);
       this.socket.send(message);
     };
 
