@@ -54,10 +54,10 @@ define(
      * @private
      */
     function __calcTimeFraction(simObj, tickCount, timeFraction) {
-      if (simObj.calcTimeFraction === undefined) {
+      if (simObj.move === undefined) {
         return timeFraction;
       }
-      return simObj.calcTimeFraction(tickCount, timeFraction);
+      return simObj.move.calcTimeFraction(tickCount, timeFraction);
     }
 
     // Return object

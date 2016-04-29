@@ -25,6 +25,7 @@ define([
       this.node.position.z = 3.5;
       this.move = new MoveResponder(initialPos);
       this.move.placeOrigin(this.node);
+      this.move.stepOffset = 1;
       this.explodedTick = -1;
     }
 

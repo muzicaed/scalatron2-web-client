@@ -29,7 +29,7 @@ define([],
         soundFXCount["EXPLOSION"] = 0;
         soundFXCount["WALL-HIT"] = 0;
 
-        music.play();
+        //music.play();
       }
     };
 

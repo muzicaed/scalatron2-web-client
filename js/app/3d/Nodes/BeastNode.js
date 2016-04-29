@@ -29,20 +29,9 @@ define([
       }
       this.move = new MoveResponder(initialPos);
       this.move.placeOrigin(this.node);
+      this.move.stepOffset = 4;
       this.node.position.z = -2;
     }
-
-    /**
-     * Calculate beast real time fraction.
-     * Master bots only move every 4th tick.
-     * @param tickCount - Current tick count
-     * @param timeFraction - Time fraction of current tick (in ms)
-     * @returns {number}
-     */
-    BeastNode.prototype.calcTimeFraction = function (tickCount, timeFraction) {
-      var frameOffset = tickCount % 4;
-      return (timeFraction / 4) + (frameOffset / 4);
-    };
 
 
     BeastNode.Type = Object.freeze({

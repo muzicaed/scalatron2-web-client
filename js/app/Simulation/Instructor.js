@@ -37,7 +37,7 @@ define([
         var entity = tickData.bots[i];
         if (__isPlant(entity)) {
           __handlePlant(entity);
-        } else {
+        } else if (__isBot(entity)) {
           __handleEntity(entity);
         }
       }
@@ -53,9 +53,12 @@ define([
     function __handlePlant(entity) {
       var id = __createPlantId(entity);
       var obj3d = Manipulator.retrieve(id);
+
       if (obj3d === undefined) {
-        var type = (entity.t == "P") ? FlowerNode.Type.GOOD : FlowerNode.Type.BAD
-        Manipulator.add(new FlowerNode(id, new THREE.Vector2(entity.x, entity.y), type));
+        var type = (entity.t == "P") ? FlowerNode.Type.GOOD : FlowerNode.Type.BAD;
+        var flowerNode = new FlowerNode(id, new THREE.Vector2(entity.x, entity.y), type);
+        flowerNode.state = State.SPAWNED;
+        Manipulator.add(flowerNode);
         return;
       }
       obj3d.state = State.IDLING;
@@ -67,21 +70,34 @@ define([
      * @private
      */
     function __handleEntity(entity) {
-      // TODO: Test code...
-      if (entity.t == "M") {
-        var obj3d = Manipulator.retrieve(entity.id);
-        if (obj3d === undefined) {
-          obj3d = new MasterBotNode(entity.id, new THREE.Vector2(entity.x, entity.y), 6);
-          Manipulator.add(obj3d);
-        }
-
-        if ((Manipulator.tickCount % 2) == 0) {
-          if (obj3d.move.gridPos.x != entity.x || obj3d.move.gridPos.y != entity.y) {
-            obj3d.move.setTargetPosition(new THREE.Vector2(entity.x, entity.y));
-            obj3d.state = State.MOVING;
-          }
-        }
+      var entity3d = Manipulator.retrieve(entity.t + entity.id);
+      if (entity3d === undefined) {
+        entity3d = __createEntity(entity);
       }
+
+      if (entity3d.move !== undefined) {
+        entity3d.state = State.MOVING;
+        entity3d.move.setTargetPosition(new THREE.Vector2(entity.x, entity.y));
+      }
+    }
+
+    function __createEntity(entity) {
+      var entity3d;
+      if (entity.t == "M") {
+        entity3d = new MasterBotNode(entity.t + entity.id, new THREE.Vector2(entity.x, entity.y), 6);
+      } else if (entity.t == "S") {
+        entity3d = new MiniBotnode(entity.t + entity.id, new THREE.Vector2(entity.x, entity.y), 6)
+      } else if (entity.t == "B") {
+        entity3d = new BeastNode(entity.t + entity.id, new THREE.Vector2(entity.x, entity.y), BeastNode.Type.GOOD)
+      } else if (entity.t == "b") {
+        entity3d = new BeastNode(entity.t + entity.id, new THREE.Vector2(entity.x, entity.y), BeastNode.Type.BAD)
+      } else {
+        throw new Error('Unknowed entity type: ' + entity.t);
+      }
+      if (entity3d !== null) {
+        Manipulator.add(entity3d);
+      }
+      return entity3d;
     }
 
     /**
@@ -121,7 +137,19 @@ define([
      * @returns Boolean
      */
     function __isPlant(entity) {
-      return (entity.t == "P" || entity.t == "p");
+      var t = entity.t;
+      return (t == "P" || t == "p");
+    }
+
+    /**
+     * Checks if entity is a bot or beast.
+     * @param entity
+     * @private
+     * @returns Boolean
+     */
+    function __isBot(entity) {
+      var t = entity.t;
+      return (t == "M" || t == "S"|| t == "b" || t == "B");
     }
 
     /**
@@ -132,7 +160,7 @@ define([
      * @returns {MasterBotNode}
      */
     Instructor.addMasterBot = function (id, initialPos, colorId) {
-      var botNode = new MasterBotNode("MASTER-" + id, initialPos, colorId);
+      var botNode = new MasterBotNode(id, initialPos, colorId);
       __addObj(botNode);
       return botNode;
     };
@@ -145,7 +173,7 @@ define([
      * @returns {MiniBotNode}
      */
     Instructor.addMiniBot = function (id, initialPos, colorId) {
-      var botNode = new MiniBotNode("MINI-" + id, initialPos, colorId);
+      var botNode = new MiniBotNode(id, initialPos, colorId);
       __addObj(botNode);
       return botNode;
     };
@@ -157,7 +185,7 @@ define([
      * @returns {BeastNode}
      */
     Instructor.addGoodBeast = function (id, initialPos) {
-      var beastNode = new BeastNode("G-BEAST-" + id, initialPos, BeastNode.Type.GOOD);
+      var beastNode = new BeastNode(id, initialPos, BeastNode.Type.GOOD);
       __addObj(beastNode);
       return beastNode;
     };
@@ -169,7 +197,7 @@ define([
      * @returns {BeastNode}
      */
     Instructor.addBadBeast = function (id, initialPos) {
-      var beastNode = new BeastNode("B-BEAST-" + id, initialPos, BeastNode.Type.BAD);
+      var beastNode = new BeastNode(id, initialPos, BeastNode.Type.BAD);
       __addObj(beastNode);
       return beastNode;
     };
@@ -181,7 +209,7 @@ define([
      * @returns {FlowerNode}
      */
     Instructor.addGoodFlower = function (id, initialPos) {
-      var flowerNode = new FlowerNode("G-FLOWER-" + id, initialPos, FlowerNode.Type.GOOD);
+      var flowerNode = new FlowerNode(id, initialPos, FlowerNode.Type.GOOD);
       __addObj(flowerNode);
       return flowerNode;
     };
@@ -193,7 +221,7 @@ define([
      * @returns {FlowerNode}
      */
     Instructor.addBadFlower = function (id, initialPos) {
-      var flowerNode = new FlowerNode("B-FLOWER-" + id, initialPos, FlowerNode.Type.BAD);
+      var flowerNode = new FlowerNode(id, initialPos, FlowerNode.Type.BAD);
       __addObj(flowerNode);
       return flowerNode;
     };

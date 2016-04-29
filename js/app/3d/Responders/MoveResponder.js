@@ -17,6 +17,8 @@ define([
      * @constructor
      */
     function MoveResponder(initialPos) {
+      this.stepCount = -1;
+      this.stepOffset = 1;
       this.gridPos = initialPos;
       this.originPosition = PositionConverter.convert(initialPos);
       this.targetPosition = PositionConverter.convert(initialPos);
@@ -27,9 +29,12 @@ define([
      * @param target - THREE.Vector2
      */
     MoveResponder.prototype.setTargetPosition = function (target) {
-      this.gridPos = target;
-      this.originPosition = this.targetPosition;
-      this.targetPosition = PositionConverter.convert(target);
+      this.stepCount++;
+      if ((this.stepCount % this.stepOffset) == 0) {
+        this.gridPos = target;
+        this.originPosition = this.targetPosition;
+        this.targetPosition = PositionConverter.convert(target);
+      }
     };
 
     /**
@@ -39,6 +44,18 @@ define([
     MoveResponder.prototype.placeOrigin = function (node) {
       node.position.x = this.originPosition.x;
       node.position.y = this.originPosition.y;
+    };
+
+    /**
+     * Calculate this move objects
+     * Some objects move offset from global tick count.
+     * @param tickCount - Current tick count
+     * @param timeFraction - Time fraction of current tick (in ms)
+     * @returns {number}
+     */
+    MoveResponder.prototype.calcTimeFraction = function (tickCount, timeFraction) {
+      var mod = (this.stepCount % this.stepOffset) / this.stepOffset;
+      return (timeFraction / this.stepOffset) + mod;
     };
 
     // Return "class"

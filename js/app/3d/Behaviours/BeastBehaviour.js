@@ -19,7 +19,7 @@ define([
      */
     BeastBehaviour.apply = function (obj, tickCount, timeFraction) {
       if (obj !== undefined && obj instanceof BeastNode && obj.state != State.DYING) {
-        timeFraction = obj.calcTimeFraction(tickCount, timeFraction);
+        timeFraction = obj.move.calcTimeFraction(tickCount, timeFraction);
         obj.node.rotation.z -= (Math.random() * (0.019) + 0.015);
         if (timeFraction < 0.5) {
           __scaleDown(obj, timeFraction);
