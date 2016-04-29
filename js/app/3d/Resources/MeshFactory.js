@@ -40,7 +40,7 @@ define([
       masterBotStripesGeometry = new THREE.DodecahedronGeometry(10.5);
       miniBotGeometry = new THREE.OctahedronGeometry(4.5);
       beastGeometry = new THREE.TorusGeometry(3.8, 1.3, 3, 5);
-      flowerGeometry = new THREE.SphereGeometry(5, 4, 3.5);
+      flowerGeometry = new THREE.SphereGeometry(3.8, 4, 3.5);
 
       masterBotMaterials = __generateMasterBotMaterials();
       masterBotStripeMaterials = __generateMasterBotStripeMaterials();

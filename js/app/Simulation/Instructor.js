@@ -81,6 +81,12 @@ define([
       }
     }
 
+    /**
+     * Creates 3d entity.
+     * @param entity
+     * @returns {*}
+     * @private
+     */
     function __createEntity(entity) {
       var entity3d;
       if (entity.t == "M") {

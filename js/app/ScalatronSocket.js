@@ -49,18 +49,12 @@ define([],
       log("onError!");
     };
 
-    count = 0;
-
     /**
      * On web socket error.
      */
     ScalatronSocket.prototype.__onMessage = function (evt) {
       var data = JSON.parse(evt.data);
       if (data.constructor !== Array) {
-        if (count < 5) {
-          log(data);
-          count++;
-        }
         this.onMessageCallback(data);
       }
     };
