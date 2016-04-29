@@ -25,15 +25,26 @@ define([
   ],
 
   function (ScalatronSocket, MeshFactory, Textures, Audio, Simulation) {
+
+    var socket;
+
     Textures.preload(function () {
       Audio.load();
       MeshFactory.initMesh();
       var sim = new Simulation();
-      new ScalatronSocket(function () {
-        log("Connected to server...");
-      }, sim.addTick.bind(sim));
+      socket = new ScalatronSocket(__onConnect, sim.addTick.bind(sim));
     });
 
+    /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * On socket connected.
+     * Request live stream from server.
+     * @param evt
+     * @private
+     */
+    var __onConnect = function () {
+      socket.sendMessage("live");
+    };
   }
 );
