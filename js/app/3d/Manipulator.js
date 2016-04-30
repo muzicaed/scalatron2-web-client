@@ -70,6 +70,8 @@ define([
      * Array of players master bots.
      */
     Manipulator.cameraFollow = -1;
+    Manipulator.raceCam = false;
+    Manipulator.raceCamCount = 0;
 
     /**
      * Manipulates all objects for each frame draw.
@@ -145,6 +147,13 @@ define([
       Manipulator.cameraFollow = (Manipulator.cameraFollow >= Manipulator.players.length - 1) ? -1 : Manipulator.cameraFollow + 1;
     };
 
+    /**
+     * Toggle race cam
+     */
+    Manipulator.toggleRaceCam = function () {
+      Manipulator.raceCam = !Manipulator.raceCam;
+    };
+
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -186,9 +195,20 @@ define([
 
         var x = bot.node.position.x;
         var y = bot.node.position.y;
-        cam.position.set(x, y - (y / 20), 300);
-        cam.lookAt(new THREE.Vector3(x, y, 0));
 
+        if(Manipulator.raceCam) {
+          Manipulator.raceCamCount++;
+          cam.position.z = 60;
+          if(Manipulator.raceCamCount > 350) {
+            cam.position.set(x, y - 50, 60);
+            Manipulator.raceCamCount = 0;
+          }
+          cam.up = new THREE.Vector3(0,0,1);
+
+        } else {
+          cam.position.set(x, y - (y / 20), 300);
+        }
+        cam.lookAt(new THREE.Vector3(x, y, 0));
       } else {
         Manipulator.world.resetCamera();
       }

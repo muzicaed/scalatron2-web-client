@@ -28,6 +28,8 @@ define([
       this.move.placeOrigin(this.node);
       this.move.stepOffset = 1;
       this.explodedTick = -1;
+
+      this.node.rotation.y = 50;
     }
 
     // Return "class"

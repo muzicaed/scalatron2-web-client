@@ -23,7 +23,7 @@ define([
       this.node.add(MeshFactory.createBotBodyMesh(this.id));
       this.node.add(MeshFactory.createBotStripeMesh(this.id));
       this.node.scale.z = 0.75;
-      this.node.position.z = 1.2;
+      this.node.position.z = 5.5;
 
       this.move = new MoveResponder(initialPos);
       this.move.placeOrigin(this.node);

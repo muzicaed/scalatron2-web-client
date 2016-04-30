@@ -42,6 +42,9 @@ define([
           case 32: // Key Space
             Manipulator.cyclePlayerCamera();
             break;
+          case 82: // Key R
+            Manipulator.toggleRaceCam();
+            break;
         }
       });
     };
