@@ -255,7 +255,7 @@ define([
     function __generateExplosionMeshes() {
       var meshes = {};
       for(var rad = 1; rad <= 10; rad++) {
-        meshes[rad] = __createExplosion(rad);
+        meshes[rad] = MeshFactory.createExplosion(rad);
       }
       return meshes;
     }
@@ -264,15 +264,15 @@ define([
      * Creates a explosion mesh
      * @returns THREE.Mesh
      */
-    function __createExplosion(tileRadius) {
-      var geometry = new THREE.CircleGeometry(tileRadius * Static.TileSize, 6);
+    MeshFactory.createExplosion = function(tileRadius) {
+      var geometry = new THREE.CircleGeometry(tileRadius * Static.TileSize, 8);
       var material = new THREE.MeshLambertMaterial({
         transparent: true,
         map: Textures.Explosion,
-        opacity: 0.4
+        opacity: 0.15
       });
       return new THREE.Mesh(geometry, material);
-    }
+    };
 
 
     // Return object
