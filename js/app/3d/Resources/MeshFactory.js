@@ -25,7 +25,7 @@ define([
     MeshFactory.initMesh = function () {
       masterBotGeometry = new THREE.SphereGeometry(9.5, 32, 32);
       masterBotStripesGeometry = new THREE.DodecahedronGeometry(10.8);
-      miniBotGeometry = new THREE.OctahedronGeometry(7.5);
+      miniBotGeometry = new THREE.OctahedronGeometry(7);
       beastGeometry = new THREE.TorusGeometry(3.8, 1.3, 3, 5);
       flowerGeometry = new THREE.SphereGeometry(3.8, 4, 3.5);
 

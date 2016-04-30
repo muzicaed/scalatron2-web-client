@@ -31,9 +31,14 @@ define([
     MoveResponder.prototype.setTargetPosition = function (target) {
       this.stepCount++;
       if ((this.stepCount % this.stepOffset) == 0) {
+        if (!__isWarp(target, this.gridPos)) {
+          this.originPosition = this.targetPosition;
+          this.targetPosition = PositionConverter.convert(target);
+        } else {
+          this.originPosition = PositionConverter.convert(target);
+          this.targetPosition = PositionConverter.convert(target);
+        }
         this.gridPos = target;
-        this.originPosition = this.targetPosition;
-        this.targetPosition = PositionConverter.convert(target);
       }
     };
 
@@ -57,6 +62,22 @@ define([
       var mod = (this.stepCount % this.stepOffset) / this.stepOffset;
       return (timeFraction / this.stepOffset) + mod;
     };
+
+    /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Checks if move "warps" the board.
+     * @param target
+     * @returns {boolean}
+     * @private
+     */
+    function __isWarp(target, gridPos) {
+
+      var xDif = Math.abs(target.x - gridPos.x);
+      var yDif = Math.abs(target.y - gridPos.y);
+      return (xDif + yDif) > 2;
+    }
 
     // Return "class"
     return MoveResponder;
