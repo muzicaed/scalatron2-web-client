@@ -17,7 +17,7 @@ define([
     "app/Audio"
   ],
 
-  function (THREE, MoveVisitor, SpinBehaviour, SpawningBehaviour, SpawnedBehaviour, BeastBehaviour,
+  function (THREE, MoveBehaviour, SpinBehaviour, SpawningBehaviour, SpawnedBehaviour, BeastBehaviour,
             ExplosionBehaviour, DyingBehaviour, ExplosionNode, FlowerNode, MiniBotNode, State, Audio) {
 
     var simulationObjects = {};
@@ -62,13 +62,13 @@ define([
       for (var index in simulationObjects) {
         if (simulationObjects.hasOwnProperty(index)) {
           var obj = simulationObjects[index];
-          MoveVisitor.apply(obj, Manipulator.tickCount, timeFraction);
+          MoveBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
           SpinBehaviour.apply(obj);
           SpawningBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
           SpawnedBehaviour.apply(obj, timeFraction);
           BeastBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
           DyingBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
-          __handleExplosion(obj, timeFraction);
+          ExplosionBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
         }
       }
     };
@@ -103,7 +103,7 @@ define([
               simulationObjects[index].state = State.DYING;
             } else if (simulationObjects[index].constructor === MiniBotNode) {
               simulationObjects[index].state = State.DYING;
-            } else {
+            } else if (simulationObjects[index].constructor !== ExplosionNode) {
               simulationObjects[index].state = State.REMOVE;
             }
           }
@@ -112,25 +112,6 @@ define([
     };
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Calculate time fraction of frame.
-     * @param obj - Simulation object
-     * @param timeFraction - Time fraction of current tick (in ms)
-     * @private
-     * TODO: Not looking good. Solve without "if" = two methods?
-     */
-    function __handleExplosion(obj, timeFraction) {
-      if (obj.state == State.EXPLODE) {
-        var explosion = new ExplosionNode("EXP-" + obj.id, obj.move.gridPos, 3, Manipulator.tickCount);
-        Manipulator.scene.add(explosion.node);
-        simulationObjects[explosion.id] = explosion;
-        obj.explodedTick = Manipulator.tickCount;
-        obj.state = State.DYING;
-      } else if (obj.state == State.EXPLODING) {
-        ExplosionBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
-      }
-    }
 
     /**
      * Calculate time fraction of frame.

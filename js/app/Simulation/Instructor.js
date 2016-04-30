@@ -10,10 +10,12 @@ define([
     "app/3d/Nodes/MiniBotNode",
     "app/3d/Nodes/BeastNode",
     "app/3d/Nodes/FlowerNode",
-    "app/3d/Nodes/State"
+    "app/3d/Nodes/ExplosionNode",
+    "app/3d/Nodes/State",
+    "app/Audio",
   ],
 
-  function (THREE, Manipulator, MasterBotNode, MiniBotnode, BeastNode, FlowerNode, State) {
+  function (THREE, Manipulator, MasterBotNode, MiniBotnode, BeastNode, FlowerNode, ExplosionNode, State, Audio) {
 
 
     // Object
@@ -33,13 +35,26 @@ define([
     Instructor.handleTick = function (tickData) {
       var hash = __extractHash(tickData);
       Manipulator.clearUnused(hash);
-      for (var i = 0, len = tickData.bots.length; i < len; i++) {
+      for (var i = 0, iLen = tickData.bots.length; i < iLen; i++) {
         var entity = tickData.bots[i];
         if (__isPlant(entity)) {
           __handlePlant(entity);
         } else if (__isBot(entity)) {
           __handleEntity(entity);
         }
+      }
+
+      for (var j = 0, jLen = tickData.decorations.length; j < jLen; j++) {
+        var dec = tickData.decorations[j];
+        if (dec.t == "E") {
+          var id = "E" + dec.r + dec.x + dec.y;
+          if (Manipulator.retrieve(id) === undefined) {
+            var explosion = new ExplosionNode(id, new THREE.Vector2(dec.x, dec.y), dec.r, Manipulator.tickCount);
+            Manipulator.add(explosion);
+            Audio.playSound("EXPLOSION");
+          }
+        }
+
       }
     };
 
@@ -155,7 +170,7 @@ define([
      */
     function __isBot(entity) {
       var t = entity.t;
-      return (t == "M" || t == "S"|| t == "b" || t == "B");
+      return (t == "M" || t == "S" || t == "b" || t == "B");
     }
 
     /**
