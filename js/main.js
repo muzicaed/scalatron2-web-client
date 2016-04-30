@@ -21,10 +21,11 @@ define([
     "app/3d/Resources/MeshFactory",
     "app/3d/Resources/Textures",
     "app/Audio",
-    "app/Simulation/Simulation"
+    "app/Simulation/Simulation",
+    "app/KeyboardListener"
   ],
 
-  function (ScalatronSocket, MeshFactory, Textures, Audio, Simulation) {
+  function (ScalatronSocket, MeshFactory, Textures, Audio, Simulation, KeyboardListener) {
 
     var socket;
 
@@ -32,6 +33,7 @@ define([
       Audio.load();
       MeshFactory.initMesh();
       var sim = new Simulation();
+      KeyboardListener.load(sim);
       socket = new ScalatronSocket(__onConnect, sim.addTick.bind(sim));
     });
 

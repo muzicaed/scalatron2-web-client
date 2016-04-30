@@ -23,7 +23,7 @@ define([
       this.birthTick = birthTick;
       this.state = State.EXPLODING;
       this.node = new THREE.Object3D();
-      this.node = MeshFactory.createExplosion(tileRadius);
+      this.node.add(MeshFactory.explosionMeshes[tileRadius]);
 
       var position = PositionConverter.convert(initialPos);
       this.node.position.x = position.x;
@@ -32,6 +32,8 @@ define([
 
       this.node.scale.x = 0.01;
       this.node.scale.y = 0.01;
+
+      this .node.rotation.z += (Math.random() * (10.042));
     }
 
     // Return "class"

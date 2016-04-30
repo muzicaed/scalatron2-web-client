@@ -26,6 +26,11 @@ define([
     var Manipulator = {};
 
     /**
+     * Is last frame done?
+     */
+    Manipulator.isLastDone = true;
+
+    /**
      * The Scene
      */
     Manipulator.scene = null;
@@ -56,6 +61,7 @@ define([
      * TODO: Refactoring, smaller method.
      */
     Manipulator.updateFrame = function () {
+      Manipulator.isLastDone = false;
       Manipulator.frameCount++;
       __cleanSimulationObjects();
       var timeFraction = __calculateTimeFraction();
@@ -71,6 +77,7 @@ define([
           ExplosionBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
         }
       }
+      Manipulator.isLastDone = true;
     };
 
     /**

@@ -51,7 +51,6 @@ define([
           if (Manipulator.retrieve(id) === undefined) {
             var explosion = new ExplosionNode(id, new THREE.Vector2(dec.x, dec.y), dec.r, Manipulator.tickCount);
             Manipulator.add(explosion);
-            Audio.playSound("EXPLOSION");
           }
         }
 

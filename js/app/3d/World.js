@@ -41,14 +41,11 @@ define([
      * Start the render loop.
      */
     World.prototype.render = function () {
-      Manipulator.updateFrame();
-      requestAnimationFrame(this.render.bind(this));
-      renderer.render(scene, camera);
-    };
-
-    // TODO: Remove this test code...
-    World.prototype.clear = function () {
-      Manipulator.clear();
+      if (Manipulator.isLastDone) {
+        Manipulator.updateFrame();
+        requestAnimationFrame(this.render.bind(this));
+        renderer.render(scene, camera);
+      }
     };
 
     /**
@@ -93,10 +90,6 @@ define([
 
       camera.position.set(x, y - (y / 20), y * 1.40);
       camera.lookAt(new THREE.Vector3(x, y, 0));
-
-      // TODO: REMOVE TEST CODE
-      //camera.position.set(100, 600, 190);
-      //camera.lookAt(new THREE.Vector3(100, 600, 0));
     }
 
     /**

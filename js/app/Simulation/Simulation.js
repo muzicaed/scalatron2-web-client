@@ -17,6 +17,7 @@ define([
     var isRunning = false;
     var tickQueue = [];
     var queueLength = 0;
+    var mainLoopId;
 
     /**
      * Create a simulation.
@@ -55,6 +56,16 @@ define([
       }
     };
 
+    /**
+     * Change the simulation speed
+     * @param tickData
+     */
+    Simulation.prototype.changeSpeed = function (timePerTick) {
+      Static.TimePerTick = timePerTick;
+      clearInterval(mainLoopId);
+      __startMainTickLoop();
+    };
+
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -62,7 +73,7 @@ define([
      * @private
      */
     function __startMainTickLoop() {
-      setInterval(function () {
+      mainLoopId = setInterval(function () {
         if (tickCount < queueLength) {
           __tick(tickQueue[tickCount]);
         } else {

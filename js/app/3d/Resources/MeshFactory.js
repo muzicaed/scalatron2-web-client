@@ -17,10 +17,10 @@ define([
 
     // Object
     var MeshFactory = {};
+    MeshFactory.explosionMeshes = {};
 
     /**
      * Init mesh factory
-     * TODO: Optimize more, reuse the whole mesh when possible
      */
     MeshFactory.initMesh = function () {
       masterBotGeometry = new THREE.SphereGeometry(9.5, 32, 32);
@@ -66,6 +66,8 @@ define([
         shininess: 200,
         shading: THREE.FlatShading
       });
+
+      MeshFactory.explosionMeshes = __generateExplosionMeshes();
     };
 
     /**
@@ -131,21 +133,6 @@ define([
      */
     MeshFactory.createBadFlowerMesh = function () {
       return new THREE.Mesh(flowerGeometry, badFlowerMaterial);
-    };
-
-    /**
-     * Creates a explosion mesh
-     * Note: Can not reuse geometry or material.
-     * @returns THREE.Mesh
-     */
-    MeshFactory.createExplosion = function (tileRadius) {
-      var geometry = new THREE.CircleGeometry(tileRadius * Static.TileSize, 12);
-      var material = new THREE.MeshLambertMaterial({
-        transparent: true,
-        opacity: 0.6,
-        map: Textures.Explosion
-      });
-      return new THREE.Mesh(geometry, material);
     };
 
     /**
@@ -259,6 +246,34 @@ define([
       }
       return materials;
     }
+
+    /**
+     * Pre create explosion meshes.
+     * @returns Object collection of meshes
+     * @private
+     */
+    function __generateExplosionMeshes() {
+      var meshes = {};
+      for(var rad = 1; rad <= 10; rad++) {
+        meshes[rad] = __createExplosion(rad);
+      }
+      return meshes;
+    }
+
+    /**
+     * Creates a explosion mesh
+     * @returns THREE.Mesh
+     */
+    function __createExplosion(tileRadius) {
+      var geometry = new THREE.CircleGeometry(tileRadius * Static.TileSize, 6);
+      var material = new THREE.MeshLambertMaterial({
+        transparent: true,
+        map: Textures.Explosion,
+        opacity: 0.4
+      });
+      return new THREE.Mesh(geometry, material);
+    }
+
 
     // Return object
     return MeshFactory
