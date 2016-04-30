@@ -12,20 +12,22 @@ define([
 
   function (THREE, THREEx, Manipulator, Instructor, PositionConverter, Static) {
     var viewPort = {width: window.innerWidth, height: window.innerHeight};
-    var renderer = new THREE.WebGLRenderer({antialias: true});
-    var scene = new THREE.Scene();
+    var canvas = document.getElementById("simulation-canvas");
+    var renderer = new THREE.WebGLRenderer({antialias: true, canvas: canvas});
     var camera = null;
+    var board = null;
 
     /**
      *  Create a 3d world
      * @constructor
      */
     function World() {
-      renderer.setSize(viewPort.width, viewPort.height);
+      this.scene = new THREE.Scene();
+      renderer.setSize(viewPort.width - 250, viewPort.height);
       document.body.appendChild(renderer.domElement);
       __addFullScreenShortcut();
-      Manipulator.scene = scene;
-      Instructor.scene = scene;
+      Manipulator.world = this;
+      Instructor.scene = this.scene;
     }
 
     /**
@@ -33,8 +35,11 @@ define([
      * @param boardData - Object containing board/tile data.
      */
     World.prototype.init = function (boardData) {
-      __createCamera(boardData);
-      _initLights(boardData);
+      board = boardData;
+      __createCamera();
+      this.resetCamera();
+      _initLights(this.scene);
+      Manipulator.camera = camera;
     };
 
     /**
@@ -44,7 +49,7 @@ define([
       if (Manipulator.isLastDone) {
         Manipulator.updateFrame();
         requestAnimationFrame(this.render.bind(this));
-        renderer.render(scene, camera);
+        renderer.render(this.scene, camera);
       } else {
         log("Render skip.");
       }
@@ -57,7 +62,17 @@ define([
      * @param node - 3d object
      */
     World.prototype.addStatic = function (node) {
-      scene.add(node);
+      this.scene.add(node);
+    };
+
+    /**
+     * Resets camera to default position.
+     */
+    World.prototype.resetCamera = function () {
+      var x = ((board.width * Static.TileSize) / 2);
+      var y = ((board.height * Static.TileSize) / 2) - (Static.TileSize / 2);
+      camera.position.set(x, y - (y / 20), y * 1.40);
+      camera.lookAt(new THREE.Vector3(x, y, 0));
     };
 
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,25 +96,19 @@ define([
     /**
      * Create camera.
      */
-    function __createCamera(boardData) {
+    function __createCamera() {
       camera = new THREE.PerspectiveCamera(75,
         viewPort.width / viewPort.height,
         0.1,
         2000);
-
-      var x = ((boardData.width * Static.TileSize) / 2);
-      var y = ((boardData.height * Static.TileSize) / 2) - (Static.TileSize / 2);
-
-      camera.position.set(x, y - (y / 20), y * 1.40);
-      camera.lookAt(new THREE.Vector3(x, y, 0));
     }
 
     /**
      * Init lights.
      */
-    function _initLights(boardData) {
-      var x = (boardData.width * Static.TileSize);
-      var y = (boardData.height * Static.TileSize);
+    function _initLights(scene) {
+      var x = (board.width * Static.TileSize);
+      var y = (board.height * Static.TileSize);
 
       var blueLight = new THREE.PointLight(0x773322, 1.3, y + (y / 3), 1.1);
       blueLight.position.set(x / 10, y / 10, y / 2);

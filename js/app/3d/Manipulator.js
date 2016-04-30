@@ -13,12 +13,13 @@ define([
     "app/3d/Nodes/ExplosionNode",
     "app/3d/Nodes/FlowerNode",
     "app/3d/Nodes/MiniBotNode",
+    "app/3d/Nodes/MasterBotNode",
     "app/3d/Nodes/State",
     "app/Audio"
   ],
 
   function (THREE, MoveBehaviour, SpinBehaviour, SpawningBehaviour, SpawnedBehaviour, BeastBehaviour,
-            ExplosionBehaviour, DyingBehaviour, ExplosionNode, FlowerNode, MiniBotNode, State, Audio) {
+            ExplosionBehaviour, DyingBehaviour, ExplosionNode, FlowerNode, MiniBotNode, MasterBotNode, State, Audio) {
 
     var simulationObjects = {};
 
@@ -31,9 +32,14 @@ define([
     Manipulator.isLastDone = true;
 
     /**
-     * The Scene
+     * The World
      */
-    Manipulator.scene = null;
+    Manipulator.world = null;
+
+    /**
+     * The Camera
+     */
+    Manipulator.camera = null;
 
     /**
      * Current tick number
@@ -56,6 +62,16 @@ define([
     Manipulator.nextTickTargetTime = 0;
 
     /**
+     * Array of players master bots.
+     */
+    Manipulator.players = [];
+
+    /**
+     * Array of players master bots.
+     */
+    Manipulator.cameraFollow = -1;
+
+    /**
      * Manipulates all objects for each frame draw.
      * Call this on every frame request.
      * TODO: Refactoring, smaller method.
@@ -76,6 +92,7 @@ define([
           ExplosionBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
         }
       }
+      __moveCamera();
       __cleanSimulationObjects();
       Manipulator.isLastDone = true;
     };
@@ -86,7 +103,10 @@ define([
      */
     Manipulator.add = function (obj) {
       simulationObjects[obj.id] = obj;
-      Manipulator.scene.add(obj.node);
+      Manipulator.world.scene.add(obj.node);
+      if(obj.constructor === MasterBotNode) {
+        Manipulator.players.push(obj);
+      }
     };
 
     /**
@@ -118,6 +138,13 @@ define([
       }
     };
 
+    /**
+     * Cycle player camera follow
+     */
+    Manipulator.cyclePlayerCamera = function () {
+      Manipulator.cameraFollow = (Manipulator.cameraFollow >= Manipulator.players.length - 1) ? -1 : Manipulator.cameraFollow + 1;
+    };
+
     /// INTERNAL ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -141,10 +168,29 @@ define([
         if (simulationObjects.hasOwnProperty(index)) {
           var obj = simulationObjects[index];
           if (obj.state == State.REMOVE) {
-            Manipulator.scene.remove(obj.node);
+            Manipulator.world.scene.remove(obj.node);
             delete simulationObjects[index];
           }
         }
+      }
+    }
+
+    /**
+     * Moves the camera (if player follow)
+     * @private
+     */
+    function __moveCamera() {
+      if(Manipulator.cameraFollow >= 0) {
+        var cam = Manipulator.camera;
+        var bot = Manipulator.players[Manipulator.cameraFollow];
+
+        var x = bot.node.position.x;
+        var y = bot.node.position.y;
+        cam.position.set(x, y - (y / 20), 300);
+        cam.lookAt(new THREE.Vector3(x, y, 0));
+
+      } else {
+        Manipulator.world.resetCamera();
       }
     }
 

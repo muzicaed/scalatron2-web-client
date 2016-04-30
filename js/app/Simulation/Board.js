@@ -56,6 +56,7 @@ define([
       Instructor.handleTick(tickData);
     };
 
+
     // Return "class"
     return Board;
   });

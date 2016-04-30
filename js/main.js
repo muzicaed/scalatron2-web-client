@@ -12,7 +12,6 @@ requirejs.onError = function (err) {
   throw err;
 };
 
-
 /**
  * App Main.
  */

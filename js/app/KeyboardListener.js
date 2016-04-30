@@ -2,10 +2,10 @@
  * Keyboard Listener.
  */
 define([
-    "app/Common/Static"
+    "app/3d/Manipulator"
   ],
 
-  function (Static) {
+  function (Manipulator) {
 
     // Object
     var KeyboardListener = {};
@@ -38,6 +38,9 @@ define([
             break;
           case 55: // Key 7
             simulation.changeSpeed(5);
+            break;
+          case 32: // Key Space
+            Manipulator.cyclePlayerCamera();
             break;
         }
       });
