@@ -12,7 +12,7 @@ define([
     "app/3d/Nodes/FlowerNode",
     "app/3d/Nodes/ExplosionNode",
     "app/3d/Nodes/State",
-    "app/Audio",
+    "app/Audio"
   ],
 
   function (THREE, Manipulator, MasterBotNode, MiniBotnode, BeastNode, FlowerNode, ExplosionNode, State, Audio) {

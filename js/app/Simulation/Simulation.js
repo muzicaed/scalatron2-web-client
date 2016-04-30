@@ -77,7 +77,9 @@ define([
         if (tickCount < queueLength) {
           __tick(tickQueue[tickCount]);
         } else {
-          // TODO: Implement some buffering user information
+          log("Not ticks.. Skip");
+          clearInterval(mainLoopId);
+          setTimeout(__startMainTickLoop, 5000);
         }
       }.bind(this), Static.TimePerTick);
     }

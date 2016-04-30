@@ -63,7 +63,6 @@ define([
     Manipulator.updateFrame = function () {
       Manipulator.isLastDone = false;
       Manipulator.frameCount++;
-      __cleanSimulationObjects();
       var timeFraction = __calculateTimeFraction();
       for (var index in simulationObjects) {
         if (simulationObjects.hasOwnProperty(index)) {
@@ -77,6 +76,7 @@ define([
           ExplosionBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
         }
       }
+      __cleanSimulationObjects();
       Manipulator.isLastDone = true;
     };
 

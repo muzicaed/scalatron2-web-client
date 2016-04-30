@@ -3,10 +3,12 @@
  */
 define([
     "lib/three",
-    "app/3d/Nodes/State"
+    "app/3d/Nodes/State",
+    "app/Common/Static"
+
   ],
 
-  function (THREE, State) {
+  function (THREE, State, Static) {
 
     // Object
     var DyingBehaviour = {};
@@ -21,6 +23,9 @@ define([
       if (obj !== undefined && obj.state == State.DYING) {
         __handleDeathOccured(obj, tickCount);
         if (tickCount > obj.deathOccuredTick) {
+          obj.state = State.REMOVE;
+          return;
+        } else if (Static.TimePerTick < 30) {
           obj.state = State.REMOVE;
           return;
         }

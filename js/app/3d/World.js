@@ -45,6 +45,8 @@ define([
         Manipulator.updateFrame();
         requestAnimationFrame(this.render.bind(this));
         renderer.render(scene, camera);
+      } else {
+        log("Render skip.");
       }
     };
 
