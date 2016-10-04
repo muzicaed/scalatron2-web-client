@@ -12,7 +12,7 @@
 //
 
 /** @namespace */
-define(function() {
+
 var THREEx = {};
 THREEx.FullScreen = {};
 
@@ -77,5 +77,4 @@ THREEx.FullScreen._hasWebkitFullScreen	= 'webkitCancelFullScreen' in document	? 
 THREEx.FullScreen._hasMozFullScreen	= 'mozCancelFullScreen' in document	? true : false;	
 
 
-return THREEx;
-});
+module.exports = THREEx;
