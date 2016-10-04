@@ -31,7 +31,7 @@ define([],
         soundFXCount["WALL-HIT"] = 0;
         */
 
-        //music.play();
+         //music.play();
       }
     };
 
