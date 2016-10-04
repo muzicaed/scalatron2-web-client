@@ -23,7 +23,7 @@ MeshFactory.initMesh = function () {
   masterBotGeometry = new THREE.SphereBufferGeometry(9.5, 32, 32);
   masterBotStripesGeometry = new THREE.DodecahedronGeometry(10.8);
   miniBotGeometry = new THREE.OctahedronGeometry(6);
-  beastGeometry = new THREE.TorusGeometry(3.8, 1.3, 3, 5);
+  beastGeometry = new THREE.TorusBufferGeometry(3.8, 1.3, 3, 5);
   flowerGeometry = new THREE.SphereBufferGeometry(3.8, 4, 3.5);
 
   masterBotMaterials = __generateMasterBotMaterials();
@@ -139,7 +139,7 @@ MeshFactory.createBadFlowerMesh = function () {
  * @returns THREE.Mesh
  */
 MeshFactory.createFloorMesh = function (width, height) {
-  var geometry = new THREE.BoxGeometry(width * Static.TileSize, height * Static.TileSize, 1);
+  var geometry = new THREE.BoxBufferGeometry(width * Static.TileSize, height * Static.TileSize, 1);
   var mesh = new THREE.Mesh(geometry, material);
   mesh.position.x = ((width * Static.TileSize) / 2) - (Static.TileSize / 2);
   mesh.position.y = ((height * Static.TileSize) / 2) + (Static.TileSize / 2);
@@ -152,7 +152,7 @@ MeshFactory.createFloorMesh = function (width, height) {
  * @returns THREE.Object3D
  */
 MeshFactory.createBoard = function (boardData) {
-  var floorGeometry = new THREE.BoxGeometry(boardData.width * Static.TileSize, boardData.height * Static.TileSize, 1);
+  var floorGeometry = new THREE.BoxBufferGeometry(boardData.width * Static.TileSize, boardData.height * Static.TileSize, 1);
   var floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
   floorMesh.position.x = ((boardData.width * Static.TileSize) / 2) - (Static.TileSize / 2);
   floorMesh.position.y = ((boardData.height * Static.TileSize) / 2) + (Static.TileSize / 2);
