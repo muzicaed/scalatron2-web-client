@@ -17,21 +17,17 @@ var SpinBehaviour = {};
  */
 SpinBehaviour.apply = function (obj, timeFraction) {
   if (obj !== undefined) {
-    if (obj instanceof MiniBotNode) {
-      obj.node.rotation.x += (Math.random() * (0.12) + 0.01);
-      obj.node.rotation.z += (Math.random() * (0.012) + 0.01);
-    } else if (obj instanceof MasterBotNode) {
-      var speed = (1000 - Static.TimePerTick) * 0.00006; // Make this truly relative!
+   if (obj instanceof MasterBotNode) {
+      var speed = 0.08 / Static.CurrentTimeMultiplier;
       var rad = getAngle(obj.move.originPosition, obj.move.targetPosition);
       if (rad != obj.node.rotation.z) {
-        console.log(rad);
         if (timeFraction < 0.8) {
-          (obj.node.rotation.z > rad) ? obj.node.rotation.z += (timeFraction * 0.05) : obj.node.rotation.z -= (timeFraction * 0.05);
+          (obj.node.rotation.z > rad) ? obj.node.rotation.z += (timeFraction * 0.03) : obj.node.rotation.z -= (timeFraction * 0.03);
         } else {
           obj.node.rotation.z = rad;
         }
       }
-      obj.node.children[1].rotation.y += 0.04;
+      obj.node.children[1].rotation.y += speed;
     }
   }
 

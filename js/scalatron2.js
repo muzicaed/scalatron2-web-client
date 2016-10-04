@@ -1462,7 +1462,9 @@
 	// Export object
 	module.exports = {
 	  TileSize: 10,
-	  TimePerTick: 100
+	  TimePerTick: 100,
+	  StandardTimePerTick: 85,
+	  CurrentTimeMultiplier: 1.0
 	};
 
 
@@ -1695,10 +1697,11 @@
 
 	/**
 	 * Change the simulation speed
-	 * @param tickData
+	 * @param multiplier
 	 */
-	Simulation.prototype.changeSpeed = function (timePerTick) {
-	  Static.TimePerTick = timePerTick;
+	Simulation.prototype.changeSpeed = function (multiplier) {
+	  Static.TimePerTick = Static.StandardTimePerTick * multiplier;
+	  Static.CurrentTimeMultiplier = multiplier;
 	  clearInterval(mainLoopId);
 	  __startMainTickLoop();
 	};
@@ -2126,21 +2129,17 @@
 	 */
 	SpinBehaviour.apply = function (obj, timeFraction) {
 	  if (obj !== undefined) {
-	    if (obj instanceof MiniBotNode) {
-	      obj.node.rotation.x += (Math.random() * (0.12) + 0.01);
-	      obj.node.rotation.z += (Math.random() * (0.012) + 0.01);
-	    } else if (obj instanceof MasterBotNode) {
-	      var speed = (1000 - Static.TimePerTick) * 0.00006; // Make this truly relative!
+	   if (obj instanceof MasterBotNode) {
+	      var speed = 0.08 / Static.CurrentTimeMultiplier;
 	      var rad = getAngle(obj.move.originPosition, obj.move.targetPosition);
 	      if (rad != obj.node.rotation.z) {
-	        console.log(rad);
 	        if (timeFraction < 0.8) {
-	          (obj.node.rotation.z > rad) ? obj.node.rotation.z += (timeFraction * 0.05) : obj.node.rotation.z -= (timeFraction * 0.05);
+	          (obj.node.rotation.z > rad) ? obj.node.rotation.z += (timeFraction * 0.03) : obj.node.rotation.z -= (timeFraction * 0.03);
 	        } else {
 	          obj.node.rotation.z = rad;
 	        }
 	      }
-	      obj.node.children[1].rotation.y += 0.04;
+	      obj.node.children[1].rotation.y += speed;
 	    }
 	  }
 
@@ -3289,7 +3288,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Manipulator = __webpack_require__(11);
-
 	/**
 	 * Keyboard Listener.
 	 */
@@ -3306,25 +3304,25 @@
 	    document.addEventListener('keydown', function (event) {
 	      switch (event.keyCode) {
 	        case 49: // Key 1
-	          simulation.changeSpeed(800);
+	          simulation.changeSpeed(3.0);
 	          break;
 	        case 50: // Key 2
-	          simulation.changeSpeed(200);
+	          simulation.changeSpeed(2.0);
 	          break;
 	        case 51: // Key 3
-	          simulation.changeSpeed(100);
+	          simulation.changeSpeed(1.0);
 	          break;
 	        case 52: // Key 4
-	          simulation.changeSpeed(60);
+	          simulation.changeSpeed(0.75);
 	          break;
 	        case 53: // Key 5
-	          simulation.changeSpeed(35);
+	          simulation.changeSpeed(0.5);
 	          break;
 	        case 54: // Key 6
-	          simulation.changeSpeed(18);
+	          simulation.changeSpeed(0.25);
 	          break;
 	        case 55: // Key 7
-	          simulation.changeSpeed(5);
+	          simulation.changeSpeed(0.08);
 	          break;
 	        case 32: // Key Space
 	          Manipulator.cyclePlayerCamera();

@@ -53,10 +53,11 @@ Simulation.prototype.addTick = function (tickData) {
 
 /**
  * Change the simulation speed
- * @param tickData
+ * @param multiplier
  */
-Simulation.prototype.changeSpeed = function (timePerTick) {
-  Static.TimePerTick = timePerTick;
+Simulation.prototype.changeSpeed = function (multiplier) {
+  Static.TimePerTick = Static.StandardTimePerTick * multiplier;
+  Static.CurrentTimeMultiplier = multiplier;
   clearInterval(mainLoopId);
   __startMainTickLoop();
 };
