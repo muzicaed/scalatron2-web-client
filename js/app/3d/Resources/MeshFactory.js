@@ -23,7 +23,7 @@ MeshFactory.initMesh = function () {
   masterBotGeometry = new THREE.SphereBufferGeometry(9.5, 32, 32);
   masterBotStripesGeometry = new THREE.DodecahedronGeometry(10.8);
   miniBotGeometry = new THREE.SphereBufferGeometry(5, 6, 6);
-  beastGeometry = new THREE.TorusBufferGeometry(3.8, 1.3, 3, 5);
+  beastGeometry = new THREE.TorusBufferGeometry(3.8, 2.2, 3, 5);
   flowerGeometry = new THREE.ConeBufferGeometry(4.4, 5, 5);
 
   masterBotMaterials = __generateMasterBotMaterials();

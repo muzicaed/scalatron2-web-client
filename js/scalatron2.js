@@ -1157,7 +1157,7 @@
 	  masterBotGeometry = new THREE.SphereBufferGeometry(9.5, 32, 32);
 	  masterBotStripesGeometry = new THREE.DodecahedronGeometry(10.8);
 	  miniBotGeometry = new THREE.SphereBufferGeometry(5, 6, 6);
-	  beastGeometry = new THREE.TorusBufferGeometry(3.8, 1.3, 3, 5);
+	  beastGeometry = new THREE.TorusBufferGeometry(3.8, 2.2, 3, 5);
 	  flowerGeometry = new THREE.ConeBufferGeometry(4.4, 5, 5);
 
 	  masterBotMaterials = __generateMasterBotMaterials();
@@ -1885,7 +1885,7 @@
 	    if (simulationObjects.hasOwnProperty(index)) {
 	      var obj = simulationObjects[index];
 	      MoveBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
-	      SpinBehaviour.apply(obj);
+	      SpinBehaviour.apply(obj, timeFraction);
 	      SpawningBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
 	      SpawnedBehaviour.apply(obj, timeFraction);
 	      BeastBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
@@ -2107,8 +2107,10 @@
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var THREE = __webpack_require__(3);
 	var MiniBotNode = __webpack_require__(15);
 	var MasterBotNode = __webpack_require__(25);
+	var Static = __webpack_require__(6);
 
 	/**
 	 * Behaviour for constantly spinning 3d objects.
@@ -2120,30 +2122,33 @@
 	/**
 	 * Create move behaviour
 	 * @param obj - Simulation object
+	 * @param timeFraction - Time fraction of current tick (in ms)
 	 */
-	SpinBehaviour.apply = function (obj) {
+	SpinBehaviour.apply = function (obj, timeFraction) {
 	  if (obj !== undefined) {
 	    if (obj instanceof MiniBotNode) {
-	      obj.node.rotation.x += (Math.random() * (0.12) + 0.010);
-	      obj.node.rotation.z += (Math.random() * (0.012) + 0.010);
+	      obj.node.rotation.x += (Math.random() * (0.12) + 0.01);
+	      obj.node.rotation.z += (Math.random() * (0.012) + 0.01);
 	    } else if (obj instanceof MasterBotNode) {
-	      var speed = 0.06
-
-	      if (obj.move.originPosition.x > obj.move.targetPosition.x) {
-	        obj.node.rotation.z -= speed;
-	      } else if (obj.move.originPosition.x < obj.move.targetPosition.x) {
-	        obj.node.rotation.z += speed;
+	      var speed = (1000 - Static.TimePerTick) * 0.00006; // Make this truly relative!
+	      var rad = getAngle(obj.move.originPosition, obj.move.targetPosition);
+	      if (rad != obj.node.rotation.z) {
+	        console.log(rad);
+	        if (timeFraction < 0.8) {
+	          (obj.node.rotation.z > rad) ? obj.node.rotation.z += (timeFraction * 0.05) : obj.node.rotation.z -= (timeFraction * 0.05);
+	        } else {
+	          obj.node.rotation.z = rad;
+	        }
 	      }
-
-	      if (obj.move.originPosition.y > obj.move.targetPosition.y) {
-	        obj.node.rotation.x += speed;
-	      } else if (obj.move.originPosition.y < obj.move.targetPosition.y) {
-	        obj.node.rotation.x -= speed;
-	      }
-
+	      obj.node.children[1].rotation.y += 0.04;
 	    }
 	  }
+
+	  function getAngle(originPoint, targetPoint) {
+	    return Math.atan2(targetPoint.y - originPoint.y, targetPoint.x - originPoint.x);
+	  }
 	};
+
 
 	// Export Object
 	module.exports = SpinBehaviour;

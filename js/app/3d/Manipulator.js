@@ -81,7 +81,7 @@ Manipulator.updateFrame = function () {
     if (simulationObjects.hasOwnProperty(index)) {
       var obj = simulationObjects[index];
       MoveBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
-      SpinBehaviour.apply(obj);
+      SpinBehaviour.apply(obj, timeFraction);
       SpawningBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
       SpawnedBehaviour.apply(obj, timeFraction);
       BeastBehaviour.apply(obj, Manipulator.tickCount, timeFraction);
