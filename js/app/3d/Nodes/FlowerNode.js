@@ -1,3 +1,4 @@
+var THREE = require("lib/three");
 var State = require("app/3d/Nodes/State");
 var MeshFactory = require("app/3d/Resources/MeshFactory");
 var PositionConverter = require("app/3d/PositionConverter");
@@ -27,7 +28,9 @@ function FlowerNode(id, initialPos, type) {
   var position = PositionConverter.convert(initialPos);
   this.node.position.x = position.x;
   this.node.position.y = position.y;
-  this.node.position.z = -1.5;
+  this.node.position.z = 0;
+
+  this.node.rotation.x = THREE.Math.degToRad(270);
 }
 
 FlowerNode.Type = Object.freeze({

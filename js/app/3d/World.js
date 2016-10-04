@@ -18,7 +18,6 @@ var board = null;
  * @constructor
  */
 function World() {
-  console.log(viewPort);
   this.scene = new THREE.Scene();
   renderer.setSize(viewPort.width - 250, viewPort.height);
   document.body.appendChild(renderer.domElement);

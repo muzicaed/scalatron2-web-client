@@ -1156,10 +1156,9 @@
 	MeshFactory.initMesh = function () {
 	  masterBotGeometry = new THREE.SphereBufferGeometry(9.5, 32, 32);
 	  masterBotStripesGeometry = new THREE.DodecahedronGeometry(10.8);
-	  //miniBotGeometry = new THREE.OctahedronGeometry(6);
-	  miniBotGeometry = new THREE.SphereBufferGeometry(5, 16, 16);
+	  miniBotGeometry = new THREE.SphereBufferGeometry(5, 6, 6);
 	  beastGeometry = new THREE.TorusBufferGeometry(3.8, 1.3, 3, 5);
-	  flowerGeometry = new THREE.SphereBufferGeometry(3.8, 4, 3.5);
+	  flowerGeometry = new THREE.ConeBufferGeometry(4.4, 5, 5);
 
 	  masterBotMaterials = __generateMasterBotMaterials();
 	  masterBotStripeMaterials = __generateMasterBotStripeMaterials();
@@ -1368,11 +1367,11 @@
 	  var materials = [];
 	  for (var i = 1; i <= Colors.count; i++) {
 	    materials.push(
-	      new THREE.MeshPhongMaterial({
+	      new THREE.MeshStandardMaterial({
 	        color: Colors.col[i],
-	        specular: 0xaaaaaa,
-	        shininess: 90,
-	        map: Textures.MiniBot
+	        map: Textures.MiniBot,
+	        roughness: 0.35,
+	        metalness: 0.52
 	      })
 	    );
 	  }
@@ -1882,7 +1881,6 @@
 	  Manipulator.isLastDone = false;
 	  Manipulator.frameCount++;
 	  var timeFraction = __calculateTimeFraction();
-	  console.log(timeFraction);
 	  for (var index in simulationObjects) {
 	    if (simulationObjects.hasOwnProperty(index)) {
 	      var obj = simulationObjects[index];
@@ -2582,10 +2580,10 @@
 	 * @private
 	 */
 	function __performAnimation(obj, timeFraction) {
-	  var scale = 1 - (timeFraction * 0.5);
+	  var scale = 1 - (timeFraction * 1.5);
 	  obj.node.scale.x = Math.max(scale, 0.01);
 	  obj.node.scale.y = Math.max(scale, 0.01);
-	  obj.node.scale.z = Math.max(scale * 2, 0.01);
+	  obj.node.scale.z = Math.max(scale, 0.01);
 	}
 
 	// Export Object
@@ -2637,6 +2635,7 @@
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var THREE = __webpack_require__(3);
 	var State = __webpack_require__(13);
 	var MeshFactory = __webpack_require__(4);
 	var PositionConverter = __webpack_require__(5);
@@ -2666,7 +2665,9 @@
 	  var position = PositionConverter.convert(initialPos);
 	  this.node.position.x = position.x;
 	  this.node.position.y = position.y;
-	  this.node.position.z = -1.5;
+	  this.node.position.z = 0;
+
+	  this.node.rotation.x = THREE.Math.degToRad(270);
 	}
 
 	FlowerNode.Type = Object.freeze({
@@ -2990,7 +2991,6 @@
 	 * @constructor
 	 */
 	function World() {
-	  console.log(viewPort);
 	  this.scene = new THREE.Scene();
 	  renderer.setSize(viewPort.width - 250, viewPort.height);
 	  document.body.appendChild(renderer.domElement);

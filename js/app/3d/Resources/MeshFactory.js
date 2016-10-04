@@ -22,10 +22,9 @@ MeshFactory.explosionMeshes = {};
 MeshFactory.initMesh = function () {
   masterBotGeometry = new THREE.SphereBufferGeometry(9.5, 32, 32);
   masterBotStripesGeometry = new THREE.DodecahedronGeometry(10.8);
-  //miniBotGeometry = new THREE.OctahedronGeometry(6);
-  miniBotGeometry = new THREE.SphereBufferGeometry(5, 16, 16);
+  miniBotGeometry = new THREE.SphereBufferGeometry(5, 6, 6);
   beastGeometry = new THREE.TorusBufferGeometry(3.8, 1.3, 3, 5);
-  flowerGeometry = new THREE.SphereBufferGeometry(3.8, 4, 3.5);
+  flowerGeometry = new THREE.ConeBufferGeometry(4.4, 5, 5);
 
   masterBotMaterials = __generateMasterBotMaterials();
   masterBotStripeMaterials = __generateMasterBotStripeMaterials();
@@ -234,11 +233,11 @@ function __generateMiniBotMaterials() {
   var materials = [];
   for (var i = 1; i <= Colors.count; i++) {
     materials.push(
-      new THREE.MeshPhongMaterial({
+      new THREE.MeshStandardMaterial({
         color: Colors.col[i],
-        specular: 0xaaaaaa,
-        shininess: 90,
-        map: Textures.MiniBot
+        map: Textures.MiniBot,
+        roughness: 0.35,
+        metalness: 0.52
       })
     );
   }

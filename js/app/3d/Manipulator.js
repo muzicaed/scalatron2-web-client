@@ -77,7 +77,6 @@ Manipulator.updateFrame = function () {
   Manipulator.isLastDone = false;
   Manipulator.frameCount++;
   var timeFraction = __calculateTimeFraction();
-  console.log(timeFraction);
   for (var index in simulationObjects) {
     if (simulationObjects.hasOwnProperty(index)) {
       var obj = simulationObjects[index];
