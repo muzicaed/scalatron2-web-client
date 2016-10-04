@@ -22,7 +22,8 @@ MeshFactory.explosionMeshes = {};
 MeshFactory.initMesh = function () {
   masterBotGeometry = new THREE.SphereBufferGeometry(9.5, 32, 32);
   masterBotStripesGeometry = new THREE.DodecahedronGeometry(10.8);
-  miniBotGeometry = new THREE.OctahedronGeometry(6);
+  //miniBotGeometry = new THREE.OctahedronGeometry(6);
+  miniBotGeometry = new THREE.SphereBufferGeometry(5, 16, 16);
   beastGeometry = new THREE.TorusBufferGeometry(3.8, 1.3, 3, 5);
   flowerGeometry = new THREE.SphereBufferGeometry(3.8, 4, 3.5);
 
@@ -262,7 +263,8 @@ function __generateExplosionMeshes() {
  * @returns THREE.Mesh
  */
 MeshFactory.createExplosion = function(tileRadius) {
-  var geometry = new THREE.CircleBufferGeometry(tileRadius * Static.TileSize, 8);
+  var geometry = new THREE.SphereBufferGeometry(tileRadius * Static.TileSize, 8, 8);
+
   var material = new THREE.MeshLambertMaterial({
     transparent: true,
     map: Textures.Explosion,

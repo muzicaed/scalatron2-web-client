@@ -31,7 +31,6 @@ ExplosionBehaviour.apply = function (obj, tickCount, timeFraction) {
         var scale = 1 - timeFraction;
         obj.node.scale.x = Math.max(scale, 0.01);
         obj.node.scale.y = Math.max(scale, 0.01);
-        //obj.node.material.opacity = scale - 0.5;
         break;
       case 8:
         obj.node.scale.x = 0.0001;

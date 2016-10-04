@@ -68,7 +68,7 @@ World.prototype.addStatic = function (node) {
 World.prototype.resetCamera = function () {
   var x = ((board.width * Static.TileSize) / 2);
   var y = ((board.height * Static.TileSize) / 2) - (Static.TileSize / 2);
-  camera.position.set(x, y - (y / 20), y * 1.40);
+  camera.position.set(x, y - (y / 30), y * 1.40);
   camera.lookAt(new THREE.Vector3(x, y, 0));
 };
 
