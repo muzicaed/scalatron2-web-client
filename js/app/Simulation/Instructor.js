@@ -40,6 +40,7 @@ Instructor.handleTick = function (tickData) {
     }
   }
 
+  // TODO: Refactoring here...
   for (var j = 0, jLen = tickData.decorations.length; j < jLen; j++) {
     var dec = tickData.decorations[j];
     if (dec.t == "E") {

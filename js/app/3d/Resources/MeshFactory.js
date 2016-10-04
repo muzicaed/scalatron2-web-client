@@ -263,12 +263,12 @@ function __generateExplosionMeshes() {
  * @returns THREE.Mesh
  */
 MeshFactory.createExplosion = function(tileRadius) {
-  var geometry = new THREE.SphereBufferGeometry(tileRadius * Static.TileSize, 8, 8);
+  var geometry = new THREE.SphereBufferGeometry(tileRadius * Static.TileSize, 16, 16);
 
   var material = new THREE.MeshLambertMaterial({
     transparent: true,
     map: Textures.Explosion,
-    opacity: 0.25
+    opacity: 0.5
   });
   return new THREE.Mesh(geometry, material);
 };

@@ -59,7 +59,7 @@ Textures.preload = function (callback) {
     }
   );
 
-  loader.load("textures/fire.jpg", function (texture) {
+  loader.load("textures/firetexture.jpg", function (texture) {
       Textures.Explosion = texture;
       textureCount++;
       __done();

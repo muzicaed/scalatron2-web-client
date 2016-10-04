@@ -261,7 +261,7 @@
 	    }
 	  );
 
-	  loader.load("textures/fire.jpg", function (texture) {
+	  loader.load("textures/firetexture.jpg", function (texture) {
 	      Textures.Explosion = texture;
 	      textureCount++;
 	      __done();
@@ -1397,12 +1397,12 @@
 	 * @returns THREE.Mesh
 	 */
 	MeshFactory.createExplosion = function(tileRadius) {
-	  var geometry = new THREE.SphereBufferGeometry(tileRadius * Static.TileSize, 8, 8);
+	  var geometry = new THREE.SphereBufferGeometry(tileRadius * Static.TileSize, 16, 16);
 
 	  var material = new THREE.MeshLambertMaterial({
 	    transparent: true,
 	    map: Textures.Explosion,
-	    opacity: 0.25
+	    opacity: 0.5
 	  });
 	  return new THREE.Mesh(geometry, material);
 	};
@@ -1882,6 +1882,7 @@
 	  Manipulator.isLastDone = false;
 	  Manipulator.frameCount++;
 	  var timeFraction = __calculateTimeFraction();
+	  console.log(timeFraction);
 	  for (var index in simulationObjects) {
 	    if (simulationObjects.hasOwnProperty(index)) {
 	      var obj = simulationObjects[index];
@@ -2109,6 +2110,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var MiniBotNode = __webpack_require__(15);
+	var MasterBotNode = __webpack_require__(25);
 
 	/**
 	 * Behaviour for constantly spinning 3d objects.
@@ -2122,9 +2124,26 @@
 	 * @param obj - Simulation object
 	 */
 	SpinBehaviour.apply = function (obj) {
-	  if (obj !== undefined && obj instanceof MiniBotNode) {
-	    obj.node.rotation.x += (Math.random() * (0.12) + 0.010);
-	    obj.node.rotation.z += (Math.random() * (0.012) + 0.010);
+	  if (obj !== undefined) {
+	    if (obj instanceof MiniBotNode) {
+	      obj.node.rotation.x += (Math.random() * (0.12) + 0.010);
+	      obj.node.rotation.z += (Math.random() * (0.012) + 0.010);
+	    } else if (obj instanceof MasterBotNode) {
+	      var speed = 0.06
+
+	      if (obj.move.originPosition.x > obj.move.targetPosition.x) {
+	        obj.node.rotation.z -= speed;
+	      } else if (obj.move.originPosition.x < obj.move.targetPosition.x) {
+	        obj.node.rotation.z += speed;
+	      }
+
+	      if (obj.move.originPosition.y > obj.move.targetPosition.y) {
+	        obj.node.rotation.x += speed;
+	      } else if (obj.move.originPosition.y < obj.move.targetPosition.y) {
+	        obj.node.rotation.x -= speed;
+	      }
+
+	    }
 	  }
 	};
 
@@ -2459,27 +2478,44 @@
 	  if (obj.state == State.EXPLODING) {
 	    var frame = tickCount - obj.birthTick;
 	    obj.node.rotation.z += (Math.random() * (0.022) + 0.015);
+	    /*
 	    switch (frame) {
 	      case 0:
-	        obj.node.scale.x = Math.max(timeFraction, 0.01);
-	        obj.node.scale.y = Math.max(timeFraction, 0.01);
+	        obj.node.scale.x = Math.max(timeFraction, 0.005);
+	        obj.node.scale.y = Math.max(timeFraction, 0.005);
 	        break;
-	      case 2:
+	      case 7:
 	        obj.node.scale.x = 1;
 	        obj.node.scale.y = 1;
 	        break;
-	      case 7:
+	      case 16:
 	        var scale = 1 - timeFraction;
-	        obj.node.scale.x = Math.max(scale, 0.01);
-	        obj.node.scale.y = Math.max(scale, 0.01);
+	        obj.node.scale.x = Math.max(scale, 0.005);
+	        obj.node.scale.y = Math.max(scale, 0.005);
 	        break;
-	      case 8:
+	      case 18:
 	        obj.node.scale.x = 0.0001;
 	        obj.node.scale.y = 0.0001;
 	        break;
 	    }
+	    */
 
-	    if (frame > 8) {
+	    obj.node.scale.z = 0.5;
+	    if (frame <= 3) {
+	      obj.node.scale.x = (frame / 3) + (timeFraction * 0.2);
+	      obj.node.scale.y = (frame / 3) + (timeFraction * 0.2);
+	    } else if (frame >= 18) {
+	      obj.node.scale.x = 1.0 - (((frame - 15) * 2) * 0.1 + (timeFraction * 0.1));
+	      obj.node.scale.y = 1.0 - (((frame - 15) * 2) * 0.1 + (timeFraction * 0.1));
+
+	    } else {
+	      obj.node.scale.x = 1;
+	      obj.node.scale.y = 1;
+	    }
+
+
+
+	    if (frame > 20) {
 	      obj.state = State.REMOVE;
 	    }
 	  }
@@ -2723,6 +2759,7 @@
 	    }
 	  }
 
+	  // TODO: Refactoring here...
 	  for (var j = 0, jLen = tickData.decorations.length; j < jLen; j++) {
 	    var dec = tickData.decorations[j];
 	    if (dec.t == "E") {
